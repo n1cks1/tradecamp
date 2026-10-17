@@ -1,0 +1,114 @@
+@use '../variables';
+@use '../mixins';
+
+.success {
+  position: relative;
+  z-index: 0;
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+  // градиент считается от полной высоты фона в макете (1645px), чтобы цвета совпали
+  background: linear-gradient(167deg, #F6BEC1 11.98%, #F2C699 79.79%, #EFCD73 143.65%) top center / 100% mixins.fluid-value-vw(1645) no-repeat;
+  @include mixins.fluid-vw(border-top-left-radius, 55);
+  @include mixins.fluid-vw(border-top-right-radius, 55);
+  box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.06);
+
+  // последняя карточка advantages заезжает на 90px
+  @include mixins.fluid-vw(margin-top, -90);
+  @include mixins.fluid-vw(padding-top, 225);
+  // 186 до тёмной секции + 55, на которые она заезжает скруглением
+  @include mixins.fluid-vw(padding-bottom, 241);
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  :where(p, h3, h5) {
+    margin: 0;
+  }
+
+  &__lines {
+    position: absolute;
+    // полоса с линиями в SVG начинается ниже, сдвигаем картинку вверх
+    @include mixins.fluid-vw(top, -3207);
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__title {
+    text-align: center;
+    letter-spacing: -0.01em;
+    color: variables.$color-black;
+  }
+
+  &__subtitle {
+    @include mixins.fluid-vw(margin-top, 11);
+    font-family: 'BR Sonoma', sans-serif;
+    font-weight: 400;
+    @include mixins.fluid-vw(font-size, 24);
+    @include mixins.fluid-vw(line-height, 32);
+    text-align: center;
+    color: variables.$color-black;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include mixins.fluid-vw(width, 1114);
+    @include mixins.fluid-vw(margin-top, 86);
+    margin-left: auto;
+    margin-right: auto;
+    @include mixins.fluid-vw(padding-top, 62);
+    @include mixins.fluid-vw(padding-bottom, 32);
+    background: #FCFCFC;
+    @include mixins.fluid-vw(border-radius, 16);
+  }
+
+  &__quote {
+    @include mixins.fluid-vw(max-width, 721);
+    @include mixins.fluid-vw(line-height, 42);
+    text-align: center;
+    color: #000000;
+  }
+
+  &__avatar {
+    display: block;
+    @include mixins.fluid-vw(width, 65);
+    @include mixins.fluid-vw(height, 65);
+    @include mixins.fluid-vw(margin-top, 52);
+    border-radius: 50%;
+    object-fit: cover;
+    background: linear-gradient(108deg, #F4C3AA 27%, #F3C697 115.5%);
+  }
+
+  &__name {
+    @include mixins.fluid-vw(margin-top, 9);
+    font-family: 'BR Sonoma', sans-serif;
+    font-weight: 600;
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 26);
+    text-align: center;
+    color: variables.$color-black;
+  }
+
+  &__position {
+    font-family: 'BR Sonoma', sans-serif;
+    font-weight: 400;
+    @include mixins.fluid-vw(font-size, 14);
+    @include mixins.fluid-vw(line-height, 24);
+    text-align: center;
+    color: #7D7D7D;
+  }
+}

@@ -5762,4 +5762,195 @@ input:focus {
   white-space: nowrap;
 }
 
+.success {
+  position: relative;
+  z-index: 0;
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(167deg, #F6BEC1 11.98%, #F2C699 79.79%, #EFCD73 143.65%) top center/100% 114.2361111111vw no-repeat;
+  border-top-left-radius: 3.8194444444vw;
+  border-top-right-radius: 3.8194444444vw;
+  box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.06);
+  margin-top: -6.25vw;
+  padding-top: 15.625vw;
+  padding-bottom: 16.7361111111vw;
+}
+.success *,
+.success *::before,
+.success *::after {
+  box-sizing: border-box;
+}
+.success :where(p, h3, h5) {
+  margin: 0;
+}
+.success__lines {
+  position: absolute;
+  top: -222.7083333333vw;
+  left: 0;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  pointer-events: none;
+  z-index: 0;
+}
+.success__inner {
+  position: relative;
+  z-index: 1;
+}
+.success__title {
+  text-align: center;
+  letter-spacing: -0.01em;
+  color: #212229;
+}
+.success__subtitle {
+  margin-top: 0.7638888889vw;
+  font-family: "BR Sonoma", sans-serif;
+  font-weight: 400;
+  font-size: 1.6666666667vw;
+  line-height: 2.2222222222vw;
+  text-align: center;
+  color: #212229;
+}
+.success__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 77.3611111111vw;
+  margin-top: 5.9722222222vw;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 4.3055555556vw;
+  padding-bottom: 2.2222222222vw;
+  background: #FCFCFC;
+  border-radius: 1.1111111111vw;
+}
+.success__quote {
+  max-width: 50.0694444444vw;
+  line-height: 2.9166666667vw;
+  text-align: center;
+  color: #000000;
+}
+.success__avatar {
+  display: block;
+  width: 4.5138888889vw;
+  height: 4.5138888889vw;
+  margin-top: 3.6111111111vw;
+  border-radius: 50%;
+  object-fit: cover;
+  background: linear-gradient(108deg, #F4C3AA 27%, #F3C697 115.5%);
+}
+.success__name {
+  margin-top: 0.625vw;
+  font-family: "BR Sonoma", sans-serif;
+  font-weight: 600;
+  font-size: 1.1111111111vw;
+  line-height: 1.8055555556vw;
+  text-align: center;
+  color: #212229;
+}
+.success__position {
+  font-family: "BR Sonoma", sans-serif;
+  font-weight: 400;
+  font-size: 0.9722222222vw;
+  line-height: 1.6666666667vw;
+  text-align: center;
+  color: #7D7D7D;
+}
+
+.footer {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  background: #181A1E;
+  border-top-left-radius: 3.8194444444vw;
+  border-top-right-radius: 3.8194444444vw;
+  margin-top: -3.8194444444vw;
+  padding-top: 13.1944444444vw;
+  padding-bottom: 1.0416666667vw;
+  padding-left: 3.4722222222vw;
+  padding-right: 3.4722222222vw;
+}
+.footer *,
+.footer *::before,
+.footer *::after {
+  box-sizing: border-box;
+}
+.footer :where(p, h3) {
+  margin: 0;
+}
+.footer__title {
+  text-align: center;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+}
+.footer__form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 33.0555555556vw;
+  height: 4.1666666667vw;
+  margin-top: 2.7777777778vw;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0.5555555556vw;
+}
+.footer__input {
+  width: 100%;
+  height: 100%;
+  padding-left: 1.0416666667vw;
+  padding-right: 12.5vw;
+  background: transparent;
+  font-family: "BR Sonoma", sans-serif;
+  font-weight: 400;
+  font-size: 1.1111111111vw;
+  line-height: 1.8055555556vw;
+  color: #FFFFFF;
+}
+.footer__input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  opacity: 1;
+}
+.footer__btn {
+  position: absolute;
+  top: 50%;
+  right: 0.3472222222vw;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 11.1111111111vw;
+  height: 3.3333333333vw;
+  padding: 0;
+  border: none;
+  border-radius: 0.5555555556vw;
+  background: linear-gradient(90deg, #F6BEC1 0%, #EFCD73 91%);
+  font-family: "NeueAugenblick", sans-serif;
+  font-weight: 700;
+  font-size: 1.1111111111vw;
+  line-height: 1.1111111111vw;
+  color: #212229;
+  cursor: pointer;
+}
+.footer__note {
+  margin-top: 1.3888888889vw;
+  font-family: "BR Sonoma", sans-serif;
+  font-weight: 400;
+  font-size: 1.1111111111vw;
+  line-height: 1.8055555556vw;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+.footer__legal {
+  margin-top: 12.2916666667vw;
+  font-family: "BR Sonoma", sans-serif;
+  font-weight: 400;
+  font-size: 0.9722222222vw;
+  line-height: 1.6666666667vw;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+}
+
 /*# sourceMappingURL=styles.css.map */

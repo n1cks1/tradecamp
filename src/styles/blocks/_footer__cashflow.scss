@@ -1,0 +1,109 @@
+@use '../variables';
+@use '../mixins';
+
+.footer {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  background: #181A1E;
+  @include mixins.fluid-vw(border-top-left-radius, 55);
+  @include mixins.fluid-vw(border-top-right-radius, 55);
+
+  // заезжает скруглением на секцию success
+  @include mixins.fluid-vw(margin-top, -55);
+  @include mixins.fluid-vw(padding-top, 190);
+  @include mixins.fluid-vw(padding-bottom, 15);
+  @include mixins.fluid-vw(padding-left, 50);
+  @include mixins.fluid-vw(padding-right, 50);
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  :where(p, h3) {
+    margin: 0;
+  }
+
+  &__title {
+    text-align: center;
+    letter-spacing: -0.01em;
+    color: variables.$color-white;
+  }
+
+  &__form {
+    position: relative;
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(width, 476);
+    @include mixins.fluid-vw(height, 60);
+    @include mixins.fluid-vw(margin-top, 40);
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    @include mixins.fluid-vw(border-radius, variables.$border-radius);
+  }
+
+  &__input {
+    width: 100%;
+    height: 100%;
+    @include mixins.fluid-vw(padding-left, 15);
+    // место под кнопку
+    @include mixins.fluid-vw(padding-right, 180);
+    background: transparent;
+    font-family: 'BR Sonoma', sans-serif;
+    font-weight: 400;
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 26);
+    color: variables.$color-white;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+      opacity: 1;
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    top: 50%;
+    @include mixins.fluid-vw(right, 5);
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include mixins.fluid-vw(width, 160);
+    @include mixins.fluid-vw(height, 48);
+    padding: 0;
+    border: none;
+    @include mixins.fluid-vw(border-radius, variables.$border-radius);
+    background: variables.$orange-gradient-1;
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 16);
+    color: variables.$color-black;
+    cursor: pointer;
+  }
+
+  &__note {
+    @include mixins.fluid-vw(margin-top, 20);
+    font-family: 'BR Sonoma', sans-serif;
+    font-weight: 400;
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 26);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  &__legal {
+    @include mixins.fluid-vw(margin-top, 177);
+    font-family: 'BR Sonoma', sans-serif;
+    font-weight: 400;
+    @include mixins.fluid-vw(font-size, 14);
+    @include mixins.fluid-vw(line-height, 24);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+  }
+}
