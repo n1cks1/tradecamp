@@ -1,0 +1,79 @@
+@use '../mixins';
+@use '../variables';
+
+.header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  @include mixins.fluid-vw(height, 88);
+  @include mixins.fluid-vw(padding-inline, 50);
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  // ---------- Logo ----------
+  &__logo {
+    flex-shrink: 0;
+
+    img {
+      @include mixins.fluid-vw(width, 205);
+      height: auto;
+    }
+  }
+
+  // ---------- Menu ----------
+  &__menu {
+    margin-inline: auto;
+  }
+
+  &__menu-list {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__menu-link {
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(column-gap, 6);
+    @include mixins.fluid-vw(padding, 12);
+    color: #A6A7A8;
+    transition: color 0.3s ease;
+
+    &:hover,
+    &:focus-visible {
+      color: variables.$color-white;
+    }
+  }
+
+  &__menu-text {
+    @include mixins.roll-text(20);
+    @include mixins.fluid-vw(font-size, 16);
+    font-weight: 500;
+  }
+
+  &__menu-link:hover &__menu-text,
+  &__menu-link:focus-visible &__menu-text {
+    @include mixins.roll-text-active;
+  }
+
+  &__menu-arrow {
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 12);
+    @include mixins.fluid-vw(height, 12);
+  }
+
+  // ---------- Buttons ----------
+  &__buttons {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(column-gap, 12);
+  }
+}

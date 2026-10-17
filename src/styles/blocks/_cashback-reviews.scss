@@ -1,0 +1,513 @@
+@use '../variables';
+@use '../mixins';
+
+// ---------- локальные токены секции ----------
+$card-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.06);
+$item-shadow: 0 4px 40px 0 rgba(31, 41, 51, 0.12);
+
+$color-brown: #7A5434;
+$color-peach-bg: #FDF4EE;
+$color-peach-border: #FFD9BB;
+$accent-row-gradient: linear-gradient(97.94deg, #FFFFFF 1.14%, #F3C4A1 129.45%);
+
+// Насколько первый ряд карточек заезжает на тёмную секцию выше (How to apply...)
+$overlap: 133;
+
+// ---------- анимация появления ----------
+$reveal-distance: 48;
+$reveal-duration: 0.9s;
+$reveal-easing: cubic-bezier(0.22, 1, 0.36, 1);
+
+// Иконки кэшбэка экспортируются из Figma в SVG вместе с подложкой и её тенью (0 4 40).
+// Figma расширяет SVG на область тени: слева/справа 40, сверху 36, снизу 44.
+// Если экспортировать БЕЗ тени — поставь все отступы в 0.
+$icon-shadow-left: 40;
+$icon-shadow-top: 36;
+$icon-shadow-right: 40;
+$icon-shadow-bottom: 44;
+
+// $x, $y, $w, $h — координаты и размер подложки иконки в карточке (из Figma)
+@mixin cashback-icon($x, $y, $w, $h) {
+  @include mixins.fluid-vw(left, $x - $icon-shadow-left);
+  @include mixins.fluid-vw(top, $y - $icon-shadow-top);
+  @include mixins.fluid-vw(width, $w + $icon-shadow-left + $icon-shadow-right);
+  @include mixins.fluid-vw(height, $h + $icon-shadow-top + $icon-shadow-bottom);
+}
+
+@mixin text-16($weight: 400) {
+  font-family: variables.$font-family-base;
+  font-weight: $weight;
+  @include mixins.fluid-vw(font-size, 16);
+  @include mixins.fluid-vw(line-height, 26);
+}
+
+@mixin text-14($weight: 400) {
+  font-family: variables.$font-family-base;
+  font-weight: $weight;
+  @include mixins.fluid-vw(font-size, 14);
+  @include mixins.fluid-vw(line-height, 24);
+}
+
+.cashback-reviews {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  // первый ряд карточек наезжает на тёмную секцию выше
+  @include mixins.fluid-vw(margin-top, -$overlap);
+
+  // ---------- появление снизу вверх ----------
+  // Прячем элементы только когда JS готов (класс ставит скрипт),
+  // иначе без JS секция осталась бы пустой.
+  // Используется свойство `translate`, а не `transform`, чтобы не
+  // конфликтовать с transform у иконок (параллакс) и других элементов.
+  &.is-reveal-ready [data-reveal] {
+    opacity: 0;
+    translate: 0 mixins.fluid-value-vw($reveal-distance);
+    transition:
+            opacity $reveal-duration ease,
+            translate $reveal-duration $reveal-easing;
+    transition-delay: var(--reveal-delay, 0s);
+  }
+
+  &.is-reveal-ready [data-reveal].is-revealed {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &.is-reveal-ready [data-reveal] {
+      opacity: 1;
+      translate: none;
+      transition: none;
+    }
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    @include mixins.fluid-vw(gap, 24);
+    @include mixins.fluid-vw(padding-left, 50);
+    @include mixins.fluid-vw(padding-right, 50);
+  }
+
+  &__row {
+    display: flex;
+    @include mixins.fluid-vw(gap, 24);
+  }
+
+  // ---------- общая карточка ----------
+  &__card {
+    position: relative;
+    overflow: hidden;
+    background: variables.$color-white;
+    box-shadow: $card-shadow;
+    @include mixins.fluid-vw(border-radius, 20);
+
+    &--cashback {
+      flex-shrink: 0;
+      @include mixins.fluid-vw(width, 431);
+      @include mixins.fluid-vw(height, 500);
+    }
+
+    &--reviews {
+      flex: 1;
+      min-width: 0;
+      @include mixins.fluid-vw(height, 500);
+    }
+
+    &--yield {
+      box-shadow: $item-shadow;
+      @include mixins.fluid-vw(border-radius, 16);
+      @include mixins.fluid-vw(height, 530);
+    }
+
+    &--security {
+      box-shadow: $item-shadow;
+      @include mixins.fluid-vw(height, 544);
+    }
+  }
+
+  // h4 из globals: NeueAugenblick 42/50 bold
+  &__title {
+    &--reviews {
+      position: absolute;
+      @include mixins.fluid-vw(top, 34);
+      @include mixins.fluid-vw(left, 40);
+      @include mixins.fluid-vw(width, 677);
+    }
+  }
+
+  // =====================================================
+  // Cashbacks
+  // =====================================================
+  &__icons {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  &__icon {
+    position: absolute;
+    display: block;
+    max-width: none;
+    // параллакс пишет сюда translate3d из JS
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+
+    &--google       { @include cashback-icon(117.41, 36, 67.31, 67); }
+    &--meta         { @include cashback-icon(252.03, 53, 70.33, 70); }
+    &--box          { @include cashback-icon(169.65, 144, 65.3, 65); }
+    &--bag          { @include cashback-icon(29, 115, 70.33, 70); }
+    &--dropshipping { @include cashback-icon(322.36, 133, 80.37, 80); }
+  }
+
+  &__text {
+    position: absolute;
+    @include mixins.fluid-vw(top, 255);
+    @include mixins.fluid-vw(left, 40);
+    @include mixins.fluid-vw(right, 23);
+  }
+
+  &__lead {
+    @include mixins.fluid-vw(margin-top, 24);
+    @include mixins.fluid-vw(max-width, 335);
+    font-weight: 500;
+    letter-spacing: -0.2px;
+
+    strong {
+      font-weight: 600;
+      color: variables.$color-black;
+    }
+
+    span {
+      color: variables.$color-black-70;
+    }
+  }
+
+  &__note {
+    @include mixins.fluid-vw(margin-top, 15);
+    @include mixins.fluid-vw(line-height, 26);
+    color: variables.$color-black-70;
+  }
+
+  // =====================================================
+  // Reviews
+  // =====================================================
+  // центрируем через flex, а не через transform: translateX(-50%) —
+  // иначе transform конфликтует с анимацией и даёт размытие на дробных vw
+  &__ratings {
+    position: absolute;
+    left: 0;
+    right: 0;
+    @include mixins.fluid-vw(bottom, 42);
+    display: flex;
+    justify-content: center;
+    @include mixins.fluid-vw(gap, 15);
+  }
+
+  &__rating {
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: variables.$color-white;
+    box-shadow: $item-shadow;
+    @include mixins.fluid-vw(width, 264);
+    @include mixins.fluid-vw(height, 210);
+    @include mixins.fluid-vw(border-radius, 16);
+  }
+
+  &__rating-logo {
+    display: block;
+    object-fit: contain;
+
+    &--capterra {
+      @include mixins.fluid-vw(margin-top, 24);
+      @include mixins.fluid-vw(width, 167);
+      @include mixins.fluid-vw(height, 38);
+    }
+
+    &--trustpilot {
+      @include mixins.fluid-vw(margin-top, 21);
+      @include mixins.fluid-vw(width, 159);
+      @include mixins.fluid-vw(height, 39);
+    }
+
+    &--g2 {
+      @include mixins.fluid-vw(margin-top, 17);
+      @include mixins.fluid-vw(width, 52);
+      @include mixins.fluid-vw(height, 52);
+    }
+  }
+
+  &__rating-stars {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    object-fit: contain;
+    @include mixins.fluid-vw(top, 82);
+    @include mixins.fluid-vw(width, 217);
+    @include mixins.fluid-vw(height, 52);
+
+    &--trustpilot {
+      @include mixins.fluid-vw(top, 90);
+      @include mixins.fluid-vw(width, 191);
+      @include mixins.fluid-vw(height, 35);
+    }
+  }
+
+  &__rating-name {
+    position: absolute;
+    @include mixins.fluid-vw(top, 160);
+    left: 0;
+    right: 0;
+    text-align: center;
+    @include mixins.fluid-vw(line-height, 26);
+  }
+
+  // =====================================================
+  // Yield (Up to 4.04% APY)
+  // =====================================================
+  &__yield-text {
+    position: absolute;
+    @include mixins.fluid-vw(top, 85);
+    @include mixins.fluid-vw(left, 90);
+    @include mixins.fluid-vw(width, 502);
+  }
+
+  // h4 из globals + сноска
+  &__yield-title {
+    sup {
+      position: relative;
+      vertical-align: top;
+      font-family: 'NeueAugenblick', sans-serif;
+      font-weight: 700;
+      @include mixins.fluid-vw(font-size, 16);
+      @include mixins.fluid-vw(line-height, 16);
+      @include mixins.fluid-vw(top, 12);
+      @include mixins.fluid-vw(margin-left, 2);
+    }
+  }
+
+  &__yield-desc {
+    @include mixins.fluid-vw(margin-top, 38);
+    @include mixins.fluid-vw(width, 450);
+    @include mixins.fluid-vw(line-height, 26);
+    color: variables.$color-black-70;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    @include mixins.fluid-vw(gap, 13);
+    @include mixins.fluid-vw(margin-top, 27);
+    @include text-16(600);
+    color: variables.$color-black-70;
+
+    img {
+      display: block;
+      @include mixins.fluid-vw(width, 12);
+      @include mixins.fluid-vw(height, 12);
+      transition: transform 0.2s ease;
+    }
+
+    &:hover img {
+      transform: translateX(4px);
+    }
+  }
+
+  // правая персиковая панель с линиями
+  // привязана к правому краю карточки, чтобы не съезжала при другой ширине контейнера
+  &__yield-panel {
+    position: absolute;
+    @include mixins.fluid-vw(top, 18);
+    @include mixins.fluid-vw(right, 22);
+    @include mixins.fluid-vw(width, 546);
+    @include mixins.fluid-vw(height, 492);
+    @include mixins.fluid-vw(border-radius, 16);
+    overflow: hidden;
+    // папка картинок — cashback_reviews (с подчёркиванием), как в разметке
+    background: $color-peach-bg url('../images/cashback_reviews/yield-bg.svg') center / cover no-repeat;
+  }
+
+  // ---------- мини-таблицы ----------
+  &__table {
+    position: absolute;
+    overflow: hidden;
+    background: variables.$color-white;
+    box-shadow: $item-shadow;
+    @include mixins.fluid-vw(width, 316);
+    @include mixins.fluid-vw(border-radius, 16);
+
+    &--operating {
+      @include mixins.fluid-vw(top, 42);
+      @include mixins.fluid-vw(left, 55);
+    }
+
+    &--high-yield {
+      @include mixins.fluid-vw(top, 245);
+      @include mixins.fluid-vw(left, 199);
+    }
+  }
+
+  &__table-head {
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(gap, 6);
+    @include mixins.fluid-vw(height, 47);
+    @include mixins.fluid-vw(padding-left, 25);
+    border-bottom: 1px solid variables.$color-black-10;
+    @include text-14(600);
+    color: variables.$color-black;
+
+    img {
+      display: block;
+      @include mixins.fluid-vw(width, 18);
+      @include mixins.fluid-vw(height, 18);
+    }
+  }
+
+  &__table--high-yield &__table-head {
+    @include mixins.fluid-vw(padding-left, 20);
+    @include mixins.fluid-vw(gap, 4);
+
+    img {
+      @include mixins.fluid-vw(width, 24);
+      @include mixins.fluid-vw(height, 22);
+    }
+  }
+
+  &__table-labels,
+  &__table-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include mixins.fluid-vw(padding-left, 25);
+    @include mixins.fluid-vw(padding-right, 28);
+  }
+
+  &__table-labels {
+    @include mixins.fluid-vw(margin-top, 17);
+    @include text-14;
+    color: variables.$color-black-50;
+  }
+
+  &__table-row {
+    @include text-16;
+    color: variables.$color-black-70;
+
+    &--accent {
+      @include mixins.fluid-vw(height, 53);
+      @include mixins.fluid-vw(margin-top, 12);
+      border-top: 1px solid $color-peach-border;
+      background: $accent-row-gradient;
+      color: $color-brown;
+
+      span:last-child {
+        font-weight: 600;
+      }
+    }
+
+    // в High yield сумма в выделенной строке серая, а не коричневая
+    &--muted-left span:first-child {
+      color: variables.$color-black-70;
+    }
+  }
+
+  // строка сразу после подписей Balance / APY
+  &__table-labels + &__table-row {
+    @include mixins.fluid-vw(margin-top, 10);
+  }
+
+  &__table--high-yield &__table-row {
+    @include mixins.fluid-vw(height, 56);
+  }
+
+  &__table--high-yield &__table-row--accent {
+    margin-top: 0;
+    @include mixins.fluid-vw(height, 53);
+  }
+
+  // =====================================================
+  // Security
+  // =====================================================
+  &__security-head {
+    @include mixins.fluid-vw(padding-top, 50);
+    text-align: center;
+  }
+
+  // h4 из globals
+  &__security-title {
+    @include mixins.fluid-vw(width, 890);
+    margin: 0 auto;
+  }
+
+  &__security-subtitle {
+    @include mixins.fluid-vw(margin-top, 12);
+    letter-spacing: -0.12px;
+    color: variables.$color-black-70;
+  }
+
+  // линия-разделитель + три колонки
+  &__features {
+    display: flex;
+    @include mixins.fluid-vw(margin-top, 45);
+    @include mixins.fluid-vw(margin-left, 48);
+    @include mixins.fluid-vw(margin-right, 48);
+    @include mixins.fluid-vw(padding-top, 64);
+    border-top: 1px solid variables.$color-black-10;
+  }
+
+  &__feature {
+    display: flex;
+    align-items: flex-start;
+
+    // позиции колонок и отступ иконка → текст как в макете
+    &:nth-child(1) {
+      @include mixins.fluid-vw(width, 407);
+      @include mixins.fluid-vw(margin-left, -2);
+      @include mixins.fluid-vw(gap, 21);
+    }
+
+    &:nth-child(2) {
+      @include mixins.fluid-vw(width, 452);
+      @include mixins.fluid-vw(gap, 32);
+    }
+
+    &:nth-child(3) {
+      flex: 1;
+      min-width: 0;
+      @include mixins.fluid-vw(gap, 33);
+    }
+  }
+
+  &__feature-icon {
+    display: block;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 45);
+    @include mixins.fluid-vw(height, 45);
+  }
+
+  &__feature-body {
+    @include mixins.fluid-vw(width, 318);
+    @include mixins.fluid-vw(padding-top, 7);
+  }
+
+  &__feature-title {
+    margin: 0;
+    font-family: variables.$font-family-base;
+    font-weight: 500;
+    @include mixins.fluid-vw(font-size, 24);
+    @include mixins.fluid-vw(line-height, 32);
+    @include mixins.fluid-vw(min-height, 64);
+    color: variables.$color-black;
+  }
+
+  &__feature-desc {
+    @include mixins.fluid-vw(margin-top, 11);
+    @include mixins.fluid-vw(line-height, 26);
+    color: variables.$color-black-70;
+  }
+}

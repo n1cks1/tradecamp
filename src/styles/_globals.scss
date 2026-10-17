@@ -1,0 +1,102 @@
+@use 'variables';
+@use 'mixins';
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  width: 100vw;
+  font-family: variables.$font-family-base;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.28;;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 {
+  @include mixins.fluid-vw(font-size, 72);
+}
+
+h2 {
+  font-family: "NeueAugenblick", sans-serif;
+  @include mixins.fluid-vw(font-size, 60);
+  @include mixins.fluid-vw(line-height, 86);
+  font-weight: 700;
+}
+
+h3 {
+  font-family: 'NeueAugenblick', sans-serif;
+  @include mixins.fluid-vw(font-size, 48);
+  @include mixins.fluid-vw(line-height, 54);
+  font-weight: 700;
+}
+
+h4 {
+  font-family: "NeueAugenblick", sans-serif;
+  @include mixins.fluid-vw(font-size, 42);
+  @include mixins.fluid-vw(line-height, 50);
+  font-weight: 700;
+
+}
+
+h5 {
+  font-family: 'NeueAugenblick', sans-serif;
+  @include mixins.fluid-vw(font-size, 35);
+  font-weight: 700;
+}
+
+h6 {
+  font-size: 28px;
+}
+
+.p1 {
+  font-size: 24px;
+}
+
+.p2 {
+  @include mixins.fluid-vw(font-size, 20);
+  font-family: 'BR Sonoma', sans-serif;
+  font-weight: 400;
+  @include mixins.fluid-vw(line-height, 30);
+}
+
+.p3 {
+  @include mixins.fluid-vw(font-size, 18);
+  @include mixins.fluid-vw(line-height, 28);
+  font-family: 'BR Sonoma', sans-serif;
+  font-weight: 400;
+}
+
+.p4 {
+  @include mixins.fluid-vw(font-size, 16);
+  @include mixins.fluid-vw(line-height, 16);
+  font-family: 'BR Sonoma', sans-serif;
+  font-weight: 400;
+  margin: 0;
+}
+
+.p5 {
+  @include mixins.fluid-vw(font-size, 14)
+}
+
+h1, h2, h3, h4, h5, h6,
+.p1, .p2, .p3, .p4, .p5, .p6 {
+  color: variables.$color-black;
+  margin: 0;
+}
+
+input {
+  border: none;
+  outline: none;
+
+  &:focus {
+    box-shadow: none;
+    outline: none
+  }
+}
+
+

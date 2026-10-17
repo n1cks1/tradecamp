@@ -1,0 +1,186 @@
+@use '../mixins';
+@use '../variables';
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  min-height: calc(100vh - #{mixins.fluid-value-vw(88)});
+  @include mixins.fluid-vw(padding-block, 40);
+  @include mixins.fluid-vw(row-gap, 56);
+
+  &__layout {
+    background: url("/src/images/background.gif") no-repeat center / cover;
+  }
+
+  // ---------- Title + form ----------
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include mixins.fluid-vw(row-gap, 40);
+  }
+
+  &__title {
+    @include mixins.fluid-vw(font-size, 64);
+    @include mixins.fluid-vw(line-height, 68);
+    @include mixins.fluid-vw(letter-spacing, -1.28);
+    text-align: center;
+    color: variables.$color-white;
+  }
+
+  &__title-accent {
+    background: variables.$orange-gradient-short-1;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  // ---------- Email form ----------
+  &__form {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include mixins.fluid-vw(width, 466);
+    @include mixins.fluid-vw(height, 60);
+    @include mixins.fluid-vw(padding, 6);
+    @include mixins.fluid-vw(border-radius, variables.$border-radius);
+
+    // Градиентная рамка
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 1px;
+      border-radius: inherit;
+      background: variables.$orange-gradient-1;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    // Подложка при фокусе
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #191B20 0%, #191B20 75%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    &:focus-within::after {
+      opacity: 1;
+    }
+  }
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    @include mixins.fluid-vw(padding-inline, 14);
+    background: transparent;
+    color: variables.$color-white;
+
+    &::placeholder {
+      color: #E4E7EB;
+    }
+  }
+
+  &__submit {
+    flex-shrink: 0;
+    @include mixins.fluid-vw(height, 48);
+    @include mixins.fluid-vw(min-width, 155);
+  }
+
+  // ---------- Features ----------
+  &__features {
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-start;
+    @include mixins.fluid-vw(width, 1204);
+    @include mixins.fluid-vw(height, 140);
+    @include mixins.fluid-vw(column-gap, 60);
+    margin: 0;
+    @include mixins.fluid-vw(padding-block, 20);
+    @include mixins.fluid-vw(padding-inline, 40);
+    list-style: none;
+    background: #191B21;
+    @include mixins.fluid-vw(border-radius, 12);
+    box-shadow: 0 9px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  &__feature {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    @include mixins.fluid-vw(width, 236);
+    @include mixins.fluid-vw(row-gap, 9);
+  }
+
+  &__feature-text {
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    @include mixins.fluid-vw(font-size, 20);
+    @include mixins.fluid-vw(line-height, 24);
+    color: #E2E2E3;
+    text-align: left;
+  }
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 40);
+    @include mixins.fluid-vw(height, 40);
+    border-radius: 50%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  // ---------- Divider ----------
+  &__divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    @include mixins.fluid-vw(column-gap, 100);
+  }
+
+  &__divider-text {
+    margin: 0;
+    @include mixins.fluid-vw(font-size, 30);
+    white-space: nowrap;
+    background: variables.$orange-gradient-1;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &__divider-line {
+    display: block;
+    @include mixins.fluid-vw(width, 284);
+    height: 1px;
+
+    &--left {
+      background: linear-gradient(90deg, transparent 0%, variables.$color-white 100%);
+    }
+
+    &--right {
+      background: linear-gradient(90deg, variables.$color-white 0%, transparent 100%);
+    }
+  }
+}

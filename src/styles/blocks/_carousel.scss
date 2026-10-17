@@ -1,0 +1,62 @@
+@use '../mixins';
+@use '../variables';
+
+$ecosystem-radius: 40; // = радиусу верхних углов .ecosystem
+
+.carousel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  box-sizing: content-box; // padding снаружи, высота контента остаётся 116
+  width: 100%;
+  overflow: hidden;
+  @include mixins.fluid-vh(height, 116);
+  background: variables.$orange-gradient-1;
+
+  // фон продолжается под скруглённые углы .ecosystem
+  @include mixins.fluid-vw(padding-bottom, $ecosystem-radius);
+  @include mixins.fluid-vw(margin-bottom, -$ecosystem-radius);
+
+  &__track {
+    display: flex;
+    flex-shrink: 0;
+    width: max-content;
+    will-change: transform;
+  }
+
+  &__group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  // текст + разделитель + отступ после него: шаг одинаковый везде,
+  // включая стык групп, поэтому петля бесшовная
+  &__item {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(column-gap, 14);
+    @include mixins.fluid-vw(padding-right, 14);
+  }
+
+  &__text {
+    white-space: nowrap;
+    font-family: 'NeueAugenblick', sans-serif;
+    @include mixins.fluid-vw(font-size, 18);
+    line-height: 1;
+    color: variables.$color-black;
+  }
+
+  // квадрат: обе стороны в vw, иначе на разных пропорциях экрана он плющится
+  &__separator {
+    display: block;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 8);
+    @include mixins.fluid-vw(height, 8);
+  }
+}

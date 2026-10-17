@@ -1,16 +1,1648 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="src/styles/styles.css" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="src/styles/styles.css"/>
     <title>tradecamp</title>
-  </head>
-  <body>
-    <div class="header">
-      <h1 class="header__title">
-        tradecamp
-      </h1>
-    </div>
-  </body>
+</head>
+<body>
+
+<div class="hero__layout">
+
+    <header class="header">
+        <div class="header__inner">
+            <a class="header__logo" href="/" aria-label="Tradecamp — на главную">
+                <img src="/src/images/tradecamp_logo.svg" alt="Tradecamp">
+            </a>
+
+            <nav class="header__menu" aria-label="Основное меню">
+                <ul class="header__menu-list">
+                    <li class="header__menu-item">
+                        <a href="#" class="header__menu-link">
+                            <span class="header__menu-text">
+                                <span>What you get</span>
+                                <span aria-hidden="true">What you get</span>
+                            </span>
+                            <img class="header__menu-arrow" src="/src/images/header__arrow-down.svg" alt="">
+                        </a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="#" class="header__menu-link">
+                            <span class="header__menu-text">
+                                <span>Our platform</span>
+                                <span aria-hidden="true">Our platform</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="#" class="header__menu-link">
+                            <span class="header__menu-text">
+                                <span>Resources</span>
+                                <span aria-hidden="true">Resources</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="#" class="header__menu-link">
+                            <span class="header__menu-text">
+                                <span>Pricing</span>
+                                <span aria-hidden="true">Pricing</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="#" class="header__menu-link">
+                            <span class="header__menu-text">
+                                <span>Developers</span>
+                                <span aria-hidden="true">Developers</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="#" class="header__menu-link">
+                            <span class="header__menu-text">
+                                <span>Company</span>
+                                <span aria-hidden="true">Company</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="#" class="header__menu-link">
+                            <span class="header__menu-text">
+                                <span>Industries</span>
+                                <span aria-hidden="true">Industries</span>
+                            </span>
+                            <img class="header__menu-arrow" src="/src/images/header__arrow-down.svg" alt="">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="header__buttons">
+                <a href="#" class="button">
+                    Get started
+                </a>
+                <a href="#" class="button button--transparent">
+                    Login
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero__body">
+            <h2 class="hero__title">
+                <span class="hero__title-accent">Better banking</span> for<br>
+                ecommerce brands, B2B<br>
+                webshops, wholesalers and<br>
+                international trade.
+            </h2>
+
+            <form class="hero__form">
+                <input
+                        type="email"
+                        class="hero__input p4"
+                        placeholder="Enter your work email"
+                        aria-label="Your work email"
+                        autocomplete="email"
+                        required
+                >
+                <button type="submit" class="hero__submit button">
+                    Get started
+                </button>
+            </form>
+        </div>
+
+        <ul class="hero__features">
+            <li class="hero__feature">
+                <span class="hero__icon">
+                    <img src="/src/images/hero/1.svg" alt="">
+                </span>
+                <span class="hero__feature-text">Receive and send funds internationally</span>
+            </li>
+            <li class="hero__feature">
+                <span class="hero__icon">
+                    <img src="/src/images/hero/2.svg" alt="">
+                </span>
+                <span class="hero__feature-text">Accept payments</span>
+            </li>
+            <li class="hero__feature">
+                <span class="hero__icon">
+                    <img src="/src/images/hero/3.svg" alt="">
+                </span>
+                <span class="hero__feature-text">Get the funding you need to grow</span>
+            </li>
+            <li class="hero__feature">
+                <span class="hero__icon">
+                    <img src="/src/images/hero/4.svg" alt="">
+                </span>
+                <span class="hero__feature-text">Offer BNPL for your B2B customers</span>
+            </li>
+        </ul>
+
+        <div class="hero__divider">
+            <span class="hero__divider-line hero__divider-line--left"></span>
+            <p class="hero__divider-text">in single interface</p>
+            <span class="hero__divider-line hero__divider-line--right"></span>
+        </div>
+    </section>
+
+</div>
+<main class="content">
+    <section class="carousel" aria-label="Key features">
+        <div class="carousel__track">
+            <!-- Одна группа: копии для бесшовной прокрутки JS создаёт сам (с aria-hidden) -->
+            <ul class="carousel__group">
+                <li class="carousel__item">
+                    <span class="carousel__text">B2B Checkout with Buy Now Pay Later</span>
+                    <img class="carousel__separator" src="/src/images/carousel__rectangle.svg" alt="" aria-hidden="true"/>
+                </li>
+                <li class="carousel__item">
+                    <span class="carousel__text">Easy access to capital and factoring</span>
+                    <img class="carousel__separator" src="/src/images/carousel__rectangle.svg" alt="" aria-hidden="true"/>
+                </li>
+                <li class="carousel__item">
+                    <span class="carousel__text">Bank-beating FX rates</span>
+                    <img class="carousel__separator" src="/src/images/carousel__rectangle.svg" alt="" aria-hidden="true"/>
+                </li>
+                <li class="carousel__item">
+                    <span class="carousel__text">No transaction limits</span>
+                    <img class="carousel__separator" src="/src/images/carousel__rectangle.svg" alt="" aria-hidden="true"/>
+                </li>
+                <li class="carousel__item">
+                    <span class="carousel__text">4.2% yield on idle cash</span>
+                    <img class="carousel__separator" src="/src/images/carousel__rectangle.svg" alt="" aria-hidden="true"/>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+
+    <section class="section ecosystem">
+        <div class="ecosystem__background" aria-hidden="true"></div>
+
+        <div class="ecosystem__body">
+
+            <div class="ecosystem__lead">
+                <h3 class="ecosystem__lead-title">All in infrastructure for trade.</h3>
+
+                <p class="ecosystem__lead-text">
+                    <img class="ecosystem__logo" src="src/images/tradecamp_logo.svg" alt="Tradecamp">
+                    is a financial OS for B2B trading and e-commerce companies —<br>
+                    providing high-yield accounts, B2B Checkout (you get paid upfront while your B2B customers
+                    pay on flexible terms), factoring and payments.
+                </p>
+            </div>
+
+            <div class="ecosystem__intro">
+                <h2 class="ecosystem__title">
+                    Access to banking, financing and factoring as a trade business is a struggle.
+                    Lots of paperwork. Outdated banking systems. High fees. <span class="ecosystem__title-accent">Tradecamp is built to fix all of that.</span>
+                </h2>
+
+                <ul class="ecosystem__features">
+                    <li class="ecosystem__feature">
+                    <span class="ecosystem__feature-icon ecosystem__feature-icon--green">
+                        <img src="src/images/fast_onboarding_icon.svg" alt="">
+                    </span>
+                        <span class="ecosystem__feature-text">Fast onboarding</span>
+                    </li>
+                    <li class="ecosystem__feature">
+                    <span class="ecosystem__feature-icon ecosystem__feature-icon--yellow">
+                        <img src="src/images/low_fees_icon.svg" alt="">
+                    </span>
+                        <span class="ecosystem__feature-text">Low fees</span>
+                    </li>
+                    <li class="ecosystem__feature">
+                    <span class="ecosystem__feature-icon ecosystem__feature-icon--orange">
+                        <img src="src/images/dashboard_icon.svg" alt="">
+                    </span>
+                        <span class="ecosystem__feature-text">Just one financial dashboard</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="ecosystem__integrations">
+                <h5>We work with sellers on:</h5>
+
+                <div class="ecosystem__integration-list">
+                    <div class="ecosystem__integration-track">
+
+                        <div class="ecosystem__integration-group">
+                            <div class="ecosystem__integration"><img src="src/images/amazon_integration_icon.svg" alt="Amazon"></div>
+                            <div class="ecosystem__integration"><img src="src/images/ebay_integration_icon.svg" alt="eBay"></div>
+                            <div class="ecosystem__integration"><img src="src/images/esty_integration_icon.svg" alt="Etsy"></div>
+                            <div class="ecosystem__integration"><img src="src/images/joom_integration_icon.svg" alt="Joom"></div>
+                            <div class="ecosystem__integration"><img src="src/images/lazada_integration_icon.svg" alt="Lazada"></div>
+                            <div class="ecosystem__integration"><img src="src/images/shein_integration_icon.svg" alt="Shein"></div>
+                            <div class="ecosystem__integration"><img src="src/images/goat_integration_icon.svg" alt="GOAT"></div>
+                            <div class="ecosystem__integration"><img src="src/images/racuten_integration_icon.svg" alt="Rakuten"></div>
+                            <div class="ecosystem__integration"><img src="src/images/walmart_integration_icon.svg" alt="Walmart"></div>
+                            <div class="ecosystem__integration"><img src="src/images/mercado-libre_integration_icon.svg" alt="Mercado Libre"></div>
+                            <div class="ecosystem__integration"><img src="src/images/new-egg_integration_icon.svg" alt="Newegg"></div>
+                        </div>
+
+                        <div class="ecosystem__integration-group" aria-hidden="true">
+                            <div class="ecosystem__integration"><img src="src/images/amazon_integration_icon.svg" alt=""></div>
+                            <div class="ecosystem__integration"><img src="src/images/ebay_integration_icon.svg" alt=""></div>
+                            <div class="ecosystem__integration"><img src="src/images/esty_integration_icon.svg" alt=""></div>
+                            <div class="ecosystem__integration"><img src="src/images/joom_integration_icon.svg" alt=""></div>
+                            <div class="ecosystem__integration"><img src="src/images/lazada_integration_icon.svg" alt=""></div>
+                            <div class="ecosystem__integration"><img src="src/images/shein_integration_icon.svg" alt=""></div>
+                            <div class="ecosystem__integration"><img src="src/images/goat_integration_icon.svg" alt=""></div>
+                            <div class="ecosystem__integration"><img src="src/images/racuten_integration_icon.svg" alt=""></div>
+                            <div class="ecosystem__integration"><img src="src/images/walmart_integration_icon.svg" alt=""></div>
+                            <div class="ecosystem__integration"><img src="src/images/mercado-libre_integration_icon.svg" alt=""></div>
+                            <div class="ecosystem__integration"><img src="src/images/new-egg_integration_icon.svg" alt=""></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="ecosystem__mentions">
+                <h5>As mentioned on:</h5>
+
+                <div class="ecosystem__mention-list">
+                    <div class="ecosystem__mention"><img src="src/images/business_Insider_metion_icon.svg" alt="Business Insider"></div>
+                    <div class="ecosystem__mention"><img src="src/images/forbes_metion_icon.svg" alt="Forbes"></div>
+                    <div class="ecosystem__mention"><img src="src/images/the_new_york_metion_icon.svg" alt="The New York Times"></div>
+                    <div class="ecosystem__mention"><img src="src/images/tech-crunch_metion_icon.svg" alt="TechCrunch"></div>
+                    <div class="ecosystem__mention"><img src="src/images/the_wall_street_journal_metion_icon.svg" alt="The Wall Street Journal"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="accounts">
+        <!-- фон с линиями (svg) -->
+        <img class="accounts__bg" src="/src/images/accounts/line.svg" alt="" aria-hidden="true">
+
+        <div class="accounts__main">
+
+            <!-- левая колонка -->
+            <div class="accounts__content">
+
+                <div class="accounts__head">
+                    <div class="accounts__label" data-reveal>
+                        <img class="accounts__label-icon" src="/src/images/accounts/world.svg" alt="" aria-hidden="true">
+                        <div class="accounts__label-pill">
+                            <span class="accounts__label-brand p3">Tradecamp</span>
+                            <span class="accounts__label-name p3">Accounts</span>
+                        </div>
+                    </div>
+
+                    <h3 class="accounts__title" data-reveal>
+                        Make cross-border or local payments with ease
+                    </h3>
+                </div>
+
+                <ul class="accounts__list">
+                    <li class="accounts__item" data-reveal>
+                        <img class="accounts__item-marker" src="/src/images/carousel__rectangle.svg" alt="" aria-hidden="true">
+                        <span class="accounts__item-text p2">Receive bank account numbers in USD, EUR &amp; GBP and get paid as easily as having a local bank account</span>
+                    </li>
+                    <li class="accounts__item" data-reveal>
+                        <img class="accounts__item-marker" src="/src/images/carousel__rectangle.svg" alt="" aria-hidden="true">
+                        <span class="accounts__item-text p2">Receive payments from marketplaces and make payments at the best possible FX rates</span>
+                    </li>
+                    <li class="accounts__item" data-reveal>
+                        <img class="accounts__item-marker" src="/src/images/carousel__rectangle.svg" alt="" aria-hidden="true">
+                        <span class="accounts__item-text p2">Make payouts in 38 currencies, into 130 countries</span>
+                    </li>
+                    <li class="accounts__item" data-reveal>
+                        <img class="accounts__item-marker" src="/src/images/carousel__rectangle.svg" alt="" aria-hidden="true">
+                        <span class="accounts__item-text p2">No transaction limits</span>
+                    </li>
+                </ul>
+
+            </div>
+
+            <!-- правая часть -->
+            <div class="accounts__visual">
+                <img class="accounts__card" src="/src/images/accounts/card.svg" alt="Tradecamp card" data-reveal>
+                <img class="accounts__panel" src="/src/images/accounts/Global_Accounts.svg" alt="Global Accounts panel" data-reveal>
+                <img class="accounts__menu" src="/src/images/accounts/1.svg" alt="Account actions menu" data-reveal>
+
+                <!-- оранжевая плашка -->
+                <div class="accounts__note" data-reveal>
+                    <p class="accounts__note-text">
+                        We charge just <strong>1 %</strong> FX markup above interbank rate. Banks charge
+                        <strong>5-7 %.</strong>
+                    </p>
+
+                    <!-- иконка с вопросиком: при наведении / фокусе / тапе показывает тултип -->
+                    <button class="accounts__note-hint" type="button"
+                            aria-label="What is the interbank rate?"
+                            aria-describedby="accounts-tooltip"
+                            aria-expanded="false">
+                        <img class="accounts__note-icon" src="/src/images/accounts/Subtract.svg" alt="" aria-hidden="true">
+                    </button>
+
+                    <div class="accounts__tooltip" id="accounts-tooltip" role="tooltip">
+                        <p class="accounts__tooltip-text p4">
+                            Our interbank rate is determined by us with reference to live exchange rates from our banking
+                            partners and market data sources.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- нижний блок: валюты -->
+        <div class="accounts__currencies">
+            <h3 class="accounts__currencies-title" data-reveal>
+                Make and receive payments in 65+ currencies<br>
+                Even the most exotic ones.
+            </h3>
+
+            <ul class="accounts__currencies-list" data-reveal="slide-left">
+                <li class="accounts__currency">
+                    <img class="accounts__currency-flag" src="/src/images/accounts/countries/eur.svg" alt="" aria-hidden="true">
+                    <span class="accounts__currency-code">EUR</span>
+                </li>
+                <li class="accounts__currency">
+                    <img class="accounts__currency-flag" src="/src/images/accounts/countries/usa.svg" alt="" aria-hidden="true">
+                    <span class="accounts__currency-code">USD</span>
+                </li>
+                <li class="accounts__currency">
+                    <img class="accounts__currency-flag" src="/src/images/accounts/countries/gbp.svg" alt="" aria-hidden="true">
+                    <span class="accounts__currency-code">GBP</span>
+                </li>
+                <li class="accounts__currency">
+                    <img class="accounts__currency-flag" src="/src/images/accounts/countries/aed.svg" alt="" aria-hidden="true">
+                    <span class="accounts__currency-code">AED</span>
+                </li>
+                <li class="accounts__currency">
+                    <img class="accounts__currency-flag" src="/src/images/accounts/countries/chf.svg" alt="" aria-hidden="true">
+                    <span class="accounts__currency-code">CHF</span>
+                </li>
+                <li class="accounts__currency">
+                    <img class="accounts__currency-flag" src="/src/images/accounts/countries/chy.svg" alt="" aria-hidden="true">
+                    <span class="accounts__currency-code">CNY</span>
+                </li>
+                <li class="accounts__currency">
+                    <img class="accounts__currency-flag" src="/src/images/accounts/countries/czk.svg" alt="" aria-hidden="true">
+                    <span class="accounts__currency-code">CZK</span>
+                </li>
+                <li class="accounts__currency">
+                    <img class="accounts__currency-flag" src="/src/images/accounts/countries/dkk.svg" alt="" aria-hidden="true">
+                    <span class="accounts__currency-code">DKK</span>
+                </li>
+                <li class="accounts__currency">
+                    <img class="accounts__currency-flag" src="/src/images/accounts/countries/inr.svg" alt="" aria-hidden="true">
+                    <span class="accounts__currency-code">INR</span>
+                </li>
+                <li class="accounts__currency">
+                    <img class="accounts__currency-flag" src="/src/images/accounts/countries/brl.svg" alt="" aria-hidden="true">
+                    <span class="accounts__currency-code">BRL</span>
+                </li>
+            </ul>
+        </div>
+
+    </section>
+
+
+    <section class="processing">
+
+        <!-- логотипы платёжных систем (проявляются из прозрачности по очереди) -->
+        <ul class="processing__systems" data-reveal="fade">
+            <li><img class="processing__system" src="/src/images/processing/payments/swift.svg" alt="SWIFT"></li>
+            <li><img class="processing__system" src="/src/images/processing/payments/ach.svg" alt="ACH"></li>
+            <li><img class="processing__system" src="/src/images/processing/payments/faster_payments.svg" alt="Faster Payments"></li>
+            <li><img class="processing__system" src="/src/images/processing/payments/eft.svg" alt="EFT"></li>
+            <li><img class="processing__system" src="/src/images/processing/payments/sepa.svg" alt="SEPA"></li>
+            <li><img class="processing__system" src="/src/images/processing/payments/chaps.svg" alt="CHAPS"></li>
+        </ul>
+
+        <div class="processing__head">
+            <div class="processing__label" data-reveal="fade">
+                <span class="processing__label-brand p3">Tradecamp</span>
+                <span class="processing__label-name p3">Payment processing</span>
+            </div>
+
+            <h3 class="processing__title" data-reveal="rise">World-class payment processing</h3>
+
+            <p class="processing__subtitle p2" data-reveal="rise">Fixed fee 2,9 %. No setup or monthly fees.</p>
+        </div>
+
+        <!-- схема: телефон → flow (линия + ядро) → провайдеры -->
+        <div class="processing__diagram">
+
+            <!-- без анимации -->
+            <img class="processing__phone" src="/src/images/processing/phone.svg" alt="Tradecamp checkout">
+
+            <div class="processing__flow">
+                <!-- центральный блок (одна карточка): проявляется из прозрачности -->
+                <div class="processing__core" data-reveal="fade">
+                    <div class="processing__core-top">
+                        <img class="processing__core-logo" src="/src/images/tradecamp_logo.svg" alt="Tradecamp">
+                    </div>
+
+                    <div class="processing__core-body">
+                        <ul class="processing__features">
+                            <li class="processing__feature">
+                                <img class="processing__feature-icon" src="/src/images/processing/core/security.svg" alt="" aria-hidden="true">
+                                <span class="processing__feature-text p2">Security</span>
+                            </li>
+                            <li class="processing__feature">
+                                <img class="processing__feature-icon" src="/src/images/processing/core/risk_engine.svg" alt="" aria-hidden="true">
+                                <span class="processing__feature-text p2">Risk engine</span>
+                            </li>
+                            <li class="processing__feature">
+                                <img class="processing__feature-icon" src="/src/images/processing/core/analytics.svg" alt="" aria-hidden="true">
+                                <span class="processing__feature-text p2">Analytics</span>
+                            </li>
+                            <li class="processing__feature">
+                                <img class="processing__feature-icon" src="/src/images/processing/core/support.svg" alt="" aria-hidden="true">
+                                <span class="processing__feature-text processing__feature-text--small p2">24/7 Support</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- линия: SVG встроен в разметку, чтобы анимировать синий отрезок по самим путям.
+                     Стоит ПОСЛЕ .processing__core — анимация запускается через селектор ~ -->
+                <svg class="processing__connector" viewBox="0 0 810 127" fill="none" aria-hidden="true">
+                    <!-- серые линии (статичные). Начинаются с x=-150: левый край уходит под телефон -->
+                    <path class="processing__line" d="M-150 62.5L750.821 62.5C758.18 62.5 764.145 56.9691 764.145 50.1456L764.145 13.8545C764.145 7.03105 770.11 1.50013 777.468 1.50013L808.095 1.50013"/>
+                    <path class="processing__line" d="M-150 62.5L750.535 62.5C757.93 62.5 763.925 68.2123 763.925 75.2595L763.925 112.741C763.925 119.788 769.92 125.5 777.315 125.5L808.095 125.5"/>
+
+                    <!-- синий отрезок: по одному на каждую ветку, до развилки идут один поверх другого -->
+                    <path class="processing__beam" d="M-150 62.5L750.821 62.5C758.18 62.5 764.145 56.9691 764.145 50.1456L764.145 13.8545C764.145 7.03105 770.11 1.50013 777.468 1.50013L808.095 1.50013"/>
+                    <path class="processing__beam" d="M-150 62.5L750.535 62.5C757.93 62.5 763.925 68.2123 763.925 75.2595L763.925 112.741C763.925 119.788 769.92 125.5 777.315 125.5L808.095 125.5"/>
+                </svg>
+            </div>
+
+            <!-- провайдеры: без анимации -->
+            <ul class="processing__providers">
+                <li class="processing__provider"><img class="processing__provider-logo" src="/src/images/processing/providers/nuvei.svg" alt="Nuvei"></li>
+                <li class="processing__provider"><img class="processing__provider-logo" src="/src/images/processing/providers/rapyd.svg" alt="Rapyd"></li>
+                <li class="processing__provider"><img class="processing__provider-logo" src="/src/images/processing/providers/paysafe.svg" alt="Paysafe"></li>
+                <li class="processing__provider"><img class="processing__provider-logo" src="/src/images/processing/providers/fis.svg" alt="FIS"></li>
+                <li class="processing__provider"><img class="processing__provider-logo" src="/src/images/processing/providers/payu.svg" alt="PayU"></li>
+                <li class="processing__provider"><img class="processing__provider-logo" src="/src/images/processing/providers/ppro.svg" alt="ppro"></li>
+                <li class="processing__provider"><img class="processing__provider-logo" src="/src/images/processing/providers/checkout.svg" alt="Checkout.com"></li>
+                <li class="processing__provider"><img class="processing__provider-logo" src="/src/images/processing/providers/adyen.svg" alt="Adyen"></li>
+            </ul>
+
+        </div>
+    </section>
+
+    <section class="payments">
+
+        <div class="payments__header">
+            <h3 class="payments__title">
+                <span class="payments__title-line">The price is the same</span>
+                <span class="payments__title-line">for all cards and digital wallets.</span>
+                <span class="payments__title-line payments__title-line--muted">135 currencies, 30 major banks in the network</span>
+            </h3>
+            <p class="p2 payments__subtitle">
+                + 300 APM's (Alternative payment methods) in Latam, OPAC, Europe, US and Africa
+            </p>
+        </div>
+
+        <!-- Позиции плиток задаёт payments.js через --col / --row (кадры анимации из макета) -->
+        <ul class="payments__grid">
+            <li class="payments__method payments__method--featured">
+                <img class="payments__featured-logo" src="src/images/payments/logo-tradecamp.svg" alt="Tradecamp">
+            </li>
+
+            <li class="payments__method" data-pay="mastercard"><img class="payments__method-img" src="src/images/payments/mastercard.svg" alt="Mastercard"></li>
+            <li class="payments__method" data-pay="amex"><img class="payments__method-img" src="src/images/payments/american_express.svg" alt="American Express"></li>
+            <li class="payments__method" data-pay="discover"><img class="payments__method-img" src="src/images/payments/discover.svg" alt="Discover"></li>
+            <li class="payments__method" data-pay="visa"><img class="payments__method-img" src="src/images/payments/visa.svg" alt="Visa"></li>
+            <li class="payments__method" data-pay="cb"><img class="payments__method-img" src="src/images/payments/gb.svg" alt="Cartes Bancaires"></li>
+            <li class="payments__method" data-pay="cashapp"><img class="payments__method-img" src="src/images/payments/cash_app.svg" alt="Cash App"></li>
+            <li class="payments__method" data-pay="alipay"><img class="payments__method-img" src="src/images/payments/alipay.svg" alt="Alipay"></li>
+            <li class="payments__method" data-pay="jcb"><img class="payments__method-img" src="src/images/payments/jcb.svg" alt="JCB"></li>
+            <li class="payments__method" data-pay="sofort"><img class="payments__method-img" src="src/images/payments/sofort.svg" alt="Sofort"></li>
+
+            <li class="payments__method" data-pay="klarna"><img class="payments__method-img" src="src/images/payments/klarna.svg" alt="Klarna"></li>
+            <li class="payments__method" data-pay="pix"><img class="payments__method-img" src="src/images/payments/pix.svg" alt="Pix"></li>
+            <li class="payments__method" data-pay="boleto"><img class="payments__method-img" src="src/images/payments/boleton.svg" alt="Boleto"></li>
+            <li class="payments__method" data-pay="mercado"><img class="payments__method-img" src="src/images/payments/mercado_pago.svg" alt="Mercado Pago"></li>
+            <li class="payments__method" data-pay="blik"><img class="payments__method-img" src="src/images/payments/blink.svg" alt="BLIK"></li>
+            <li class="payments__method" data-pay="giropay"><img class="payments__method-img" src="src/images/payments/giropay.svg" alt="giropay"></li>
+            <li class="payments__method" data-pay="ideal"><img class="payments__method-img" src="src/images/payments/ideal.svg" alt="iDEAL"></li>
+            <li class="payments__method" data-pay="trustly"><img class="payments__method-img" src="src/images/payments/t.svg" alt="Trustly"></li>
+            <li class="payments__method" data-pay="paysafe"><img class="payments__method-img" src="src/images/payments/paysavecard.svg" alt="paysafecard"></li>
+        </ul>
+
+        <ul class="payments__features">
+            <li class="payments__feature">
+                <div class="payments__feature-head">
+                    <img class="payments__feature-icon" src="src/images/payments/timer_icon.svg" alt="" aria-hidden="true">
+                    <h4 class="p2 payments__feature-title">Reduced transaction times.</h4>
+                </div>
+                <p class="p3 payments__feature-text">
+                    Our high-capacity network has an excellent switching speed which reduces transaction times and
+                    increases conversion.
+                </p>
+            </li>
+
+            <li class="payments__feature">
+                <div class="payments__feature-head">
+                    <img class="payments__feature-icon" src="src/images/payments/card_icon.svg" alt="" aria-hidden="true">
+                    <h4 class="p2 payments__feature-title">Payment Orchestration.</h4>
+                </div>
+                <p class="p3 payments__feature-text">
+                    Payment orchestration enhances your success rate by effectively routing and optimising all your
+                    online payment flows.
+                </p>
+            </li>
+
+            <li class="payments__feature">
+                <div class="payments__feature-head">
+                    <img class="payments__feature-icon" src="src/images/payments/circle_arrows_icon.svg" alt="" aria-hidden="true">
+                    <h4 class="p2 payments__feature-title">DCC (Dynamic Currency Conversion).</h4>
+                </div>
+                <p class="p3 payments__feature-text">
+                    Allow international customers to conveniently pay with their home currency with transparent currency
+                    conversion cost, while you benefit from an attractive rebate on every transaction.
+                </p>
+            </li>
+
+            <li class="payments__feature">
+                <div class="payments__feature-head">
+                    <img class="payments__feature-icon" src="src/images/payments/money_icon.svg" alt="" aria-hidden="true">
+                    <h4 class="p2 payments__feature-title">Immediate settlements.</h4>
+                </div>
+                <p class="p3 payments__feature-text">
+                    You wait days until funds from payment processing land in your bank account. With Tradecamp - you
+                    get same-day payouts.
+                </p>
+            </li>
+        </ul>
+    </section>
+
+    <section class="b2b-checkout">
+
+        <div class="b2b-checkout__bg" aria-hidden="true">
+            <img class="b2b-checkout__bg-img" src="src/images/b2b-checkout/lines-bg.svg" alt="">
+        </div>
+
+        <div class="b2b-checkout__inner">
+
+            <!-- Шапка секции (без анимаций) -->
+            <header class="b2b-checkout__head">
+                <div class="b2b-checkout__badge">
+                    <span class="b2b-checkout__badge-brand">Tradecamp</span>
+                    <span class="b2b-checkout__badge-divider"></span>
+                    <span class="b2b-checkout__badge-text p3">B2B Checkout</span>
+                </div>
+
+                <h3 class="b2b-checkout__title">B2B Checkout.</h3>
+            </header>
+
+            <!-- ===== BLOCK 1/3: PayLater ===== -->
+            <div class="b2b-checkout__block">
+
+                <div class="b2b-checkout__content">
+                    <div class="b2b-checkout__icon" data-reveal="fade">
+                        <img class="b2b-checkout__icon-img" src="src/images/b2b-checkout/playlater_icon.svg" alt="">
+                    </div>
+
+                    <h3 class="b2b-checkout__block-title" data-reveal="up">PayLater option for your buyers.</h3>
+
+                    <p class="b2b-checkout__block-text p2" data-reveal="up" style="--reveal-delay: .1s">
+                        Get paid upfront, in full, with no risk, while your buyers pay later on flexible terms.
+                    </p>
+                </div>
+
+                <!-- Визуал (телефон): анимация стартует, когда блок получает .is-visible -->
+                <div class="phone" data-reveal="fade" aria-hidden="true">
+                    <div class="phone__viewport">
+                        <div class="phone__track">
+
+                            <!-- Кадр 1: выбор способа оплаты -->
+                            <div class="phone__frame">
+                                <ul class="phone__list phone__list--methods">
+                                    <li class="phone__option phone__option--selected phone__option--tap-1">
+                                        <span class="phone__radio phone__radio--active"></span>
+                                        <span class="phone__option-name">Pay Later</span>
+                                        <span class="phone__logos">
+                            <span class="phone__logo phone__logo--gradient">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/logo.svg" alt="">
+                            </span>
+                        </span>
+                                    </li>
+                                    <li class="phone__option">
+                                        <span class="phone__radio"></span>
+                                        <span class="phone__option-name">Installments</span>
+                                        <span class="phone__logos">
+                            <span class="phone__logo phone__logo--gradient">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/logo.svg" alt="">
+                            </span>
+                        </span>
+                                    </li>
+                                    <li class="phone__option">
+                                        <span class="phone__radio"></span>
+                                        <span class="phone__option-name">Bank transfer</span>
+                                        <span class="phone__logos">
+                            <span class="phone__logo phone__logo--bank">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/bank.svg" alt="">
+                            </span>
+                        </span>
+                                    </li>
+                                    <li class="phone__option">
+                                        <span class="phone__radio"></span>
+                                        <span class="phone__option-name">Credit/Debit cards</span>
+                                        <span class="phone__logos">
+                            <span class="phone__logo">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/mastercard.svg" alt="Mastercard">
+                            </span>
+                            <span class="phone__logo">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/visa.svg" alt="Visa">
+                            </span>
+                        </span>
+                                    </li>
+                                    <li class="phone__option">
+                                        <span class="phone__radio"></span>
+                                        <span class="phone__option-name">Digital Wallets</span>
+                                        <span class="phone__logos">
+                            <span class="phone__logo phone__logo--paypal">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/paypal.svg" alt="PayPal">
+                            </span>
+                            <span class="phone__logo">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/apple-pay.svg" alt="Apple Pay">
+                            </span>
+                        </span>
+                                    </li>
+                                </ul>
+                                <div class="phone__button phone__button--tap-1">
+                                    <span class="phone__button-text">Confirm</span>
+                                </div>
+                            </div>
+
+                            <!-- Кадр 2: условия оплаты -->
+                            <div class="phone__frame">
+                                <div class="phone__terms-logo">
+                                    <img src="src/images/b2b-checkout/phone/box.svg" alt="">
+                                </div>
+                                <span class="phone__terms-title">FMCG goods</span>
+                                <ul class="phone__list phone__list--terms">
+                                    <li class="phone__option phone__option--term phone__option--featured phone__option--selected phone__option--tap-2">
+                                        <span class="phone__radio phone__radio--active"></span>
+                                        <span class="phone__option-name">Pay in 30 days</span>
+                                        <ul class="phone__option-desc">
+                                            <li>No interest. No fees.</li>
+                                            <li>paid by bank transfer</li>
+                                        </ul>
+                                    </li>
+                                    <li class="phone__option phone__option--term">
+                                        <span class="phone__radio"></span>
+                                        <span class="phone__option-name">Pay in 60 days</span>
+                                    </li>
+                                    <li class="phone__option phone__option--term">
+                                        <span class="phone__radio"></span>
+                                        <span class="phone__option-name">Pay in 90 days</span>
+                                    </li>
+                                </ul>
+                                <div class="phone__button phone__button--tap-2">
+                                    <span class="phone__button-text">Continue</span>
+                                </div>
+                            </div>
+
+                            <!-- Кадр 3: проверка покупателя -->
+                            <div class="phone__frame">
+                                <img class="phone__card" src="src/images/b2b-checkout/phone/card.svg" alt="Trade &amp; Co, GmBH">
+                                <ul class="phone__list phone__list--checks">
+                                    <li class="phone__option phone__option--check phone__option--selected phone__option--check-1">
+                                        <span class="phone__radio phone__radio--active"></span>
+                                        <span class="phone__option-name">Authenticated buyer</span>
+                                    </li>
+                                    <li class="phone__option phone__option--check phone__option--selected phone__option--check-2">
+                                        <span class="phone__radio phone__radio--active"></span>
+                                        <span class="phone__option-name">Eligible for PayLater</span>
+                                    </li>
+                                    <li class="phone__limit">
+                                        Available spending limit: <span class="phone__limit-value">£30,000</span>
+                                    </li>
+                                </ul>
+                                <div class="phone__button phone__button--tap-3">
+                                    <span class="phone__button-text">Continue</span>
+                                </div>
+                            </div>
+
+                            <!-- Кадр 4: заказ оформлен (целиком помещается в экран) -->
+                            <div class="phone__frame phone__frame--success">
+                                <img class="phone__success-logo" src="src/images/tradecamp_logo_white-text.svg" alt="Tradecamp">
+                                <div class="phone__success-card">
+                    <span class="phone__success-badge">
+                        <img src="src/images/b2b-checkout/phone/success.svg" alt="">
+                    </span>
+                                    <span class="phone__success-title">Order was successful!</span>
+                                    <span class="phone__success-text">Your order has been successfully placed and an email confirmation should arrive in your inbox shortly</span>
+                                </div>
+                                <span class="phone__success-subtitle">Payment details for your FMCG Wholesaler, GmBH purchase.</span>
+                                <span class="phone__success-note">Thank you for choosing pay by invoice with Tradecamp for your FMCG Wholesaler, GmBH purchase.</span>
+                                <span class="phone__divider"></span>
+                                <div class="phone__details-box">
+                                    <img class="phone__details-bg" src="src/images/b2b-checkout/phone/payment_details-bg.svg" alt="">
+                                    <dl class="phone__details">
+                                        <div class="phone__detail">
+                                            <dt class="phone__detail-label">Buyer</dt>
+                                            <dd class="phone__detail-value">Trade &amp; Co, GmBH</dd>
+                                        </div>
+                                        <div class="phone__detail">
+                                            <dt class="phone__detail-label">Recipient</dt>
+                                            <dd class="phone__detail-value">FMCG Wholesaler, GmBH purchase.</dd>
+                                        </div>
+                                        <div class="phone__detail">
+                                            <dt class="phone__detail-label">IBAN</dt>
+                                            <dd class="phone__detail-value">DE4549771789983448</dd>
+                                        </div>
+                                        <div class="phone__detail">
+                                            <dt class="phone__detail-label">BIC</dt>
+                                            <dd class="phone__detail-value">STBKTNTT</dd>
+                                        </div>
+                                        <div class="phone__detail">
+                                            <dt class="phone__detail-label">BANK</dt>
+                                            <dd class="phone__detail-value">Sparkasse</dd>
+                                        </div>
+                                        <div class="phone__detail">
+                                            <dt class="phone__detail-label">Reference</dt>
+                                            <dd class="phone__detail-value">AR22022490</dd>
+                                        </div>
+                                    </dl>
+                                </div>
+                            </div>
+
+                            <!-- Кадр 5: копия первого в исходном состоянии (для бесшовного цикла) -->
+                            <div class="phone__frame">
+                                <ul class="phone__list phone__list--methods">
+                                    <li class="phone__option">
+                                        <span class="phone__radio"></span>
+                                        <span class="phone__option-name">Pay Later</span>
+                                        <span class="phone__logos">
+                            <span class="phone__logo phone__logo--gradient">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/logo.svg" alt="">
+                            </span>
+                        </span>
+                                    </li>
+                                    <li class="phone__option">
+                                        <span class="phone__radio"></span>
+                                        <span class="phone__option-name">Installments</span>
+                                        <span class="phone__logos">
+                            <span class="phone__logo phone__logo--gradient">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/logo.svg" alt="">
+                            </span>
+                        </span>
+                                    </li>
+                                    <li class="phone__option">
+                                        <span class="phone__radio"></span>
+                                        <span class="phone__option-name">Bank transfer</span>
+                                        <span class="phone__logos">
+                            <span class="phone__logo phone__logo--bank">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/bank.svg" alt="">
+                            </span>
+                        </span>
+                                    </li>
+                                    <li class="phone__option">
+                                        <span class="phone__radio"></span>
+                                        <span class="phone__option-name">Credit/Debit cards</span>
+                                        <span class="phone__logos">
+                            <span class="phone__logo">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/mastercard.svg" alt="Mastercard">
+                            </span>
+                            <span class="phone__logo">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/visa.svg" alt="Visa">
+                            </span>
+                        </span>
+                                    </li>
+                                    <li class="phone__option">
+                                        <span class="phone__radio"></span>
+                                        <span class="phone__option-name">Digital Wallets</span>
+                                        <span class="phone__logos">
+                            <span class="phone__logo phone__logo--paypal">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/paypal.svg" alt="PayPal">
+                            </span>
+                            <span class="phone__logo">
+                                <img class="phone__logo-img" src="src/images/b2b-checkout/phone/apple-pay.svg" alt="Apple Pay">
+                            </span>
+                        </span>
+                                    </li>
+                                </ul>
+                                <div class="phone__button">
+                                    <span class="phone__button-text">Confirm</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Шапка: заголовок меняется по экранам, лого справа — с экрана с картой (кадры 3–4) -->
+                    <header class="phone__header">
+                        <span class="phone__header-titles">
+                            <span class="phone__header-title phone__header-title--1">Payment Method</span>
+                            <span class="phone__header-title phone__header-title--2">PayLater</span>
+                            <span class="phone__header-title phone__header-title--3">Buyer Authentication</span>
+                        </span>
+                        <img class="phone__header-logo" src="src/images/tradecamp_logo.svg" alt="Tradecamp">
+                    </header>
+                </div>
+
+            </div>
+            <!-- ===== /BLOCK 1/3 ===== -->
+
+
+            <!-- ===== BLOCK 2/3: Terms ===== -->
+            <div class="terms-block">
+
+                <!-- Пунктир + иконка, которая спускается по нему при скролле -->
+                <div class="b2b-checkout__track" data-track>
+                    <span class="b2b-checkout__track-line" aria-hidden="true"></span>
+                    <div class="b2b-checkout__track-icon" data-track-icon data-reveal="fade">
+                        <img src="src/images/b2b-checkout/link_icon.svg" alt="">
+                    </div>
+                </div>
+
+                <div class="terms-block__row">
+                    <div class="terms-block__content">
+                        <h4 class="terms-block__title" data-reveal="up">Eliminate the hassle of negotiating payment terms.</h4>
+
+                        <p class="terms-block__text p2" data-reveal="up" style="--reveal-delay: .1s">
+                            Send your buyers a <span class="terms-block__accent">unique link</span>
+                            where they can decide how and when they prefer to pay for their order.
+                        </p>
+                    </div>
+
+                    <!-- data-reveal-group: все элементы внутри появляются одновременно -->
+                    <div class="terms-block__visual" data-reveal-group>
+                        <!-- Invoice -->
+                        <div class="terms-block__invoice" data-reveal="fade">
+                            <div class="terms-block__invoice-head">
+                                <span class="terms-block__invoice-title">Invoice</span>
+                                <span class="terms-block__invoice-number">#1024</span>
+                            </div>
+
+                            <div class="terms-block__invoice-body">
+                                <div class="terms-block__invoice-row">
+                                    <span class="terms-block__label">Bill to</span>
+                                    <span class="terms-block__value">Trade &amp; Co, GmBH</span>
+                                </div>
+                                <div class="terms-block__invoice-row">
+                                    <span class="terms-block__label">Amount</span>
+                                    <span class="terms-block__value">$15,000</span>
+                                </div>
+                                <div class="terms-block__invoice-row">
+                                    <span class="terms-block__label">Due date</span>
+                                    <span class="terms-block__value">NOV 24, 2024</span>
+                                </div>
+                            </div>
+
+                            <button class="terms-block__invoice-btn" type="button">Send invoice</button>
+                        </div>
+
+                        <!-- Линии (inline svg, без reveal) + бегущий жёлтый элемент + логотип -->
+                        <div class="terms-block__connector">
+                            <svg class="terms-block__lines" viewBox="0 0 260 162" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path class="terms-block__lines-base" d="M0.75 79.5648H204.767M204.767 79.5648L210.398 69.1456C212.135 65.9325 213.044 62.3375 213.044 58.6851V22.75C213.044 10.5997 222.894 0.75 235.044 0.75H258.75M204.767 79.5648L210.501 90.431C212.171 93.5959 213.044 97.1203 213.044 100.699V138.75C213.044 150.9 222.894 160.75 235.044 160.75H258.75"
+                                      stroke="#4D4D4D" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4.38 4.38"/>
+                                <!-- бегущий элемент стартует сразу, как появляется группа справа -->
+                                <!-- верхняя ветка -->
+                                <path class="terms-block__runner" pathLength="100"
+                                      d="M0.75 79.5648H204.767L210.398 69.1456C212.135 65.9325 213.044 62.3375 213.044 58.6851V22.75C213.044 10.5997 222.894 0.75 235.044 0.75H258.75"/>
+                                <!-- нижняя ветка -->
+                                <path class="terms-block__runner" pathLength="100"
+                                      d="M0.75 79.5648H204.767L210.501 90.431C212.171 93.5959 213.044 97.1203 213.044 100.699V138.75C213.044 150.9 222.894 160.75 235.044 160.75H258.75"/>
+                            </svg>
+
+                            <div class="terms-block__logo-wrap">
+                                <img class="terms-block__logo" src="src/images/b2b-checkout/logo_invoice.svg" alt=""
+                                     data-reveal="up">
+                            </div>
+                        </div>
+
+                        <!-- Карточки справа -->
+                        <div class="terms-block__results">
+                            <div class="terms-block__result" data-reveal="up">
+                                <p class="p2 terms-block__result-caption">For you</p>
+                                <div class="terms-block__result-card">
+                                    <span class="terms-block__label">Amount</span>
+                                    <span class="terms-block__result-value">$15,000</span>
+                                </div>
+                            </div>
+
+                            <div class="terms-block__result" data-reveal="up">
+                                <p class="p2 terms-block__result-caption">For your customers</p>
+                                <div class="terms-block__result-card">
+                                    <span class="terms-block__label">Terms</span>
+                                    <span class="terms-block__result-value">NET 60</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ===== /BLOCK 2/3 ===== -->
+
+
+            <!-- ===== BLOCK 3/3: Flexible terms ===== -->
+            <div class="flexible-terms">
+
+                <div class="b2b-checkout__track" data-track>
+                    <span class="b2b-checkout__track-line" aria-hidden="true"></span>
+                    <div class="b2b-checkout__track-icon" data-track-icon data-reveal="fade">
+                        <img src="src/images/b2b-checkout/arrow-up_icon.svg" alt="">
+                    </div>
+                </div>
+
+                <div class="flexible-terms__row">
+                    <div class="flexible-terms__content">
+                        <h4 class="flexible-terms__title" data-reveal="up">Flexible payment terms<br>grow sales</h4>
+
+                        <p class="p2 flexible-terms__text" data-reveal="up" style="--reveal-delay: .1s">
+                            Give buyers the choice of <b>30, 45 and 60-day</b> terms. instant spending limit
+                            decisions and flexible terms mean bigger deals, more often.
+                        </p>
+
+                        <ul class="flexible-terms__stats">
+                            <li class="flexible-terms__stat" data-reveal="up" style="--reveal-delay: .15s">
+                                <h5 class="flexible-terms__stat-value">84%</h5>
+                                <p class="flexible-terms__stat-label p4">More likely to purchase with payLater</p>
+                            </li>
+                            <li class="flexible-terms__stat" data-reveal="up" style="--reveal-delay: .25s">
+                                <h5 class="flexible-terms__stat-value">69%</h5>
+                                <p class="flexible-terms__stat-label p4">Increase to average Order Value</p>
+                            </li>
+                            <li class="flexible-terms__stat" data-reveal="up" style="--reveal-delay: .35s">
+                                <h5 class="flexible-terms__stat-value">2x</h5>
+                                <p class="flexible-terms__stat-label p4">More likely to make repeat purchases</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="flexible-terms__visual">
+                        <div class="flexible-terms__pill" data-reveal="up">
+                            <img class="flexible-terms__pill-check" src="src/images/b2b-checkout/checkmark-circle_icon.svg" alt="">
+                            <span class="p4">Pay in 30 days</span>
+                        </div>
+
+                        <div class="flexible-terms__pill flexible-terms__pill--active" data-reveal="up" style="--reveal-delay: .1s">
+                            <img class="flexible-terms__pill-check" src="src/images/b2b-checkout/checkmark-circle_icon.svg" alt="">
+                            <span class="p4">Purchase successful</span>
+                        </div>
+
+                        <div class="flexible-terms__chart" data-reveal="up" style="--reveal-delay: .2s">
+                            <img class="flexible-terms__chart-img" src="src/images/b2b-checkout/chart.svg" alt="">
+
+                            <div class="flexible-terms__timer" data-reveal="up" style="--reveal-delay: .35s">
+                                <img src="src/images/b2b-checkout/comp.gif" alt="">
+                            </div>
+                        </div>
+
+                        <div class="flexible-terms__paylater" data-reveal="up" style="--reveal-delay: .3s">
+                            <span class="p4">PayLater with</span>
+                            <img class="flexible-terms__paylater-logo" src="src/images/black_logo.svg" alt="tradecamp">
+                            <span class="flexible-terms__paylater-check">
+                            <img src="src/images/b2b-checkout/checkmark-white_icon.svg" alt="">
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ===== /BLOCK 3/3 ===== -->
+
+        </div>
+    </section>
+
+    <section class="cashflow">
+
+        <div class="cashflow__hero" data-reveal-group>
+            <div class="cashflow__hero-left">
+                <div class="cashflow__badge" data-reveal="up">
+                <span class="cashflow__badge-icon">
+                    <img src="src/images/cashflow/cash_icon.svg" alt="">
+                </span>
+                    <span class="p2 cashflow__badge-pill">
+                        <span class="cashflow__badge-brand">Tradecamp</span>
+                        <span class="cashflow__badge-sep"></span>
+                        Cashflow
+                    </span>
+                </div>
+
+                <h4 class="cashflow__title" data-reveal="fade" style="--reveal-delay: 0.1s">
+                    Cashflow for<br>
+                    D2C ecommerce, marketplace sellers, wholesalers &amp; distributors
+                </h4>
+
+                <p class="p2 cashflow__note" data-reveal="up" style="--reveal-delay: 0.3s">External funding increases revenue up to 300 %</p>
+            </div>
+
+            <!-- таблица появляется целиком, одним блоком -->
+            <div class="cashflow__table" data-reveal="up" style="--reveal-delay: 0.15s">
+                <img class="cashflow__table-bg" src="src/images/cashflow/table_bg.svg" alt="">
+
+                <div class="cashflow__table-card">
+                    <div class="p3 cashflow__table-head">How does the Cashflow work?</div>
+
+                    <div class="cashflow__table-body">
+
+                        <div class="cashflow__table-grid cashflow__table-cols">
+                            <span></span>
+                            <span class="p4 cashflow__table-col cashflow__table-col--without">Without funding</span>
+                            <span class="p4 cashflow__table-col cashflow__table-col--with">
+                            With
+                            <img class="cashflow__table-logo" src="src/images/black_logo.svg" alt="tradecamp">
+                        </span>
+                        </div>
+
+                        <div class="cashflow__table-grid cashflow__table-row">
+                            <span class="p3 cashflow__table-cell cashflow__table-label">Revenue</span>
+                            <span class="p3 cashflow__table-cell cashflow__table-value">3,000,000 $</span>
+                            <span class="p3 cashflow__table-cell cashflow__table-value cashflow__table-value--with">
+                            <img class="cashflow__table-arrow" src="src/images/cashflow/arrow_up_icon.svg" alt="">
+                            6,000,000 $
+                        </span>
+                        </div>
+
+                        <div class="cashflow__table-grid cashflow__table-row">
+                            <span class="p3 cashflow__table-cell cashflow__table-label">Turnover rate</span>
+                            <span class="p3 cashflow__table-cell cashflow__table-value">3 Times per month</span>
+                            <span class="p3 cashflow__table-cell cashflow__table-value cashflow__table-value--with">6 Times per month</span>
+                        </div>
+
+                        <div class="cashflow__table-grid cashflow__table-row">
+                            <span class="p3 cashflow__table-cell cashflow__table-label">Net profit margin</span>
+                            <span class="p3 cashflow__table-cell cashflow__table-value">50%</span>
+                            <span class="p3 cashflow__table-cell cashflow__table-value cashflow__table-value--with">50%</span>
+                        </div>
+
+                        <div class="cashflow__table-grid cashflow__table-row">
+                            <span class="p3 cashflow__table-cell cashflow__table-label">Net profit</span>
+                            <span class="p3 cashflow__table-cell cashflow__table-value">1,500,000 $</span>
+                            <span class="p3 cashflow__table-cell cashflow__table-value cashflow__table-value--with">
+                            <span class="cashflow__table-amount">
+                                3,000,000 $
+                                <span class="p4 cashflow__table-fees">- 200,000 $ fees</span>
+                            </span>
+                        </span>
+                        </div>
+
+                        <p class="p3 cashflow__table-note">
+                            Despite classic corporate loans, our funding works differently.<br>
+                            There’s no ongoing interest. fees occur only when you use it.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cashflow__why" data-reveal-group>
+            <img class="cashflow__why-bg" src="src/images/cashflow/why_cashflow_bg.svg" alt="">
+
+            <div class="cashflow__why-left">
+                <h4 class="cashflow__why-title" data-reveal="fade">Why Cashflow?</h4>
+
+                <div class="cashflow__why-features">
+                    <div class="cashflow__why-feature" data-reveal="up" style="--reveal-delay: 0.1s">
+                        <span class="cashflow__why-icon"><img src="src/images/cashflow/rocket_icon.svg" alt=""></span>
+                        <p class="p3 cashflow__why-text">Skyrocket sales across multiple marketplaces and platforms.</p>
+                    </div>
+                    <div class="cashflow__why-feature" data-reveal="up" style="--reveal-delay: 0.2s">
+                        <span class="cashflow__why-icon"><img src="src/images/cashflow/buyers_icon.svg" alt=""></span>
+                        <p class="p3 cashflow__why-text">Reach more buyers using increased marketing efforts.</p>
+                    </div>
+                    <div class="cashflow__why-feature" data-reveal="up" style="--reveal-delay: 0.3s">
+                        <span class="cashflow__why-icon"><img src="src/images/cashflow/box_icon.svg" alt=""></span>
+                        <p class="p3 cashflow__why-text">Never run out of stock and always have plenty of the right
+                            inventory.</p>
+                    </div>
+                    <div class="cashflow__why-feature" data-reveal="up" style="--reveal-delay: 0.4s">
+                        <span class="cashflow__why-icon"><img src="src/images/cashflow/earth_icon.svg" alt=""></span>
+                        <p class="p3 cashflow__why-text">Grow your brand and sales by expanding your global reach.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cashflow__why-list">
+                <div class="p3 cashflow__why-item" data-reveal="up" style="--reveal-delay: 0.1s">
+                    <img class="cashflow__why-item-icon" src="src/images/cashflow/rectangle/black_rectangle_icon.svg"
+                         alt="">
+                    <b>Shorter cash cycles = more sales</b>
+                </div>
+                <div class="p3 cashflow__why-item" data-reveal="up" style="--reveal-delay: 0.18s">
+                    <img class="cashflow__why-item-icon" src="src/images/cashflow/rectangle/blue_rectangle_icon.svg"
+                         alt="">
+                    <span>From <b>$10,000</b> to <b>$500,000</b></span>
+                </div>
+                <div class="p3 cashflow__why-item" data-reveal="up" style="--reveal-delay: 0.26s">
+                    <img class="cashflow__why-item-icon" src="src/images/cashflow/rectangle/red_rectangle_icon.svg"
+                         alt="">
+                    <span>We advance 100% of your sales, nothing less</span>
+                </div>
+                <div class="p3 cashflow__why-item" data-reveal="up" style="--reveal-delay: 0.34s">
+                    <img class="cashflow__why-item-icon" src="src/images/cashflow/rectangle/green_rectangle_icon.svg"
+                         alt="">
+                    <span>No ongoing interest, no collateral</span>
+                </div>
+                <div class="p3 cashflow__why-item" data-reveal="up" style="--reveal-delay: 0.42s">
+                    <img class="cashflow__why-item-icon" src="src/images/cashflow/rectangle/orange_rectangle_icon-1.svg"
+                         alt="">
+                    <span>Does not affect your credit score</span>
+                </div>
+                <div class="p3 cashflow__why-item" data-reveal="up" style="--reveal-delay: 0.5s">
+                    <img class="cashflow__why-item-icon" src="src/images/cashflow/rectangle/orange_rectangle_icon-2.svg"
+                         alt="">
+                    <span>Same-day decision</span>
+                </div>
+
+                <button class="p3 cashflow__why-btn" type="button" data-reveal="up" style="--reveal-delay: 0.6s">
+                    Learn more
+                    <img class="cashflow__why-btn-arrow" src="src/images/cashflow/arrow-right_icon.svg" alt="">
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="how-to-apply">
+        <h3 class="how-to-apply__title" data-reveal>
+            How to apply <span class="how-to-apply__title-accent">for a Cashflow?</span>
+        </h3>
+
+        <ol class="how-to-apply__steps">
+            <li class="how-to-apply__step" data-reveal style="--reveal-delay: 0s">
+                <span class="how-to-apply__num">1</span>
+                <div class="how-to-apply__text">
+                    <h4 class="how-to-apply__step-title">Check if you qualify in 60 seconds</h4>
+                    <p class="how-to-apply__step-desc">See if you’re eligible without affecting your credit score</p>
+                </div>
+            </li>
+
+            <li class="how-to-apply__step" data-reveal style="--reveal-delay: .12s">
+                <span class="how-to-apply__num">2</span>
+                <div class="how-to-apply__text">
+                    <h4 class="how-to-apply__step-title">Apply online in 10 minutes</h4>
+                    <p class="how-to-apply__step-desc">Tell us about you and your business with our simple application</p>
+                </div>
+            </li>
+
+            <li class="how-to-apply__step" data-reveal style="--reveal-delay: .24s">
+                <span class="how-to-apply__num">3</span>
+                <div class="how-to-apply__text">
+                    <h4 class="how-to-apply__step-title">Get your decision</h4>
+                    <p class="how-to-apply__step-desc">If approved, you’ll receive a personalised quote based on your sales</p>
+                </div>
+            </li>
+
+            <li class="how-to-apply__step" data-reveal style="--reveal-delay: .36s">
+                <span class="how-to-apply__num">4</span>
+                <div class="how-to-apply__text">
+                    <h4 class="how-to-apply__step-title">Your account is funded</h4>
+                    <p class="how-to-apply__step-desc">Once you accept we run some final checks to process your loan and deposit the money straight into your account</p>
+                </div>
+            </li>
+        </ol>
+
+        <div class="how-to-apply__action">
+            <a class="how-to-apply__btn" href="#" data-reveal>Apply now</a>
+            <p class="how-to-apply__note" data-reveal style="--reveal-delay: .12s">
+                No obligation, personalized quote.
+                <span class="how-to-apply__note-accent">Cover cash gap with Tradecamp.</span>
+            </p>
+        </div>
+    </section>
+
+    <section class="cashback-reviews" data-cashback-reviews>
+        <div class="cashback-reviews__container">
+
+            <div class="cashback-reviews__row">
+
+                <!-- Cashbacks -->
+                <div class="cashback-reviews__card cashback-reviews__card--cashback" data-reveal data-parallax-zone>
+                    <div class="cashback-reviews__icons">
+                        <img class="cashback-reviews__icon cashback-reviews__icon--google" data-parallax-depth="10" src="src/images/cashback_reviews/gogle.svg" alt="Google Ads">
+                        <img class="cashback-reviews__icon cashback-reviews__icon--meta" data-parallax-depth="16" src="src/images/cashback_reviews/meta.svg" alt="Meta">
+                        <img class="cashback-reviews__icon cashback-reviews__icon--box" data-parallax-depth="8" src="src/images/cashback_reviews/box.svg" alt="">
+                        <img class="cashback-reviews__icon cashback-reviews__icon--bag" data-parallax-depth="14" src="src/images/cashback_reviews/bag.svg" alt="">
+                        <img class="cashback-reviews__icon cashback-reviews__icon--dropshipping" data-parallax-depth="12" src="src/images/cashback_reviews/dropshipping.svg" alt="">
+                    </div>
+
+                    <div class="cashback-reviews__text">
+                        <h4 class="cashback-reviews__title">Cashbacks</h4>
+                        <p class="p3 cashback-reviews__lead">
+                            <strong>Get back 1 %</strong>
+                            <span>on every business related purchase*</span>
+                        </p>
+                        <p class="p4 cashback-reviews__note">Google Ads, Meta Ads, packaging, shipping labels, etc.</p>
+                    </div>
+                </div>
+
+                <!-- Reviews -->
+                <div class="cashback-reviews__card cashback-reviews__card--reviews" data-reveal style="--reveal-delay: .1s">
+                    <h4 class="cashback-reviews__title cashback-reviews__title--reviews">What 11,000 businesses think about us</h4>
+
+                    <div class="cashback-reviews__ratings">
+                        <div class="cashback-reviews__rating" data-reveal style="--reveal-delay: .25s">
+                            <img class="cashback-reviews__rating-logo cashback-reviews__rating-logo--capterra" src="src/images/cashback_reviews/capterra.svg" alt="Capterra">
+                            <img class="cashback-reviews__rating-stars" src="src/images/cashback_reviews/capterra_stars.svg" alt="5 stars">
+                            <p class="p4 cashback-reviews__rating-name">Capterra</p>
+                        </div>
+
+                        <div class="cashback-reviews__rating" data-reveal style="--reveal-delay: .35s">
+                            <img class="cashback-reviews__rating-logo cashback-reviews__rating-logo--trustpilot" src="src/images/cashback_reviews/trustpilot.svg" alt="Trustpilot">
+                            <img class="cashback-reviews__rating-stars cashback-reviews__rating-stars--trustpilot" src="src/images/cashback_reviews/trustpilot_stars.svg" alt="4.5 stars">
+                            <p class="p4 cashback-reviews__rating-name">Trustpilot</p>
+                        </div>
+
+                        <div class="cashback-reviews__rating" data-reveal style="--reveal-delay: .45s">
+                            <img class="cashback-reviews__rating-logo cashback-reviews__rating-logo--g2" src="src/images/cashback_reviews/g2.svg" alt="G2">
+                            <img class="cashback-reviews__rating-stars" src="src/images/cashback_reviews/g2_stars.svg" alt="4.5 stars">
+                            <p class="p4 cashback-reviews__rating-name">G2, Spring’ 21 Leader</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Yield -->
+            <div class="cashback-reviews__card cashback-reviews__card--yield" data-reveal>
+                <div class="cashback-reviews__yield-text">
+                    <h4 class="cashback-reviews__yield-title">
+                        Up to 4.04% annual percentage yield with $3M FDIC insurance<sup>2</sup>
+                    </h4>
+                    <p class="p4 cashback-reviews__yield-desc">
+                        Maximize your returns with competitive yields on checking and savings, automatically optimized with $3M FDIC insurance on deposits through Thread Bank, member FDIC, for total peace of mind.
+                    </p>
+                    <a class="cashback-reviews__link" href="#">
+                        <span>Learn more about banking</span>
+                        <img src="src/images/cashback_reviews/right-arrow_icon.svg" alt="">
+                    </a>
+                </div>
+
+                <div class="cashback-reviews__yield-panel">
+                    <div class="cashback-reviews__table cashback-reviews__table--operating" data-reveal style="--reveal-delay: .2s">
+                        <div class="cashback-reviews__table-head">
+                            <img src="src/images/logo.svg" alt="">
+                            <span>Operating</span>
+                        </div>
+                        <div class="cashback-reviews__table-labels">
+                            <span>Balance</span>
+                            <span>APY</span>
+                        </div>
+                        <div class="cashback-reviews__table-row">
+                            <span>$100K - $250K</span>
+                            <span>0.75%</span>
+                        </div>
+                        <div class="cashback-reviews__table-row cashback-reviews__table-row--accent">
+                            <span>$250K +</span>
+                            <span>2.04%</span>
+                        </div>
+                    </div>
+
+                    <div class="cashback-reviews__table cashback-reviews__table--high-yield" data-reveal style="--reveal-delay: .35s">
+                        <div class="cashback-reviews__table-head">
+                            <img src="src/images/logo-with-percent.svg" alt="">
+                            <span>High yield</span>
+                        </div>
+                        <div class="cashback-reviews__table-row">
+                            <span>$0 - $1M</span>
+                            <span>3.0%</span>
+                        </div>
+                        <div class="cashback-reviews__table-row cashback-reviews__table-row--accent cashback-reviews__table-row--muted-left">
+                            <span>$1M - $5M</span>
+                            <span>4.04%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security -->
+            <div class="cashback-reviews__card cashback-reviews__card--security" data-reveal>
+                <div class="cashback-reviews__security-head">
+                    <h4 class="cashback-reviews__security-title">Bespoke, award-winning security systems</h4>
+                    <p class="p2 cashback-reviews__security-subtitle">We’ve always got your back.</p>
+                </div>
+
+                <div class="cashback-reviews__features">
+                    <div class="cashback-reviews__feature" data-reveal style="--reveal-delay: .15s">
+                        <img class="cashback-reviews__feature-icon" src="src/images/cashback_reviews/protection_icon.svg" alt="">
+                        <div class="cashback-reviews__feature-body">
+                            <p class="cashback-reviews__feature-title">Protection</p>
+                            <p class="p4 cashback-reviews__feature-desc">Your money is safeguarded by our banking partners. We do not lend, invest or have any access to your funds, maintaining 100 % liquidity at any given moment.</p>
+                        </div>
+                    </div>
+
+                    <div class="cashback-reviews__feature" data-reveal style="--reveal-delay: .25s">
+                        <img class="cashback-reviews__feature-icon" src="src/images/cashback_reviews/saved_icon.svg" alt="">
+                        <div class="cashback-reviews__feature-body">
+                            <p class="cashback-reviews__feature-title">Robust transaction monitoring</p>
+                            <p class="p4 cashback-reviews__feature-desc">We watch over your account to flag suspicious transactions, keep your card details safe, and ask for extra verification to protect your business</p>
+                        </div>
+                    </div>
+
+                    <div class="cashback-reviews__feature" data-reveal style="--reveal-delay: .35s">
+                        <img class="cashback-reviews__feature-icon" src="src/images/cashback_reviews/warning_icon.svg" alt="">
+                        <div class="cashback-reviews__feature-body">
+                            <p class="cashback-reviews__feature-title">Secure access</p>
+                            <p class="p4 cashback-reviews__feature-desc">Your data is protected behind multiple layers of authentication.<br>Two factor authentication is always enabled for additional security.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="client-profile" data-reveal-scope>
+        <img class="client-profile__lines" src="src/images/client_profile/lines_bg.svg" alt="" aria-hidden="true">
+
+        <div class="client-profile__container">
+            <h5 class="client-profile__title" data-reveal>
+                Tradecamp business account is perfect for international traders, marketplace sellers, ecommerce brands, B2B webshops
+                and wholesalers that receive and pay out large amounts of money in foreign currencies to and from different
+                countries worldwide.
+            </h5>
+
+            <div class="client-profile__cards">
+                <!-- Карточка с отзывом -->
+                <figure class="client-profile__review" data-reveal>
+                    <div class="client-profile__review-head">
+                        <img class="client-profile__review-logo" src="src/images/circle_logo.svg" alt="" aria-hidden="true">
+                        <p class="client-profile__review-title">Typical client profile:</p>
+                    </div>
+
+                    <blockquote class="client-profile__review-quote">
+                        <p class="client-profile__review-text">
+                            “I moved my business accounts to Tradecamp last month. Onboarding was thorough, extremely straightforward
+                            and professional. The complete opposite of high street banks”
+                        </p>
+                    </blockquote>
+
+                    <figcaption class="client-profile__review-author">
+                        <span class="client-profile__review-avatar">
+                            <img src="src/images/client_profile/robert_icon.svg" alt="">
+                        </span>
+                        <span class="client-profile__review-info">
+                            <span class="client-profile__review-name">Robert</span>
+                            <img class="client-profile__review-stars" src="src/images/client_profile/stars_icon.svg" alt="Rated 5 out of 5">
+                        </span>
+                        <img class="client-profile__review-flag" src="src/images/client_profile/uk_flag.svg" alt="United Kingdom">
+                    </figcaption>
+                </figure>
+
+                <!-- Карточка с профилем -->
+                <dl class="client-profile__table" data-reveal>
+                    <div class="client-profile__row">
+                        <dt class="p2 client-profile__label">
+                            <img class="client-profile__icon" src="src/images/client_profile/case_icon.svg" alt="" aria-hidden="true">
+                            <span class="client-profile__label-text">Profile</span>
+                        </dt>
+                        <dd class="p2 client-profile__value">Wholesale trader</dd>
+                    </div>
+
+                    <div class="client-profile__row">
+                        <dt class="p2 client-profile__label">
+                            <img class="client-profile__icon" src="src/images/client_profile/box_icon.svg" alt="" aria-hidden="true">
+                            <span class="client-profile__label-text">Product</span>
+                        </dt>
+                        <dd class="p2 client-profile__value">Consumer electronics</dd>
+                    </div>
+
+                    <div class="client-profile__row">
+                        <dt class="p2 client-profile__label">
+                            <img class="client-profile__icon" src="src/images/client_profile/clients_icon.svg" alt="" aria-hidden="true">
+                            <span class="client-profile__label-text">Clients</span>
+                        </dt>
+                        <dd class="p2 client-profile__value">Receive funds from clients in UK, Finland, France</dd>
+                    </div>
+
+                    <div class="client-profile__row">
+                        <dt class="p2 client-profile__label">
+                            <img class="client-profile__icon" src="src/images/client_profile/payees_icon.svg" alt="" aria-hidden="true">
+                            <span class="client-profile__label-text">Payees</span>
+                        </dt>
+                        <dd class="p2 client-profile__value">Pay to suppliers from China, Korea, Canada, Germany</dd>
+                    </div>
+
+                    <div class="client-profile__row">
+                        <dt class="p2 client-profile__label">
+                            <img class="client-profile__icon" src="src/images/client_profile/currency_icon.svg" alt="" aria-hidden="true">
+                            <span class="client-profile__label-text">Currencies</span>
+                        </dt>
+                        <dd class="p2 client-profile__value">USD, CNY, EUR</dd>
+                    </div>
+
+                    <div class="client-profile__row">
+                        <dt class="p2 client-profile__label">
+                            <img class="client-profile__icon" src="src/images/client_profile/money_icon.svg" alt="" aria-hidden="true">
+                            <span class="client-profile__label-text">Avg payment</span>
+                        </dt>
+                        <dd class="p2 client-profile__value">$&nbsp;30,000</dd>
+                    </div>
+
+                    <div class="client-profile__row">
+                        <dt class="p2 client-profile__label">
+                            <img class="client-profile__icon" src="src/images/client_profile/paylater_icon.svg" alt="" aria-hidden="true">
+                            <span class="client-profile__label-text">Turnover</span>
+                        </dt>
+                        <dd class="p2 client-profile__value">$&nbsp;5&nbsp;mil per annum</dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer__inner">
+
+            <p class="footer__title">
+                <span class="footer__title-line" data-reveal>We've saved customers $740m in fees.</span>
+                <span class="footer__title-line footer__accent" data-reveal style="--reveal-delay: 0.12s">
+                Tradecamp is one of the fastest growing fintech companies in the US
+            </span>
+            </p>
+
+            <div class="footer__banner" data-reveal style="--reveal-delay: 0.2s">
+                <img class="footer__banner-lines" src="src/images/footer/lines_bg.svg" alt="" aria-hidden="true">
+
+                <div class="footer__banner-content">
+                    <p class="footer__banner-text" data-reveal-child style="--reveal-delay: 0.45s">
+                        We are 10x better and 10x cheaper<br>
+                        than any traditional trade bank
+                    </p>
+                    <a class="footer__btn" href="#" data-reveal-child style="--reveal-delay: 0.6s">Get started</a>
+                </div>
+            </div>
+
+            <p class="footer__slogan" data-reveal>
+                Banking is necessary, <span class="footer__accent">Banks are not</span>
+            </p>
+
+            <div class="footer__divider"></div>
+
+            <div class="footer__company">
+                <a href="/" class="footer__logo-link">
+                    <img class="footer__logo" src="src/images/tradecamp_logo.svg" alt="Tradecamp">
+                </a>
+                <address class="footer__address">
+                    Tradecamp Inc<br>
+                    71 5th Avenue, 6th Floor<br>
+                    New York, NY 10003. USA
+                </address>
+            </div>
+
+            <nav class="footer__nav">
+                <div class="footer__col">
+                    <p class="footer__col-title">What you get</p>
+                    <ul class="footer__list">
+                        <li><a class="footer__link" href="#">Business account</a></li>
+                        <li><a class="footer__link" href="#">Payment processing</a></li>
+                        <li><a class="footer__link" href="#">B2B Checkout</a></li>
+                        <li><a class="footer__link" href="#">Cards</a></li>
+                        <li><a class="footer__link" href="#">Capital</a></li>
+                        <li><a class="footer__link" href="#">Cashflow</a></li>
+                        <li><a class="footer__link" href="#">Treasury</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__col">
+                    <p class="footer__col-title">Help and Support</p>
+                    <ul class="footer__list">
+                        <li><a class="footer__link" href="#">Pricing plans</a></li>
+                        <li><a class="footer__link" href="#">Fees</a></li>
+                        <li><a class="footer__link" href="#">Help centre</a></li>
+                        <li><a class="footer__link" href="#">Payment guides</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__col">
+                    <p class="footer__col-title">Developers</p>
+                    <ul class="footer__list">
+                        <li><a class="footer__link" href="#">Product Documentation</a></li>
+                        <li><a class="footer__link" href="#">API Reference</a></li>
+                        <li><a class="footer__link" href="#">Service status</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__col">
+                    <p class="footer__col-title">Partnerships</p>
+                    <ul class="footer__list">
+                        <li><a class="footer__link" href="#">Become a partner</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__col">
+                    <a class="footer__col-title footer__col-title--link" href="#">Coverage</a>
+                </div>
+
+                <div class="footer__col">
+                    <p class="footer__col-title">Company</p>
+                    <ul class="footer__list">
+                        <li><a class="footer__link" href="#">Who we are</a></li>
+                        <li><a class="footer__link" href="#">Careers</a></li>
+                        <li><a class="footer__link" href="#">Blog</a></li>
+                        <li><a class="footer__link" href="#">Newsroom</a></li>
+                        <li><a class="footer__link" href="#">FAQ</a></li>
+                        <li><a class="footer__link" href="#">Forbidden jurisdictions</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__col">
+                    <p class="footer__col-title">Contact</p>
+                    <ul class="footer__list">
+                        <li><a class="footer__link" href="mailto:sales@tradecamp.co">sales@tradecamp.co</a></li>
+                        <li><a class="footer__link" href="mailto:support@tradecamp.co">support@tradecamp.co</a></li>
+                        <li><a class="footer__link" href="mailto:careers@tradecamp.co">careers@tradecamp.co</a></li>
+                        <li><a class="footer__link" href="mailto:press@tradecamp.co">press@tradecamp.co</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="footer__bottom">
+                <div class="footer__lang" data-lang-select data-value="us">
+                    <button class="footer__lang-toggle" type="button" aria-haspopup="listbox" aria-expanded="false" data-lang-toggle>
+                    <span class="footer__lang-current">
+                        <img class="footer__lang-flag" src="src/images/footer/flag-us.svg" alt="" data-lang-current-flag>
+                        <span class="footer__lang-label" data-lang-current-label>United States</span>
+                    </span>
+                        <img class="footer__lang-arrow" src="src/images/footer/arrow-down_icon.svg" alt="" aria-hidden="true">
+                    </button>
+
+                    <ul class="footer__lang-list" role="listbox" data-lang-list>
+                        <li class="footer__lang-option is-selected" role="option" tabindex="0" aria-selected="true"
+                            data-lang-option data-value="us" data-label="United States" data-flag="src/images/footer/flag-us.svg">
+                            <img class="footer__lang-flag" src="src/images/footer/flag-us.svg" alt="">
+                            <span class="footer__lang-label">United States</span>
+                        </li>
+                        <li class="footer__lang-option" role="option" tabindex="0" aria-selected="false"
+                            data-lang-option data-value="eu" data-label="European Union" data-flag="src/images/footer/flag-eu.svg">
+                            <img class="footer__lang-flag" src="src/images/footer/flag-eu.svg" alt="">
+                            <span class="footer__lang-label">European Union</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer__social">
+                    <a class="footer__social-link" href="#" aria-label="Facebook">
+                        <img src="src/images/footer/facebook.svg" alt="">
+                    </a>
+                    <a class="footer__social-link" href="#" aria-label="LinkedIn">
+                        <img src="src/images/footer/linkedin.svg" alt="">
+                    </a>
+                    <a class="footer__social-link footer__social-link--whatsapp" href="#" aria-label="WhatsApp">
+                        <img src="src/images/footer/whatsapp.svg" alt="">
+                    </a>
+                    <a class="footer__social-link footer__social-link--x" href="#" aria-label="X">
+                        <img src="src/images/footer/x.svg" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <a class="footer__api" href="#">
+            <span class="footer__api-icon">
+                <img src="src/images/footer/api_status_icon.svg" alt="">
+            </span>
+                API Status
+            </a>
+
+            <div class="footer__divider footer__divider--full"></div>
+
+            <div class="footer__legal">
+                <p>
+                    © 2026 Tradecamp, Tradecamp Inc and the Tradecamp logo are trademarks of the company.<br>
+                    Tradecamp is a financial technology company, not a bank. Banking services are provided by Thread Bank, Member FDIC. and The Currency Cloud Inc., pursuant to the money transmitter regulations of the various States where it is licensed, NMLS ID: 1428924.
+                </p>
+                <p>The Currency Cloud Inc. is registered with FinCEN under registration number 31000112572477</p>
+                <p>
+                    Your deposits qualify for up to $3,000,000 in FDIC insurance coverage when placed at program banks in the Thread Bank deposit sweep program.<br>
+                    Your deposits at each program bank become eligible for FDIC insurance up to $250,000, inclusive of any other deposits you may already hold at the bank in the same ownership capacity.<br>
+                    You can access the terms and conditions of the sweep program here and a list of program banks here. Please contact
+                    <a href="mailto:customerservice@thread.bank">customerservice@thread.bank</a> with questions on the sweep program.
+                </p>
+                <p>The Tradecamp Debit card is issued by Thread Bank, pursuant to a license from Visa U.S.A. Inc. and may be used everywhere Visa cards are accepted.</p>
+            </div>
+
+        </div>
+    </footer>
+
+
+</main>
+
+<script src="src/animations/carousel.js"></script>
+
+<script src="src/animations/ecosystem_title-highlight.js"></script>
+<script src="src/animations/ecosystem_mentions-reval.js"></script>
+
+<script src="src/animations/accounts.js"></script>
+<script src="src/animations/processing.js"></script>
+<script src="src/animations/payments.js"></script>
+<script src="src/animations/b2b-checkout.js"></script>
+<script src="src/animations/cashflow.js"></script>
+<script src="src/animations/how-to-apply.js"></script>
+<script src="src/animations/cashback_reviews.js"></script>
+<script src="src/animations/client-profile.js"></script>
+<script src="src/animations/footer.js"></script>
+
+
+</body>
 </html>

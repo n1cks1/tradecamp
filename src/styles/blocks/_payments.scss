@@ -1,0 +1,180 @@
+@use '../variables';
+@use '../mixins';
+
+// Локальные цвета — при желании вынеси в variables
+$payments-bg: #fafafa;
+$payments-muted: #7b7b80;
+$payments-text: #6b6b70;
+$payments-line: #d9d9dc;
+$payments-accent: #e6007e;
+
+// Геометрия сетки платёжек (значения из макета, база 1440)
+$payments-tile: 116;
+$payments-gap: 6;
+$payments-cols: 11;
+$payments-rows: 3;
+$payments-step: $payments-tile + $payments-gap;                                     // 122
+$payments-grid-w: $payments-cols * $payments-tile + ($payments-cols - 1) * $payments-gap; // 1336
+$payments-grid-h: $payments-rows * $payments-tile + ($payments-rows - 1) * $payments-gap; // 360
+$payments-featured: 3 * $payments-tile + 2 * $payments-gap;                         // 360
+
+$payments-ease: cubic-bezier(0.45, 0, 0.25, 1); // мягкий разгон и долгое торможение
+
+.payments {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $payments-bg;
+  @include mixins.fluid-vw(padding-top, 110);
+  @include mixins.fluid-vw(padding-bottom, 120);
+
+  // ---------- Header ----------
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__title-line {
+    display: block;
+
+    &--muted {
+      color: $payments-muted;
+    }
+  }
+
+  &__subtitle {
+    @include mixins.fluid-vw(margin-top, 16);
+    color: $payments-text;
+
+    // появление при попадании в зону видимости
+    opacity: 0;
+    @include mixins.fluid-vw(--subtitle-shift, 24);
+    transform: translateY(var(--subtitle-shift));
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  &.is-visible &__subtitle {
+    opacity: 1;
+    transform: none;
+  }
+
+  // ---------- Grid ----------
+  // Плитки позиционируются абсолютно и двигаются через transform:
+  // payments.js выставляет каждой --col / --row (0-based) по кадрам анимации.
+  &__grid {
+    --step: #{mixins.fluid-value-vw($payments-step)};
+
+    position: relative;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, $payments-grid-w);
+    @include mixins.fluid-vw(height, $payments-grid-h);
+    margin: 0;
+    @include mixins.fluid-vw(margin-top, 56);
+    padding: 0;
+    list-style: none;
+  }
+
+  &__method {
+    position: absolute;
+    top: 0;
+    left: 0;
+    @include mixins.fluid-vw(width, $payments-tile);
+    @include mixins.fluid-vw(height, $payments-tile);
+    // скругление и обводка уже есть в самих svg — не обрезаем их
+    transform: translate(
+            calc(var(--col, 0) * var(--step)),
+            calc(var(--row, 0) * var(--step))
+    );
+    // ход = сдвиг на одну клетку, поэтому переход короткий
+    transition: transform 1.1s $payments-ease, opacity 0.8s ease;
+    will-change: transform;
+
+    // iDEAL: в кадрах макета его нет — плавно исчезает на первом ходе
+    &.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &--featured {
+      --col: 4;
+      --row: 0;
+
+      @include mixins.fluid-vw(width, $payments-featured);
+      @include mixins.fluid-vw(height, $payments-featured);
+      transition: none;
+      will-change: auto;
+    }
+  }
+
+  &__method-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  // logo-tradecamp.svg — это целый большой блок (фон + лого), растягиваем на всю ячейку 3×3
+  &__featured-logo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  // ---------- Features ----------
+  &__features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    @include mixins.fluid-vw(column-gap, 20);
+    // по ширине сетки платёжек, чтобы края совпадали
+    @include mixins.fluid-vw(width, $payments-grid-w);
+    margin: 0;
+    @include mixins.fluid-vw(margin-top, 60);
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+  }
+
+  &__feature {
+    border-top: 1px solid $payments-line;
+    @include mixins.fluid-vw(padding-top, 32);
+  }
+
+  &__feature-head {
+    display: flex;
+    align-items: flex-start;
+    @include mixins.fluid-vw(gap, 14);
+    // резерв под 2 строки заголовка, чтобы тексты стояли на одной линии
+    @include mixins.fluid-vw(min-height, 60);
+    @include mixins.fluid-vw(margin-bottom, 14);
+  }
+
+  &__feature-icon {
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 25);
+    @include mixins.fluid-vw(height, 25);
+  }
+
+  &__feature-title {
+    font-weight: 600;
+  }
+
+  &__feature-text {
+    color: $payments-text;
+  }
+
+  // ---------- Reduced motion ----------
+  @media (prefers-reduced-motion: reduce) {
+    &__subtitle {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    &__method {
+      transition: none;
+    }
+  }
+}

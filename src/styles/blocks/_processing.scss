@@ -1,0 +1,341 @@
+@use '../mixins';
+@use '../variables';
+
+// ───────── настройки анимаций ─────────
+$reveal-duration: 0.8s;
+$reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+$rise-distance: 40; // на сколько px (в масштабе макета) заголовок «всплывает» снизу
+
+// линия и движущийся отрезок (значения в единицах viewBox SVG, от масштаба не зависят)
+$line-color: #E4E7EB;   // серая линия
+$beam-color: #4963DF;   // движущийся синий отрезок
+$beam-length: 15;      // длина отрезка, как в макете
+$beam-path-length: 1010; // длина самой длинной ветки (с участком под телефоном)
+$beam-delay: 0.6s;      // пауза после старта появления ядра
+$beam-duration: 3.2s;   // скорость движения: больше — медленнее
+
+.processing {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #FAFAFA;
+  font-family: "NeueAugenblick", sans-serif;
+  color: #1D222A;
+  @include mixins.fluid-vw(padding-inline, 60);
+  @include mixins.fluid-vh(padding-top, 36);
+  @include mixins.fluid-vh(padding-bottom, 90);
+
+  // ───────── логотипы платёжных систем ─────────
+  &__systems {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include mixins.fluid-vw(gap, 62);
+    @include mixins.fluid-vw(height, 54);
+  }
+
+  &__system {
+    display: block;
+    width: auto;
+  }
+
+  // у каждого логотипа своя высота по макету
+  &__systems > li:nth-child(1) &__system { @include mixins.fluid-vw(height, 48); } // SWIFT
+  &__systems > li:nth-child(2) &__system { @include mixins.fluid-vw(height, 29); } // ACH
+  &__systems > li:nth-child(3) &__system { @include mixins.fluid-vw(height, 54); } // Faster Payments
+  &__systems > li:nth-child(4) &__system { @include mixins.fluid-vw(height, 29); } // EFT
+  &__systems > li:nth-child(5) &__system { @include mixins.fluid-vw(height, 29); } // SEPA
+  &__systems > li:nth-child(6) &__system { @include mixins.fluid-vw(height, 48); } // CHAPS
+
+  // ───────── заголовочная часть ─────────
+  &__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    background-color: #EFEFEF;
+    border-radius: 999px;
+    @include mixins.fluid-vh(margin-top, 22);
+    @include mixins.fluid-vw(height, 48);
+    @include mixins.fluid-vw(padding-inline, 20);
+    @include mixins.fluid-vw(gap, 15);
+
+    &-brand {
+      font-weight: 600;
+      @include mixins.fluid-vw(font-size, 20);
+    }
+
+    &-name {
+      border-left: 1px solid #1D222A;
+      @include mixins.fluid-vw(padding-left, 15);
+    }
+  }
+
+  &__title {
+    margin: 0;
+    @include mixins.fluid-vh(margin-top, 22);
+  }
+
+  &__subtitle {
+    margin: 0;
+    color: variables.$color-black-70;
+    @include mixins.fluid-vh(margin-top, 12);
+  }
+
+  // ───────── схема ─────────
+  // Все размеры схемы в vw: телефон, линия и сетка масштабируются одинаково
+  // и не «разъезжаются» на экранах с другим соотношением сторон.
+  // Телефон и провайдеры прижаты к концам линии.
+  &__diagram {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include mixins.fluid-vh(margin-top, 55);
+  }
+
+  &__phone {
+    position: relative;
+    z-index: 1; // линия начинается под телефоном и выходит из-под его края
+    flex-shrink: 0;
+    display: block;
+    width: auto;
+    @include mixins.fluid-vw(height, 500);
+  }
+
+  // середина фиксированной ширины = ширина линии в макете
+  &__flow {
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include mixins.fluid-vw(width, 810);
+  }
+
+  // линия тянется на всю ширину flow, центр — под ядром
+  &__connector {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 810 / 127;
+    display: block;
+    overflow: visible;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  // синий отрезок: dash длиной $beam-length, остальное — пустой промежуток.
+  // Изначально стоит перед началом линии и не виден.
+  &__line {
+    stroke: $line-color;
+    stroke-width: 2.18945;
+    stroke-linecap: round;
+  }
+
+  &__beam {
+    stroke: $beam-color;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: $beam-length ($beam-path-length + 100);
+    stroke-dashoffset: $beam-length + 2;
+  }
+
+  // ───────── ядро ─────────
+  // две тёмные плашки вплотную друг к другу, у каждой свои скругления:
+  // сверху логотип, ниже сетка фич
+  &__core {
+    position: relative;
+    z-index: 1; // поверх линии: синий отрезок проходит под блоком
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    @include mixins.fluid-vw(width, 325);
+    @include mixins.fluid-vw(margin-bottom, 12); // в макете ядро чуть выше линии
+
+    &-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #1C1E26;
+      @include mixins.fluid-vw(height, 95);
+      @include mixins.fluid-vw(border-radius, 10);
+    }
+
+    &-logo {
+      display: block;
+      width: auto;
+      @include mixins.fluid-vw(height, 30);
+    }
+
+    &-body {
+      background-color: #1C1E26;
+      @include mixins.fluid-vw(border-radius, 10);
+      @include mixins.fluid-vw(padding-top, 12);
+      @include mixins.fluid-vw(padding-inline, 7);
+      @include mixins.fluid-vw(padding-bottom, 10);
+    }
+  }
+
+  &__features {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    @include mixins.fluid-vw(gap, 6);
+  }
+
+  &__feature {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #33353C;
+    @include mixins.fluid-vw(height, 73);
+    @include mixins.fluid-vw(gap, 8);
+    @include mixins.fluid-vw(border-radius, 10);
+
+    &-icon {
+      display: block;
+      flex-shrink: 0;
+      object-fit: contain;
+      @include mixins.fluid-vw(width, 25);
+      @include mixins.fluid-vw(height, 25);
+    }
+
+    &-text {
+      white-space: nowrap;
+      color: variables.$color-white;
+
+      &--small {
+        @include mixins.fluid-vw(font-size, 18);
+      }
+    }
+  }
+
+  // ───────── сетка провайдеров 2 × 4 ─────────
+  &__providers {
+    flex-shrink: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    @include mixins.fluid-vw(width, 226);
+    @include mixins.fluid-vw(gap, 10);
+  }
+
+  &__provider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    @include mixins.fluid-vw(height, 104);
+    @include mixins.fluid-vw(border-radius, 14);
+
+    &-logo {
+      display: block;
+      object-fit: contain;
+      width: 75%;
+      height: 55%;
+    }
+  }
+
+  // ═════════ АНИМАЦИИ ═════════
+  // Класс .is-animated вешает JS. Без JS всё просто видно сразу.
+
+  &.is-animated {
+    // проявление из прозрачности: label и ядро
+    [data-reveal='fade'] {
+      opacity: 0;
+      transition: opacity $reveal-duration ease;
+
+      &.is-revealed {
+        opacity: 1;
+      }
+    }
+
+    // логотипы систем: сам ul виден, проявляются li по очереди
+    .processing__systems[data-reveal='fade'] {
+      opacity: 1;
+
+      > li {
+        opacity: 0;
+        transition: opacity $reveal-duration ease;
+      }
+
+      @for $i from 1 through 6 {
+        &.is-revealed > li:nth-child(#{$i}) {
+          opacity: 1;
+          transition-delay: #{($i - 1) * 0.08}s;
+        }
+      }
+    }
+
+    // выезд снизу: заголовок и подзаголовок
+    [data-reveal='rise'] {
+      opacity: 0;
+      transform: translateY(mixins.fluid-value-vw($rise-distance));
+      transition:
+              opacity $reveal-duration ease,
+              transform $reveal-duration $reveal-ease;
+
+      &.is-revealed {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .processing__subtitle.is-revealed {
+      transition-delay: 0.12s;
+    }
+
+    // синий отрезок стартует, когда ядро начало появляться
+    .processing__core.is-revealed ~ .processing__connector .processing__beam {
+      animation: processing-beam $beam-duration cubic-bezier(0.45, 0, 0.55, 1) $beam-delay forwards;
+    }
+  }
+}
+
+// отрезок въезжает слева у телефона, идёт по линии, на развилке раздваивается
+// (две ветки) и уходит за концы линий — пропадает
+@keyframes processing-beam {
+  from {
+    stroke-dashoffset: $beam-length + 2;
+  }
+  to {
+    stroke-dashoffset: -($beam-path-length + 2);
+  }
+}
+
+// без анимаций для тех, кто их отключил в системе
+@media (prefers-reduced-motion: reduce) {
+  .processing.is-animated {
+    [data-reveal],
+    .processing__systems > li {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    .processing__beam {
+      animation: none !important;
+    }
+  }
+}

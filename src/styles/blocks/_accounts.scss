@@ -1,0 +1,417 @@
+@use '../mixins';
+@use '../variables';
+
+// ───────── анимация появления ─────────
+$reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+$reveal-duration: 0.9s;
+// задержку между элементами, попавшими в экран одновременно, ставит accounts.js
+
+// ───────── раздвижение карт при наведении ─────────
+$spread-duration: 1.1s;
+$spread-ease: cubic-bezier(0.45, 0, 0.2, 1); // мягкий разгон и мягкая остановка
+$spread-shift: 18; // px в макете 1440, на сколько разъезжаются элементы
+
+.accounts {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  background-color: #FAFAFA;
+  font-family: "NeueAugenblick", sans-serif;
+  color: #1D222A;
+  @include mixins.fluid-vw(padding-inline, 60);
+  @include mixins.fluid-vw(padding-top, 89);
+  @include mixins.fluid-vw(padding-bottom, 42);
+
+  // каждый элемент выезжает снизу сам, когда доходит до экрана.
+  // элементы прячутся только когда JS готов (класс ставит accounts.js),
+  // без JS секция просто видна
+  &.reveal-ready [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, mixins.fluid-value-vw(50), 0);
+    // translate (сдвиг при наведении) идёт без задержки появления
+    transition:
+            opacity $reveal-duration ease var(--reveal-delay, 0ms),
+            transform $reveal-duration $reveal-ease var(--reveal-delay, 0ms),
+            translate $spread-duration $spread-ease 0ms;
+  }
+
+  &.reveal-ready [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  // список валют целиком заезжает справа налево и встаёт по центру
+  &.reveal-ready [data-reveal='slide-left'] {
+    transform: translate3d(mixins.fluid-value-vw(80), 0, 0);
+    transition:
+            opacity 1s ease var(--reveal-delay, 0ms),
+            transform 1.1s $reveal-ease var(--reveal-delay, 0ms);
+  }
+
+  &.reveal-ready [data-reveal='slide-left'].is-visible {
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &.reveal-ready [data-reveal] {
+      transform: none;
+      transition: opacity 0.4s ease;
+    }
+  }
+
+  // при наведении на блок с картами: карта уезжает влево,
+  // большая панель вместе с меню — вправо, одинаково, как один элемент.
+  // оранжевая плашка с вопросиком стоит на месте.
+  // используется свойство translate, а не transform, чтобы не конфликтовать
+  // с анимацией появления
+  &__card,
+  &__panel,
+  &__menu {
+    transition: translate $spread-duration $spread-ease;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &__visual:hover &__card {
+      translate: (-1 * mixins.fluid-value-vw($spread-shift)) 0;
+    }
+
+    &__visual:hover &__panel,
+    &__visual:hover &__menu {
+      translate: mixins.fluid-value-vw($spread-shift) 0;
+    }
+  }
+
+  // фон с линиями: растягивается на всю секцию
+  &__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  // ───────── верхняя часть: две колонки ─────────
+  // 60 + 552 + 690 + 60 = 1362 → остаток уходит в промежуток,
+  // раньше сумма была 1470 и правая часть вылезала за 1440
+  &__main {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    @include mixins.fluid-vw(gap, 40);
+  }
+
+  // ───────── левая колонка ─────────
+  &__content {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    @include mixins.fluid-vw(width, 552);
+    @include mixins.fluid-vw(margin-top, 46);
+  }
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    @include mixins.fluid-vw(gap, 16);
+  }
+
+  &__title {
+    margin: 0;
+    @include mixins.fluid-vw(max-width, 480);
+  }
+
+  // плашка: кружок с иконкой + отдельная пилюля
+  &__label {
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(gap, 4);
+
+    &-icon {
+      display: block;
+      flex-shrink: 0;
+      box-sizing: border-box;
+      object-fit: contain;
+      border-radius: 50%;
+      background-color: #FCE8D4;
+      @include mixins.fluid-vw(width, 45);
+      @include mixins.fluid-vw(height, 45);
+      @include mixins.fluid-vw(padding, 10);
+    }
+
+    &-pill {
+      display: flex;
+      align-items: center;
+      background-color: #FAF0E6;
+      border-radius: 999px;
+      @include mixins.fluid-vw(height, 45);
+      @include mixins.fluid-vw(padding-inline, 20);
+      @include mixins.fluid-vw(gap, 15);
+    }
+
+    &-brand,
+    &-name {
+      line-height: 1.2;
+      @include mixins.fluid-vw(font-size, 20);
+    }
+
+    &-brand {
+      font-weight: 600;
+    }
+
+    &-name {
+      font-weight: 400;
+      border-left: 1px solid #1D222A; // линия только по высоте текста
+      @include mixins.fluid-vw(padding-left, 15);
+    }
+  }
+
+  // отступы были в vh, а всё остальное в vw: на разных экранах список «плыл»
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    @include mixins.fluid-vw(margin-top, 45);
+    @include mixins.fluid-vw(gap, 25);
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    @include mixins.fluid-vw(column-gap, 29);
+
+    &-marker {
+      flex-shrink: 0;
+      display: block;
+      object-fit: contain;
+      @include mixins.fluid-vw(width, 14);
+      @include mixins.fluid-vw(height, 14);
+      @include mixins.fluid-vw(margin-top, 8); // (30 − 14) / 2
+    }
+
+    &-text {
+      color: variables.$color-black-70;
+    }
+  }
+
+  // ───────── правая часть ─────────
+  // всё в vw, чтобы композиция масштабировалась как единое целое
+  &__visual {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 690);  // = правый край меню (525 + 165)
+    @include mixins.fluid-vw(height, 640); // = низ плашки (536 + 91) + запас
+  }
+
+  &__card {
+    position: absolute;
+    display: block;
+    height: auto;
+    @include mixins.fluid-vw(left, 42);
+    @include mixins.fluid-vw(top, 61);
+    @include mixins.fluid-vw(width, 323);
+  }
+
+  &__panel {
+    position: absolute;
+    display: block;
+    height: auto;
+    @include mixins.fluid-vw(left, 193);
+    @include mixins.fluid-vw(top, 136);
+    @include mixins.fluid-vw(width, 395);
+  }
+
+  &__menu {
+    position: absolute;
+    z-index: 1;
+    display: block;
+    height: auto;
+    @include mixins.fluid-vw(left, 525);
+    @include mixins.fluid-vw(top, 310);
+    @include mixins.fluid-vw(width, 165);
+  }
+
+  // оранжевая плашка
+  &__note {
+    position: absolute;
+    z-index: 3;
+    box-sizing: border-box;
+    background: linear-gradient(90deg, #EDB285 0%, #F0B887 100%); // сверить градиент в Figma
+    @include mixins.fluid-vw(left, 0);
+    @include mixins.fluid-vw(top, 536);
+    @include mixins.fluid-vw(width, 358);
+    @include mixins.fluid-vw(min-height, 91);
+    @include mixins.fluid-vw(padding-block, 25);
+    @include mixins.fluid-vw(padding-inline, 29);
+    @include mixins.fluid-vw(border-radius, 8);
+
+    &-text {
+      margin: 0;
+      line-height: 1.3;
+      font-weight: 400;
+      color: #1D222A;
+      @include mixins.fluid-vw(font-size, 16);
+
+      strong {
+        font-weight: 700;
+      }
+    }
+
+    // кнопка-вопросик в правом верхнем углу
+    &-hint {
+      position: absolute;
+      display: block;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      background: none;
+      cursor: help;
+      border-radius: 50%;
+      @include mixins.fluid-vw(right, 9);
+      @include mixins.fluid-vw(top, 8);
+      @include mixins.fluid-vw(width, 18);
+      @include mixins.fluid-vw(height, 18);
+
+      // увеличенная зона наведения/тапа, иконка остаётся 18px
+      &::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+      }
+
+      &:focus-visible {
+        outline: 2px solid #1D222A;
+        outline-offset: 2px;
+      }
+    }
+
+    &-icon {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.2s ease;
+    }
+
+    &-hint:hover &-icon,
+    &-hint:focus-visible &-icon,
+    &-hint[aria-expanded='true'] &-icon {
+      transform: scale(1.15);
+    }
+  }
+
+  // белый тултип: позиция над плашкой, как в макете (left 153, над top 536)
+  &__tooltip {
+    position: absolute;
+    z-index: 2;
+    box-sizing: border-box;
+    background: #FFFFFF;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    bottom: calc(100% + #{mixins.fluid-value-vw(12)});
+    @include mixins.fluid-vw(left, 153);
+    @include mixins.fluid-vw(width, 313);
+    @include mixins.fluid-vw(padding-block, 12);
+    @include mixins.fluid-vw(padding-inline, 20);
+    @include mixins.fluid-vw(border-radius, 8);
+
+    // скрыт по умолчанию
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate3d(0, 6px, 0);
+    transition:
+            opacity 0.25s ease,
+            transform 0.25s ease,
+            visibility 0s linear 0.25s;
+
+    // хвостик, указывает на вопросик (центр иконки: 358 − 9 − 9 = 340 от плашки)
+    &::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      @include mixins.fluid-vw(left, 340 - 153 - 7);
+      border-style: solid;
+      border-color: #FFFFFF transparent transparent transparent;
+      @include mixins.fluid-vw(border-width, 7);
+      border-bottom-width: 0;
+    }
+
+    &-text {
+      // в глобальном .p4 line-height = font-size, для 4 строк слишком плотно
+      @include mixins.fluid-vw(line-height, 22);
+    }
+  }
+
+  &__note-hint:hover + &__tooltip,
+  &__note-hint:focus-visible + &__tooltip,
+  &__note-hint[aria-expanded='true'] + &__tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+            opacity 0.25s ease,
+            transform 0.25s ease,
+            visibility 0s linear 0s;
+  }
+
+  // ───────── нижний блок: валюты ─────────
+  &__currencies {
+    position: relative;
+    z-index: 1;
+    @include mixins.fluid-vw(margin-top, 200); // сверить расстояние в Figma
+
+    &-title {
+      margin: 0;
+      text-align: center;
+      font-weight: 500;
+      line-height: 1.17;
+      @include mixins.fluid-vw(font-size, 36); // сверить размер в Figma
+    }
+
+    &-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      @include mixins.fluid-vw(gap, 9);
+      @include mixins.fluid-vw(margin-top, 57);
+    }
+  }
+
+  &__currency {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    @include mixins.fluid-vw(gap, 10);
+    @include mixins.fluid-vw(height, 60);
+    @include mixins.fluid-vw(border-radius, 6);
+
+    &-flag {
+      display: block;
+      flex-shrink: 0;
+      object-fit: contain;
+      @include mixins.fluid-vw(width, 35);
+      @include mixins.fluid-vw(height, 25);
+    }
+
+    &-code {
+      font-weight: 700;
+      line-height: 1;
+      @include mixins.fluid-vw(font-size, 18);
+    }
+  }
+}

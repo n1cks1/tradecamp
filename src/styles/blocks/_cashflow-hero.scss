@@ -1,0 +1,455 @@
+@use 'sass:color';
+@use 'sass:list';
+@use '../variables';
+@use '../mixins';
+
+// Цвета, которых нет в _variables.scss — можно перенести туда
+$color-badge-text: #F0F0F0;
+
+// В _variables $color-white-70 и т.п. — это серые, а здесь нужна прозрачность
+$white-90: color.change(variables.$color-white, $alpha: 0.9);
+$white-70: color.change(variables.$color-white, $alpha: 0.7);
+$white-50: color.change(variables.$color-white, $alpha: 0.5);
+$white-25: color.change(variables.$color-white, $alpha: 0.25);
+$white-10: color.change(variables.$color-white, $alpha: 0.1);
+$white-5:  color.change(variables.$color-white, $alpha: 0.05);
+
+$gradient: linear-gradient(149deg, #F6BEC1 28.815%, #EFCD73 112.17%);
+$gradient-green: linear-gradient(96deg, #96FBC4 37.127%, #F9F586 155.34%);
+
+// центры столбиков графика по макету (px от левого края)
+$chart-cols: 211.5, 482.5, 739, 992.5, 1258.5;
+
+// раскладка шага: сдвиг шага, иконки, текста и заголовка «N day» (px по макету)
+@mixin step-layout($left, $icon-left, $text-left, $text-top, $text-width, $day-top: null) {
+  @include mixins.fluid-vw(left, $left);
+
+  .cashflow-hero__step-icon {
+    @include mixins.fluid-vw(left, $icon-left);
+  }
+
+  .cashflow-hero__step-text {
+    @include mixins.fluid-vw(left, $text-left);
+    @include mixins.fluid-vw(top, $text-top);
+    @include mixins.fluid-vw(width, $text-width);
+  }
+
+  @if $day-top {
+    .cashflow-hero__step-day {
+      @include mixins.fluid-vw(left, $text-left);
+      @include mixins.fluid-vw(top, $day-top);
+    }
+  }
+}
+
+.cashflow-hero {
+  // фон, скругление и линии — у обёртки .cashflow-top
+  // 256 — отступ от верха макета до бейджа (шапка лежит поверх, absolute)
+  @include mixins.fluid-vw(padding-top, 256);
+  @include mixins.fluid-vw(padding-bottom, 352);
+
+  &__intro,
+  &__features,
+  &__pricing,
+  &__repayment,
+  &__payout {
+    position: relative;
+    z-index: 1;
+  }
+
+  // ---------- Интро ----------
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__badge {
+    display: flex;
+    align-items: center;
+    background: $white-5;
+    @include mixins.fluid-vw(gap, 14);
+    @include mixins.fluid-vw(padding-top, 10);
+    @include mixins.fluid-vw(padding-bottom, 10);
+    @include mixins.fluid-vw(padding-left, 20);
+    @include mixins.fluid-vw(padding-right, 20);
+    @include mixins.fluid-vw(border-radius, 100);
+  }
+
+  &__badge-brand,
+  &__badge-product {
+    color: $color-badge-text;
+    @include mixins.fluid-vw(font-size, 18);
+    @include mixins.fluid-vw(line-height, 28);
+  }
+
+  &__badge-brand {
+    font-weight: 600;
+  }
+
+  &__badge-divider {
+    display: block;
+    flex: none;
+    width: 1px;
+    background: variables.$color-white;
+    @include mixins.fluid-vw(height, 24);
+  }
+
+  &__title {
+    color: variables.$color-white;
+    @include mixins.fluid-vw(margin-top, 16);
+  }
+
+  &__title-accent {
+    background: $gradient;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  &__subtitle {
+    margin: 0;
+    color: $white-90;
+    font-weight: 600;
+    @include mixins.fluid-vw(font-size, 20);
+    @include mixins.fluid-vw(line-height, 30);
+    @include mixins.fluid-vw(letter-spacing, -0.4);
+    @include mixins.fluid-vw(margin-top, 34);
+  }
+
+  // ---------- Три преимущества ----------
+  &__features {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    @include mixins.fluid-vw(margin-top, 179);
+    @include mixins.fluid-vw(height, 40);
+  }
+
+  &__feature {
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(gap, 25);
+
+    &:nth-child(1) { @include mixins.fluid-vw(left, 143); }
+    &:nth-child(2) { @include mixins.fluid-vw(left, 547); }
+    &:nth-child(3) { @include mixins.fluid-vw(left, 924); }
+  }
+
+  &__feature-icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    background: $white-10;
+    @include mixins.fluid-vw(width, 40);
+    @include mixins.fluid-vw(height, 40);
+    @include mixins.fluid-vw(border-radius, 8);
+
+    img {
+      display: block;
+      @include mixins.fluid-vw(width, 25);
+      @include mixins.fluid-vw(height, 25);
+    }
+  }
+
+  &__feature-text {
+    color: variables.$color-white;
+    font-weight: 600;
+    white-space: nowrap;
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 26);
+  }
+
+  // ---------- Pay only when you use Cashflow ----------
+  &__pricing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    @include mixins.fluid-vw(margin-top, 183);
+  }
+
+  &__pricing-title {
+    color: variables.$color-white;
+    @include mixins.fluid-vw(letter-spacing, -0.48);
+  }
+
+  &__pricing-text {
+    margin: 0;
+    color: variables.$color-white;
+    @include mixins.fluid-vw(margin-top, 36);
+    @include mixins.fluid-vw(width, 652);
+    @include mixins.fluid-vw(font-size, 24);
+    @include mixins.fluid-vw(line-height, 32);
+
+    span {
+      color: $white-50;
+    }
+  }
+
+  // ---------- Repayment ----------
+  &__repayment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include mixins.fluid-vw(margin-top, 184);
+  }
+
+  &__repayment-title {
+    color: variables.$color-white;
+    text-align: center;
+    @include mixins.fluid-vw(letter-spacing, -0.48);
+  }
+
+  &__chart {
+    position: relative;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    @include mixins.fluid-vw(margin-top, 147);
+    @include mixins.fluid-vw(height, 268);
+  }
+
+  &__chart-col {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    transform: translateX(-50%);
+    white-space: nowrap;
+
+    @for $i from 1 through list.length($chart-cols) {
+      &:nth-child(#{$i}) {
+        @include mixins.fluid-vw(left, list.nth($chart-cols, $i));
+      }
+    }
+  }
+
+  &__chart-value {
+    background: variables.$orange-gradient-4;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
+    @include mixins.fluid-vw(font-size, 24);
+    @include mixins.fluid-vw(line-height, 32);
+  }
+
+  &__chart-bar {
+    position: relative;
+    overflow: hidden;
+    background: $white-5;
+    @include mixins.fluid-vw(margin-top, 10);
+    @include mixins.fluid-vw(width, 75);
+    @include mixins.fluid-vw(border-radius, 8);
+
+    // цветная полоска сверху столбика
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: $gradient;
+      @include mixins.fluid-vw(height, 13);
+    }
+
+    &--400 { @include mixins.fluid-vw(height, 140); }
+    &--300 { @include mixins.fluid-vw(height, 107); }
+
+    &--200 {
+      @include mixins.fluid-vw(height, 65);
+
+      &::before {
+        @include mixins.fluid-vw(height, 10);
+      }
+    }
+  }
+
+  &__chart-date,
+  &__chart-sales {
+    font-weight: 500;
+    @include mixins.fluid-vw(font-size, 20);
+    @include mixins.fluid-vw(line-height, 30);
+    @include mixins.fluid-vw(letter-spacing, -0.2);
+  }
+
+  &__chart-date {
+    color: variables.$color-white;
+    @include mixins.fluid-vw(margin-top, 26);
+  }
+
+  &__chart-col--empty &__chart-date {
+    @include mixins.fluid-vw(margin-top, 16);
+  }
+
+  &__chart-sales {
+    color: $white-50;
+  }
+
+  // ---------- Same day payout ----------
+  // блок в макете смещён на 16px левее центра
+  &__payout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include mixins.fluid-vw(margin-top, 220);
+    @include mixins.fluid-vw(margin-left, 128);
+    @include mixins.fluid-vw(width, 1152);
+  }
+
+  &__payout-title {
+    color: variables.$color-white;
+    text-align: center;
+    @include mixins.fluid-vw(width, 776);
+
+    span {
+      color: $white-50;
+    }
+  }
+
+  &__switch {
+    display: flex;
+    border: 1px solid $white-25;
+    @include mixins.fluid-vw(margin-top, 37);
+    @include mixins.fluid-vw(width, 295);
+    @include mixins.fluid-vw(height, 55);
+    @include mixins.fluid-vw(padding, 5);
+    @include mixins.fluid-vw(gap, 5);
+    @include mixins.fluid-vw(border-radius, 8);
+  }
+
+  &__switch-btn {
+    flex: 1 0 0;
+    border: none;
+    background: transparent;
+    color: $white-70;
+    font-family: variables.$font-family-base;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s;
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 26);
+    @include mixins.fluid-vw(border-radius, 8);
+
+    &.is-active {
+      background: $gradient;
+      color: variables.$color-black;
+    }
+
+    &--cashflow.is-active {
+      background: $gradient-green;
+    }
+  }
+
+  // ---------- Таймлайн ----------
+  // два варианта: [data-mode="disable"] и [data-mode="cashflow"], неактивный скрыт атрибутом hidden
+  &__timeline {
+    position: relative;
+    @include mixins.fluid-vw(margin-top, 150);
+    @include mixins.fluid-vw(width, 1152);
+    @include mixins.fluid-vw(height, 146);
+  }
+
+  &__step {
+    position: absolute;
+    top: 0;
+  }
+
+  // пунктирный уголок над полосой
+  &__step-marker {
+    position: absolute;
+    left: 0;
+    display: block;
+    border-left: 1px dashed $white-25;
+    border-top: 1px dashed $white-25;
+    @include mixins.fluid-vw(top, 18);
+    @include mixins.fluid-vw(width, 14);
+    @include mixins.fluid-vw(height, 99);
+  }
+
+  &__step-icon {
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $white-10;
+    @include mixins.fluid-vw(width, 40);
+    @include mixins.fluid-vw(height, 40);
+    @include mixins.fluid-vw(border-radius, 8);
+
+    img {
+      display: block;
+    }
+  }
+
+  &__step-icon-img--box {
+    @include mixins.fluid-vw(width, 25);
+    @include mixins.fluid-vw(height, 25);
+  }
+
+  &__step-icon-img--money {
+    @include mixins.fluid-vw(width, 23);
+    @include mixins.fluid-vw(height, 15);
+  }
+
+  &__step-icon-img--clock {
+    @include mixins.fluid-vw(width, 16);
+    @include mixins.fluid-vw(height, 16);
+  }
+
+  &__step-day {
+    position: absolute;
+    margin: 0;
+    color: variables.$color-white;
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    white-space: nowrap;
+    @include mixins.fluid-vw(font-size, 24);
+    @include mixins.fluid-vw(line-height, 30);
+  }
+
+  &__step-text {
+    position: absolute;
+    margin: 0;
+    color: $white-70;
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 26);
+
+    &--accent {
+      color: $white-90;
+      font-weight: 600;
+    }
+  }
+
+  // Disable: 1 day → 90 day
+  &__step--disable-start { @include step-layout(0, 28, 93, 39, 166, 1); }
+  &__step--disable-end   { @include step-layout(937, 25, 87, 41, 180, 5); }
+
+  // Cashflow: три шага, «1 day» в конце
+  &__step--cf-start  { @include step-layout(0, 28, 93, -2, 122); }
+  &__step--cf-middle { @include step-layout(389, 23, 87, -2, 253); }
+  &__step--cf-end    { @include step-layout(926, 36, 98, 41, 180, 1); }
+
+  &__timeline[data-mode="cashflow"] &__step-marker {
+    @include mixins.fluid-vw(top, 20);
+  }
+
+  &__timeline-bar {
+    position: absolute;
+    left: 0;
+    display: block;
+    @include mixins.fluid-vw(top, 136);
+    @include mixins.fluid-vw(width, 1152);
+    @include mixins.fluid-vw(height, 10);
+  }
+}

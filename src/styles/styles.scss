@@ -1,1 +1,27 @@
 @use "variables";
+@use 'normalize';
+@use 'fonts';
+@use 'mixins';
+@use 'globals';
+
+@use 'blocks/button';
+@use 'blocks/header';
+@use 'blocks/hero';
+@use 'blocks/carousel';
+@use 'blocks/ecosystem';
+@use 'blocks/accounts';
+@use 'blocks/processing';
+@use 'blocks/payments';
+@use 'blocks/phone';
+@use 'blocks/b2b-checkout';
+@use 'blocks/cashflow';
+@use 'blocks/how-to-apply';
+@use 'blocks/cashback-reviews';
+@use 'blocks/client-profile';
+@use 'blocks/cta';
+@use 'blocks/footer';
+@use 'blocks/cashflow-top';
+@use 'blocks/cashflow-hero';
+@use 'blocks/benefits';
+@use 'blocks/how-to-start';
+@use 'blocks/adventage';

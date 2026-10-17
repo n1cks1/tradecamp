@@ -1,0 +1,46 @@
+@use '../mixins';
+
+$color-dark: #181A1E; // можно перенести в _variables.scss
+
+// Общий тёмный блок: шапка + первая секция.
+// Фон, скругление и декоративные линии живут здесь,
+// поэтому линии проходят и под шапкой, и под секцией.
+.cashflow-top {
+  position: relative;
+  overflow: hidden;
+  background: $color-dark;
+  @include mixins.fluid-vw(border-bottom-left-radius, 55);
+  @include mixins.fluid-vw(border-bottom-right-radius, 55);
+
+  // линии экспортированы кадром 1440×2867 — ровно по тёмному фону секции
+  &__line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+    @include mixins.fluid-vw(width, 1440);
+    @include mixins.fluid-vw(height, 2867);
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+    }
+  }
+
+  // шапка лежит поверх секции и линий, сам _header.scss не трогаем
+  > .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+  }
+
+  > .cashflow-hero {
+    position: relative;
+    z-index: 1;
+  }
+}

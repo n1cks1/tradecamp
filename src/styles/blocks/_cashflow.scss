@@ -1,0 +1,432 @@
+@use 'sass:color';
+@use '../variables';
+@use '../mixins';
+
+// Светло-зеленый фон бейджа и пилюли "With tradecamp" (в переменных такого нет — при желании вынести в variables)
+$cashflow-green-soft: color.change(variables.$color-green, $alpha: 30%);
+
+// Параметры анимации появления
+$cashflow-anim-duration: 0.8s;
+$cashflow-anim-fade-duration: 1s;
+$cashflow-anim-ease: cubic-bezier(0.22, 1, 0.36, 1);
+$cashflow-anim-offset: 60; // px макета, переводится во vw
+
+.cashflow {
+  @include mixins.fluid-vw(width, 1340);
+  margin-left: auto;
+  margin-right: auto;
+  // margin-top: -128, position и z-index уже задаёт правило `.b2b-checkout + *`,
+  // здесь не дублируем. Нижний заход на следующую черную секцию:
+  @include mixins.fluid-vw(margin-bottom, -118);
+
+  // ---------- Hero (первая белая карточка) ----------
+  &__hero {
+    display: flex;
+    justify-content: space-between;
+    background: variables.$color-white;
+    box-shadow: 0 4px 40px variables.$color-black-10;
+    @include mixins.fluid-vw(border-radius, 24);
+    @include mixins.fluid-vw(padding-top, 14);
+    @include mixins.fluid-vw(padding-right, 22);
+    @include mixins.fluid-vw(padding-bottom, 16);
+    @include mixins.fluid-vw(padding-left, 90);
+  }
+
+  &__hero-left {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    @include mixins.fluid-vw(padding-top, 25);
+    @include mixins.fluid-vw(padding-right, 20);
+    @include mixins.fluid-vw(padding-bottom, 35);
+  }
+
+  // бейдж: круг с $ + пилюля
+  &__badge {
+    display: flex;
+    align-items: stretch;
+    width: fit-content;
+  }
+
+  // зелёный круг — фон под прозрачную иконку
+  &__badge-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: $cashflow-green-soft;
+    @include mixins.fluid-vw(width, 45);
+    @include mixins.fluid-vw(height, 45); // круг — обе стороны во vw
+
+    img {
+      @include mixins.fluid-vw(height, 25);
+      @include mixins.fluid-vw(width, 25);
+    }
+  }
+
+  // сама иконка $ (svg) — меньше круга, по центру
+  &__badge-icon-img {
+    display: block;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 25);
+    @include mixins.fluid-vw(height, 25);
+  }
+
+  &__badge-pill {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    border-radius: 999px;
+    background: $cashflow-green-soft;
+    color: #2D4A3A; // темно-зеленый с макета, в палитре нет
+    font-weight: 300;
+    @include mixins.fluid-vw(padding-left, 20);
+    @include mixins.fluid-vw(padding-right, 20);
+  }
+
+  &__badge-brand {
+    font-weight: 700;
+    @include mixins.fluid-vw(font-size, 20);
+    font-family: 'BR Sonoma', sans-serif;
+  }
+
+  &__badge-sep {
+    display: block;
+    width: 1px;
+    background: #2D4A3A;
+    @include mixins.fluid-vw(height, 24);
+    @include mixins.fluid-vw(margin-left, 12);
+    @include mixins.fluid-vw(margin-right, 12);
+  }
+
+  &__title {
+    @include mixins.fluid-vw(margin-top, 18);
+    @include mixins.fluid-vw(max-width, 440);
+  }
+
+  // прижат к низу карточки
+  &__note {
+    margin-top: auto;
+    font-weight: 600;
+    @include mixins.fluid-vw(max-width, 270);
+  }
+
+  // ---------- Таблица ----------
+  // серая подложка со штриховкой (svg), карточка смещена вправо как в макете
+  &__table {
+    position: relative;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: variables.$color-black-10;
+    box-shadow: inset 0 0 24px variables.$color-black-5;
+    @include mixins.fluid-vw(width, 769);
+    @include mixins.fluid-vw(border-radius, 24);
+    @include mixins.fluid-vw(padding-top, 23);
+    @include mixins.fluid-vw(padding-right, 31);
+    @include mixins.fluid-vw(padding-bottom, 21);
+    @include mixins.fluid-vw(padding-left, 48);
+  }
+
+  &__table-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  &__table-card {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    background: variables.$color-white;
+    box-shadow: 0 8px 32px variables.$color-black-10;
+    @include mixins.fluid-vw(border-radius, 16);
+  }
+
+  &__table-head {
+    font-family: 'BR Sonoma', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    background: variables.$color-black;
+    color: variables.$color-white;
+    @include mixins.fluid-vw(padding-top, 12);
+    @include mixins.fluid-vw(padding-bottom, 13);
+  }
+
+  &__table-body {
+    @include mixins.fluid-vw(padding-top, 27);
+    @include mixins.fluid-vw(padding-right, 32);
+    @include mixins.fluid-vw(padding-bottom, 31);
+    @include mixins.fluid-vw(padding-left, 38);
+  }
+
+  // общая сетка для шапки колонок и строк
+  // minmax(0, …) — чтобы длинный текст ("3 Times per month") не растягивал колонку
+  // и разделитель не съезжал в отдельной строке
+  &__table-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 190fr) minmax(0, 207fr) minmax(0, 222fr);
+  }
+
+  // --- шапка колонок ---
+  &__table-cols {
+    align-items: center;
+    @include mixins.fluid-vw(margin-bottom, 24);
+  }
+
+  &__table-col {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    @include mixins.fluid-vw(gap, 5);
+    @include mixins.fluid-vw(padding-top, 7);
+    @include mixins.fluid-vw(padding-bottom, 7);
+    @include mixins.fluid-vw(padding-left, 12);
+    @include mixins.fluid-vw(padding-right, 12);
+    @include mixins.fluid-vw(border-radius, 6);
+
+    &--without {
+      justify-self: end;
+      background: #FDE6E4; // нет в палитре
+      color: #EE5A4F;      // нет в палитре
+      @include mixins.fluid-vw(margin-right, 8);
+    }
+
+    &--with {
+      justify-self: start;
+      background: $cashflow-green-soft;
+      color: variables.$color-green-10;
+      @include mixins.fluid-vw(margin-left, 10);
+    }
+  }
+
+  &__table-logo {
+    display: block;
+    @include mixins.fluid-vw(width, 106);
+  }
+
+  // --- строки ---
+  &__table-row {
+    border-top: 1px solid variables.$color-black-10;
+
+    &:last-of-type {
+      border-bottom: 1px solid variables.$color-black-10;
+    }
+  }
+
+  // высота строки задаётся паддингами ячеек, чтобы вертикальный разделитель шёл на всю строку
+  &__table-cell {
+    white-space: nowrap;
+    @include mixins.fluid-vw(padding-top, 6);
+    @include mixins.fluid-vw(padding-bottom, 31);
+  }
+
+  &__table-label {
+    font-weight: 500;
+  }
+
+  &__table-value {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    font-weight: 500;
+    color: variables.$color-black-70;
+    @include mixins.fluid-vw(padding-right, 17);
+
+    // колонка "With tradecamp" — с разделителем слева
+    &--with {
+      font-weight: 600;
+      color: variables.$color-black;
+      border-left: 1px solid variables.$color-black-10;
+      @include mixins.fluid-vw(padding-right, 6);
+    }
+  }
+
+  // стрелка вверх (svg)
+  &__table-arrow {
+    display: block;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 25);
+    @include mixins.fluid-vw(height, 25);
+    // центр стрелки = центр строки текста: (line-height p3 28 - 25) / 2
+    @include mixins.fluid-vw(margin-top, 1.5);
+    @include mixins.fluid-vw(margin-right, 12);
+  }
+
+  // fees позиционируется под суммой и не раздувает строку
+  &__table-amount {
+    position: relative;
+  }
+
+  &__table-fees {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    white-space: nowrap;
+    font-weight: 400;
+    color: variables.$color-black-50;
+  }
+
+  &__table-note {
+    color: variables.$color-black-70;
+    @include mixins.fluid-vw(margin-top, 31);
+    @include mixins.fluid-vw(margin-left, -5);
+  }
+
+  // ---------- Why Cashflow (вторая белая карточка) ----------
+  &__why {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    overflow: hidden;
+    background: variables.$color-white;
+    box-shadow: 0 4px 40px variables.$color-black-10;
+    @include mixins.fluid-vw(margin-top, 25);
+    @include mixins.fluid-vw(border-radius, 24);
+    @include mixins.fluid-vw(padding-top, 64);
+    @include mixins.fluid-vw(padding-right, 98);
+    @include mixins.fluid-vw(padding-bottom, 82);
+    @include mixins.fluid-vw(padding-left, 90);
+  }
+
+  // фон (svg-линии)
+  &__why-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  &__why-left,
+  &__why-list {
+    position: relative;
+    z-index: 1;
+  }
+
+  // ===== Левая колонка =====
+  &__why-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    @include mixins.fluid-vw(width, 655);
+    @include mixins.fluid-vw(margin-top, 80);
+    @include mixins.fluid-vw(column-gap, 55);
+    @include mixins.fluid-vw(row-gap, 58);
+  }
+
+  &__why-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: variables.$color-black-5;
+    @include mixins.fluid-vw(width, 45);
+    @include mixins.fluid-vw(height, 45); // круг
+
+    img {
+      display: block;
+      @include mixins.fluid-vw(width, 20);
+    }
+  }
+
+  &__why-text {
+    color: variables.$color-black-70;
+    @include mixins.fluid-vw(margin-top, 20);
+  }
+
+  // ===== Правая колонка =====
+  &__why-list {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 369);
+    @include mixins.fluid-vw(gap, 13);
+  }
+
+  &__why-item {
+    display: flex;
+    align-items: center;
+    background: variables.$color-white;
+    box-shadow: 0 4px 24px variables.$color-black-10;
+    @include mixins.fluid-vw(gap, 22);
+    @include mixins.fluid-vw(border-radius, 6);
+    @include mixins.fluid-vw(padding-top, 14);
+    @include mixins.fluid-vw(padding-bottom, 14);
+    @include mixins.fluid-vw(padding-right, 16);
+    @include mixins.fluid-vw(padding-left, 21);
+
+    b {
+      font-weight: 600;
+    }
+  }
+
+  // ромбик (svg)
+  &__why-item-icon {
+    display: block;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 16);
+  }
+
+  &__why-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    color: variables.$color-black;
+    background: variables.$orange-gradient-1;
+    box-shadow: 0 4px 24px variables.$color-black-10;
+    @include mixins.fluid-vw(gap, 14);
+    @include mixins.fluid-vw(margin-top, 1);
+    @include mixins.fluid-vw(padding-top, 10);
+    @include mixins.fluid-vw(padding-bottom, 10);
+    @include mixins.fluid-vw(border-radius, 6);
+  }
+
+  // стрелка в кнопке (svg)
+  &__why-btn-arrow {
+    display: block;
+    @include mixins.fluid-vw(width, 8);
+  }
+
+  // ---------- Анимация появления ----------
+  // Скрытое состояние включается, только когда JS повесил .reveal-ready на <html>,
+  // поэтому без JS / при prefers-reduced-motion всё видно сразу.
+  // Заголовки — data-reveal="fade", остальное (включая таблицу целиком) — data-reveal="up".
+  // Задержка — через style="--reveal-delay: .2s" в разметке.
+  .reveal-ready & {
+    [data-reveal] {
+      opacity: 0;
+      transition-property: opacity, transform;
+      transition-duration: $cashflow-anim-duration;
+      transition-timing-function: $cashflow-anim-ease;
+      transition-delay: var(--reveal-delay, 0s);
+      will-change: opacity, transform;
+    }
+
+    [data-reveal='fade'] {
+      transition-duration: $cashflow-anim-fade-duration;
+    }
+
+    [data-reveal='up'] {
+      transform: translate3d(0, mixins.fluid-value-vw($cashflow-anim-offset), 0);
+    }
+
+    .is-visible [data-reveal] {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

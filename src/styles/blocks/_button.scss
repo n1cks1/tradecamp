@@ -1,0 +1,61 @@
+@use '../mixins';
+@use '../variables';
+
+.button {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  @include mixins.fluid-vw(height, 40);
+  @include mixins.fluid-vw(padding-inline, 22);
+  @include mixins.fluid-vw(border-radius, variables.$border-radius);
+  border: none;
+  background: variables.$orange-gradient-1;
+  color: variables.$color-black;
+  font-family: variables.$font-family-base;
+  font-weight: 600;
+  @include mixins.fluid-vw(font-size, 16);
+  isolation: isolate;
+  cursor: pointer;
+
+  // Плавная смена направления градиента при наведении
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: variables.$reverse-orange-gradient-1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover::before,
+  &:focus-visible::before {
+    opacity: 1;
+  }
+
+  // Прозрачная кнопка с градиентной рамкой
+  &--transparent {
+    background: transparent;
+    color: #A6A7A8;
+    transition: color 0.3s ease;
+
+    &::before {
+      padding: 1px;
+      background: variables.$orange-gradient-1;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      opacity: 1;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: variables.$color-white;
+
+      &::before {
+        background: variables.$reverse-orange-gradient-1;
+      }
+    }
+  }
+}

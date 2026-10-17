@@ -1,0 +1,497 @@
+@use 'sass:color';
+@use '../variables';
+@use '../mixins';
+
+$footer-bg: #181A1E;
+$footer-line: #4D4D4D;
+$footer-dropdown-bg: variables.$color-black;
+$footer-text: #F3F3F3;
+$footer-text-muted: color.change(variables.$color-white, $alpha: 50%);
+$footer-legal: rgba(226, 227, 227, 0.7);
+
+$reveal-duration: 0.8s;
+$reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+@mixin text-gradient {
+  background: linear-gradient(180deg, #F6BEC1 0%, #EFCD73 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+// стартовое (скрытое) состояние появления снизу
+@mixin reveal-hidden($offset: 40) {
+  opacity: 0;
+  transform: translate3d(0, mixins.fluid-value-vw($offset), 0);
+  transition:
+          opacity $reveal-duration $reveal-ease,
+          transform $reveal-duration $reveal-ease;
+  transition-delay: var(--reveal-delay, 0s);
+  will-change: opacity, transform;
+}
+
+@mixin reveal-shown {
+  opacity: 1;
+  transform: none;
+}
+
+.footer {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  background-color: $footer-bg;
+  color: variables.$color-white;
+  font-family: variables.$font-family-base;
+
+  // разделитель: скруглённый верх наезжает на фон предыдущей секции
+  @include mixins.fluid-vw(margin-top, -55);
+  @include mixins.fluid-vw(border-top-left-radius, 55);
+  @include mixins.fluid-vw(border-top-right-radius, 55);
+  padding:
+          mixins.fluid-value-vw(110)
+          mixins.fluid-value-vw(50)
+          mixins.fluid-value-vw(21);
+
+  &__inner {
+    position: relative;
+  }
+
+  // ---------- reveal ----------
+  // скрываем только когда JS готов (класс на <html>), без JS всё видно сразу
+  :root.reveal-ready & {
+    [data-reveal] {
+      @include reveal-hidden(50);
+
+      &.is-revealed {
+        @include reveal-shown;
+      }
+    }
+
+    // элементы внутри баннера стартуют после того, как баннер въехал
+    [data-reveal-child] {
+      @include reveal-hidden(30);
+    }
+
+    .is-revealed [data-reveal-child] {
+      @include reveal-shown;
+    }
+  }
+
+  // ---------- top ----------
+  &__title {
+    margin: 0;
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    @include mixins.fluid-vw(font-size, 28);
+    @include mixins.fluid-vw(line-height, 38);
+    @include mixins.fluid-vw(letter-spacing, -0.56);
+    text-align: center;
+    color: variables.$color-white;
+  }
+
+  // строки заголовка — блочные, чтобы transform работал и они ехали по отдельности
+  &__title-line {
+    display: block;
+  }
+
+  &__accent {
+    @include text-gradient;
+  }
+
+  &__banner {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(width, 1102);
+    @include mixins.fluid-vw(height, 300);
+    @include mixins.fluid-vw(margin-top, 80);
+    margin-left: auto;
+    margin-right: auto;
+    @include mixins.fluid-vw(padding-left, 45);
+    @include mixins.fluid-vw(border-radius, 16);
+    background: linear-gradient(3.36deg, variables.$color-orange 10.86%, #F2C98D 138.98%);
+  }
+
+  // линии растягиваются ровно на баннер — svg нужно экспортировать
+  // по размеру баннера (1102×300), а не всю группу линий из макета
+  &__banner-lines {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: center;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &__banner-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    @include mixins.fluid-vw(gap, 84);
+  }
+
+  &__banner-text {
+    margin: 0;
+    @include mixins.fluid-vw(width, 770);
+    font-weight: 600;
+    @include mixins.fluid-vw(font-size, 38);
+    @include mixins.fluid-vw(line-height, 46);
+    color: #17191C;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 160);
+    @include mixins.fluid-vw(height, 48);
+    @include mixins.fluid-vw(border-radius, variables.$border-radius);
+    background-color: variables.$color-white;
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 16);
+    color: #000;
+  }
+
+  // hover отдельно, чтобы не конфликтовать с transition появления
+  :root.reveal-ready & [data-reveal-child].footer__btn,
+  &__btn {
+    transition:
+            opacity $reveal-duration $reveal-ease var(--reveal-delay, 0s),
+            transform $reveal-duration $reveal-ease var(--reveal-delay, 0s),
+            background-color 0.2s ease 0s;
+
+    &:hover {
+      background-color: variables.$color-white-5;
+    }
+  }
+
+  &__slogan {
+    margin: 0;
+    @include mixins.fluid-vw(margin-top, 160);
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    @include mixins.fluid-vw(font-size, 42);
+    @include mixins.fluid-vw(line-height, 50);
+    text-align: center;
+    color: variables.$color-white;
+  }
+
+  &__divider {
+    height: 1px;
+    background-color: $footer-line;
+    @include mixins.fluid-vw(margin-top, 87);
+    @include mixins.fluid-vw(margin-left, -46);
+    @include mixins.fluid-vw(margin-right, -46);
+
+    &--full {
+      @include mixins.fluid-vw(margin-top, 42);
+      @include mixins.fluid-vw(margin-left, -50);
+      @include mixins.fluid-vw(margin-right, -50);
+    }
+  }
+
+  // ---------- company ----------
+  &__company {
+    display: flex;
+    flex-direction: column;
+    @include mixins.fluid-vw(gap, 20);
+    @include mixins.fluid-vw(margin-top, 63);
+    @include mixins.fluid-vw(width, 352);
+  }
+
+  &__logo-link {
+    display: block;
+    width: fit-content;
+  }
+
+  &__logo {
+    display: block;
+    @include mixins.fluid-vw(width, 207);
+    height: auto;
+  }
+
+  &__address {
+    font-style: normal;
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 26);
+    color: $footer-text-muted;
+  }
+
+  // ---------- nav ----------
+  &__nav {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    @include mixins.fluid-vw(margin-top, 60);
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+    @include mixins.fluid-vw(gap, 20);
+  }
+
+  &__col-title {
+    margin: 0;
+    font-weight: 600;
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 26);
+    color: variables.$color-white;
+
+    &--link {
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    @include mixins.fluid-vw(gap, 10);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__link {
+    @include mixins.fluid-vw(font-size, 14);
+    @include mixins.fluid-vw(line-height, 24);
+    color: $footer-text-muted;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: variables.$color-white;
+    }
+  }
+
+  // ---------- bottom row ----------
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include mixins.fluid-vw(margin-top, 232);
+  }
+
+  &__social {
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(gap, 42);
+  }
+
+  &__social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include mixins.fluid-vw(width, 25);
+    @include mixins.fluid-vw(height, 25);
+    transition: opacity 0.2s ease;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    &--whatsapp img {
+      @include mixins.fluid-vw(width, 23);
+      @include mixins.fluid-vw(height, 23);
+    }
+
+    &--x img {
+      @include mixins.fluid-vw(width, 20);
+      @include mixins.fluid-vw(height, 20);
+    }
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__api {
+    display: inline-flex;
+    align-items: center;
+    @include mixins.fluid-vw(gap, 15);
+    @include mixins.fluid-vw(margin-top, 25);
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 26);
+    color: variables.$color-white;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__api-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include mixins.fluid-vw(width, 25);
+    @include mixins.fluid-vw(height, 25);
+    @include mixins.fluid-vw(border-radius, 3);
+    background-color: variables.$color-green;
+
+    img {
+      display: block;
+      @include mixins.fluid-vw(width, 21);
+      @include mixins.fluid-vw(height, 21);
+    }
+  }
+
+  // ---------- legal ----------
+  &__legal {
+    @include mixins.fluid-vw(margin-top, 30);
+    @include mixins.fluid-vw(font-size, 14);
+    @include mixins.fluid-vw(line-height, 24);
+    color: $footer-legal;
+
+    p {
+      margin: 0;
+
+      & + p {
+        @include mixins.fluid-vw(margin-top, 24);
+      }
+    }
+
+    a {
+      color: color.change(variables.$color-white, $alpha: 80%);
+      text-decoration: underline;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: variables.$color-white;
+      }
+    }
+  }
+
+  // ---------- language select ----------
+  &__lang {
+    position: relative;
+    @include mixins.fluid-vw(width, 240);
+
+    &.is-open {
+      .footer__lang-toggle {
+        background-color: $footer-dropdown-bg;
+      }
+
+      .footer__lang-arrow {
+        transform: rotate(180deg);
+      }
+
+      .footer__lang-list {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  &__lang-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    @include mixins.fluid-vw(height, 50);
+    padding: mixins.fluid-value-vw(10) mixins.fluid-value-vw(15);
+    border: none;
+    @include mixins.fluid-vw(border-bottom-left-radius, 13);
+    @include mixins.fluid-vw(border-bottom-right-radius, 13);
+    background-color: transparent;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      background-color: $footer-dropdown-bg;
+    }
+  }
+
+  &__lang-current {
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(gap, 20);
+  }
+
+  &__lang-flag {
+    display: block;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 25);
+    @include mixins.fluid-vw(height, 25);
+  }
+
+  &__lang-label {
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 26);
+    color: $footer-text;
+    white-space: nowrap;
+  }
+
+  &__lang-arrow {
+    display: block;
+    @include mixins.fluid-vw(width, 25);
+    @include mixins.fluid-vw(height, 25);
+    transition: transform 0.2s ease;
+  }
+
+  // список открывается вверх — футер в самом низу страницы
+  &__lang-list {
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    z-index: 2;
+    width: 100%;
+    margin: 0;
+    padding: mixins.fluid-value-vw(5) 0;
+    list-style: none;
+    @include mixins.fluid-vw(border-top-left-radius, 13);
+    @include mixins.fluid-vw(border-top-right-radius, 13);
+    background-color: $footer-dropdown-bg;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(mixins.fluid-value-vw(10));
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  }
+
+  &__lang-option {
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(gap, 20);
+    padding: mixins.fluid-value-vw(10) mixins.fluid-value-vw(15);
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible,
+    &.is-selected {
+      background-color: color.change(variables.$color-white, $alpha: 5%);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer [data-reveal],
+  .footer [data-reveal-child] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,188 @@
+@use 'sass:color';
+@use '../variables';
+@use '../mixins';
+
+$how-to-apply-bg: #181a1e;
+$how-to-apply-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+.how-to-apply {
+  box-sizing: border-box;
+  width: 100%;
+  background-color: $how-to-apply-bg;
+  @include mixins.fluid-vw(border-radius, 55);
+  @include mixins.fluid-vw(padding-top, 311);
+  @include mixins.fluid-vw(padding-bottom, 293);
+  @include mixins.fluid-vw(padding-left, 50);
+  @include mixins.fluid-vw(padding-right, 50);
+  overflow: clip;
+
+  &__title {
+    margin: 0 auto;
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    @include mixins.fluid-vw(font-size, 48);
+    @include mixins.fluid-vw(line-height, 54);
+    color: color.change(variables.$color-white, $alpha: 0.9);
+
+    &-accent {
+      background-image: variables.$orange-gradient-4;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+  }
+
+  &__steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: start;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    @include mixins.fluid-vw(max-width, 1240);
+    @include mixins.fluid-vw(column-gap, 40);
+    @include mixins.fluid-vw(margin-top, 110);
+  }
+
+  &__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    @include mixins.fluid-vw(row-gap, 30);
+  }
+
+  &__num {
+    display: block;
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+    @include mixins.fluid-vw(font-size, 48);
+    @include mixins.fluid-vw(line-height, 54);
+    color: color.change(variables.$color-white, $alpha: 0.25);
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    @include mixins.fluid-vw(row-gap, 14);
+  }
+
+  &__step-title {
+    margin: 0;
+    font-family: variables.$font-family-base;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    @include mixins.fluid-vw(font-size, 20);
+    @include mixins.fluid-vw(line-height, 30);
+    color: color.change(variables.$color-white, $alpha: 0.9);
+  }
+
+  &__step-desc {
+    margin: 0;
+    font-family: variables.$font-family-base;
+    font-weight: 400;
+    text-wrap: pretty;
+    @include mixins.fluid-vw(max-width, 290);
+    @include mixins.fluid-vw(font-size, 18);
+    @include mixins.fluid-vw(line-height, 28);
+    color: color.change(variables.$color-white, $alpha: 0.7);
+  }
+
+  &__action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    @include mixins.fluid-vw(row-gap, 50);
+    @include mixins.fluid-vw(margin-top, 90);
+    @include mixins.fluid-vw(max-width, 530);
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    @include mixins.fluid-vw(width, 206);
+    @include mixins.fluid-vw(height, 48);
+    @include mixins.fluid-vw(padding, 10);
+    @include mixins.fluid-vw(border-radius, variables.$border-radius);
+    background-image: variables.$orange-gradient-4;
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 16);
+    color: variables.$color-black;
+    white-space: nowrap;
+    // filter, а не opacity — чтобы hover не конфликтовал с анимацией появления
+    transition: filter 0.2s ease;
+
+    &:hover {
+      filter: brightness(1.06);
+    }
+
+    &:focus-visible {
+      outline: 2px solid variables.$color-orange-light;
+      outline-offset: 3px;
+    }
+  }
+
+  &__note {
+    margin: 0;
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    @include mixins.fluid-vw(font-size, 28);
+    @include mixins.fluid-vw(line-height, 38);
+    color: color.change(variables.$color-white, $alpha: 0.55);
+
+    &-accent {
+      color: color.change(variables.$color-white, $alpha: 0.9);
+    }
+  }
+
+  // ---------- Reveal-анимация ----------
+  // Элементы скрываются только при наличии JS (класс .js на <html>),
+  // без JS всё просто видно сразу.
+  .js & [data-reveal]:not(.is-visible) {
+    opacity: 0;
+  }
+
+  [data-reveal].is-visible {
+    animation: how-to-apply-reveal 0.8s $how-to-apply-ease var(--reveal-delay, 0s) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js & [data-reveal]:not(.is-visible) {
+      opacity: 1;
+    }
+
+    [data-reveal].is-visible {
+      animation: none;
+    }
+  }
+}
+
+@keyframes how-to-apply-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, mixins.fluid-value-vw(40), 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

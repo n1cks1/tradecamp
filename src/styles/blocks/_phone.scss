@@ -1,0 +1,942 @@
+@use 'sass:color';
+@use 'sass:math';
+@use '../variables';
+@use '../mixins';
+
+@function vw($value) {
+  @return mixins.fluid-value-vw($value);
+}
+
+// =====================================================
+// Цвета макета, которых нет в variables
+// =====================================================
+$color-option-bg: variables.$color-white;
+$color-option-border: #E8E8E8;
+$color-option-active-bg: #EEFDF4;
+$color-option-active-border: variables.$color-green-dark;
+$color-option-text: #4D4D4D;
+$color-radio-idle: #ABABAB;
+$color-radio-active: #57E598;
+$color-detail-label: #4B4D51;
+$color-detail-value: #121212;
+$color-ripple: color.change(variables.$color-green, $alpha: 50%);
+$shadow-soft: rgba(31, 41, 51, 0.12);
+
+// размер иконки банка: 1 = 14px как в макете
+$bank-scale: 1.1;
+
+// =====================================================
+// Таймлайн ролика (секунды от начала цикла)
+// Чтобы поменять темп — двигай эти числа, проценты считаются сами
+// =====================================================
+$frame-height: 383;
+$ease-press: ease-in-out;
+$ease-slide: cubic-bezier(0.65, 0, 0.35, 1);
+$slide-time: 0.7;    // длительность перелистывания экрана
+$reset-gap: 0.1;     // сброс состояния, когда экран уже уехал
+
+// Кадр 1: выбор способа оплаты
+$t-paylater: 0.72;   // тап по Pay Later
+$t-confirm: 2.05;    // тап по Confirm
+$t-slide-1: 2.6;     // → кадр 2
+
+// Кадр 2: условия
+$t-term: 3.9;        // тап по Pay in 30 days
+$t-continue-1: 5;    // тап по Continue
+$t-slide-2: 5.6;     // → кадр 3
+
+// Кадр 3: проверка покупателя
+$t-check-1: 6.6;     // отмечается Authenticated buyer
+$t-check-2: 7.1;     // отмечается Eligible for PayLater
+$t-continue-2: 8.2;  // тап по Continue
+$t-slide-3: 8.8;     // → кадр 4
+
+// Кадр 4: заказ оформлен
+$t-slide-4: 11;      // → кадр 5 (копия первого), дальше цикл
+
+$total: 12.7;
+$duration: $total * 1s;
+
+$reset-1: $t-slide-1 + $slide-time + $reset-gap;
+$reset-2: $t-slide-2 + $slide-time + $reset-gap;
+$reset-3: $t-slide-3 + $slide-time + $reset-gap;
+
+@function p($seconds) {
+  @return math.div($seconds, $total) * 100%;
+}
+
+@function y($frame) {
+  @return translateY(vw(-$frame-height * $frame));
+}
+
+// --- подключение анимаций к элементам ---
+
+// волна от точки нажатия
+@mixin ripple-style($top: 50%) {
+  content: '';
+  position: absolute;
+  top: $top;
+  left: vw(16);
+  width: vw(20);
+  height: vw(20);
+  margin: vw(-10) 0 0 vw(-10);
+  border-radius: 50%;
+  background: $color-ripple;
+  opacity: 0;
+  transform: scale(0);
+  pointer-events: none;
+}
+
+@mixin option-anim($name, $ripple: true, $ripple-top: 50%) {
+  animation: #{$name} $duration $ease-press infinite both;
+
+  @if $ripple {
+    &::after {
+      @include ripple-style($ripple-top);
+      animation: #{$name}-ripple $duration ease-out infinite both;
+    }
+  }
+
+  .phone__radio {
+    animation: #{$name}-radio $duration $ease-press infinite both;
+
+    &::after {
+      animation: #{$name}-radio-dot $duration $ease-press infinite both;
+    }
+  }
+}
+
+@mixin button-anim($name) {
+  animation: #{$name}-press $duration $ease-press infinite both;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: variables.$green-gradient-1;
+    opacity: 0;
+    animation: #{$name}-fill $duration $ease-press infinite both;
+  }
+
+  .phone__button-text {
+    animation: #{$name}-text $duration $ease-press infinite both;
+  }
+}
+
+
+// =====================================================
+// Телефон
+// =====================================================
+.phone {
+  position: relative;
+  width: vw(336);
+  height: vw(440);
+  border-radius: vw(20);
+  background: variables.$color-white;
+  box-shadow: 0 vw(4) vw(20) rgba(31, 41, 51, 0.16);
+  overflow: hidden;
+  transform: translateZ(0); // скругление + overflow в Safari
+  font-family: variables.$font-family-base;
+  color: variables.$color-black;
+
+  img {
+    display: block;
+  }
+
+  // ===== Шапка =====
+
+  &__header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    height: vw(57);
+    padding: 0 vw(13) 0 vw(15);
+    background: variables.$color-black;
+  }
+
+  // заголовки экранов лежат друг на друге и сменяются вместе с экранами
+  // контейнер на всю высоту шапки — заголовки центруются по той же оси, что и лого
+  &__header-titles {
+    position: relative;
+    flex: 1;
+    align-self: stretch;
+    min-width: 0;
+  }
+
+  &__header-title {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    font-size: vw(18);
+    line-height: 1;
+    white-space: nowrap;
+    color: variables.$color-white;
+
+    &--2,
+    &--3 {
+      opacity: 0;
+    }
+
+    &--1 {
+      animation: phone-header-title-1 $duration ease infinite both;
+    }
+
+    &--2 {
+      animation: phone-header-title-2 $duration ease infinite both;
+    }
+
+    &--3 {
+      animation: phone-header-title-3 $duration ease infinite both;
+    }
+  }
+
+  // лого появляется только с экрана с картой (кадр 3)
+  &__header-logo {
+    flex-shrink: 0;
+    width: vw(120);
+    height: vw(17);
+    object-fit: contain;
+    opacity: 0;
+    animation: phone-header-logo $duration ease infinite both;
+  }
+
+  // ===== Экран и лента кадров =====
+
+  &__viewport {
+    position: absolute;
+    top: vw(57);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+
+  &__track {
+    position: relative;
+    animation: phone-slide $duration $ease-slide infinite both;
+  }
+
+  &__frame {
+    position: relative;
+    height: vw($frame-height);
+    background: variables.$color-white;
+  }
+
+  // ===== Пункты выбора (одинаковые на всех экранах) =====
+
+  &__list {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: vw(8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &--methods {
+      top: vw(26);
+      left: vw(11);
+      width: vw(313);
+    }
+
+    &--terms {
+      top: vw(86);
+      left: vw(15);
+      width: vw(309);
+    }
+
+    &--checks {
+      top: vw(180);
+      left: vw(14);
+      width: vw(309);
+    }
+  }
+
+  &__option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: vw(8);
+    box-sizing: border-box;
+    height: vw(50);
+    padding: 0 vw(9);
+    border: 1px solid $color-option-border;
+    border-radius: vw(6);
+    background-color: $color-option-bg;
+    overflow: hidden;
+
+    &--selected {
+      border-color: $color-option-active-border;
+      background-color: $color-option-active-bg;
+    }
+
+    &--term {
+      gap: vw(10);
+      height: vw(58);
+    }
+
+    // пункт с описанием под заголовком
+    &--featured {
+      flex-wrap: wrap;
+      align-content: flex-start;
+      row-gap: vw(10);
+      height: vw(96);
+      padding-top: vw(15);
+    }
+
+    &--check {
+      height: vw(40);
+    }
+  }
+
+  &__option-name {
+    flex: 1;
+    font-size: vw(14);
+    font-weight: 500;
+    line-height: 1;
+    color: $color-option-text;
+  }
+
+  // описание под пунктом — маркированный список с точками
+  &__option-desc {
+    flex-basis: 100%;
+    margin: 0;
+    padding-left: vw(16);
+    list-style: disc;
+    font-size: vw(12);
+    font-weight: 500;
+    line-height: 1.28;
+    color: variables.$color-black;
+
+    li::marker {
+      font-size: vw(10);
+    }
+  }
+
+  // по умолчанию — пустой серый кружок, активный — зелёный с белой точкой
+  &__radio {
+    position: relative;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: vw(13);
+    height: vw(13);
+    border: 1px solid $color-radio-idle;
+    border-radius: 50%;
+    background-color: transparent;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: vw(5);
+      height: vw(5);
+      border-radius: 50%;
+      background: variables.$color-white;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0);
+    }
+
+    &--active {
+      border-color: $color-radio-active;
+      background-color: $color-radio-active;
+
+      &::after {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+  }
+
+  // ===== Логотипы способов оплаты =====
+
+  &__logos {
+    display: flex;
+    align-items: center;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: vw(36);
+    height: vw(26);
+    padding: vw(4) vw(5);
+    border: 1px solid $color-option-border;
+    border-radius: vw(4);
+    background: variables.$color-white;
+
+    // вторая плашка наезжает на первую на 10px
+    & + & {
+      margin-left: vw(-10);
+    }
+
+    // у первой плашки в паре правые 10px закрыты второй —
+    // сдвигаем иконку в видимую часть, чтобы она не уходила под соседа
+    &:not(:last-child) {
+      padding: vw(4) vw(12) vw(4) vw(4);
+    }
+
+    &--gradient {
+      width: vw(32);
+      height: vw(22);
+      padding: vw(4);
+      border: none;
+      border-radius: vw(3);
+      background: variables.$orange-gradient-1;
+    }
+
+    // банк: svg 74×75 с полями под тень, сама иконка 14×14 в точке (30, 21).
+    // Поэтому не вписываем svg в плашку, а ставим её в натуральном размере
+    // так, чтобы иконка встала по центру плашки
+    &--bank {
+      position: relative;
+      padding: 0;
+
+      .phone__logo-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: vw(74 * $bank-scale);
+        height: vw(75 * $bank-scale);
+        max-width: none;
+        object-fit: fill;
+        // центр иконки (37; 28) против центра svg (37; 37.5)
+        transform: translate(-50%, -50%) translateY(vw(9.5 * $bank-scale));
+      }
+    }
+
+    // PayPal — чуть меньше (тоже первая в паре — справа запас под соседа)
+    &--paypal,
+    &--paypal:not(:last-child) {
+      padding: vw(5) vw(14) vw(5) vw(6);
+    }
+  }
+
+  // иконка заполняет плашку за вычетом паддингов (размер меняется паддингом плашки)
+  &__logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  // ===== Кнопка =====
+
+  &__button {
+    position: absolute;
+    top: vw(329);
+    left: vw(11);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: vw(313);
+    height: vw(44);
+    border-radius: vw(variables.$border-radius);
+    background: variables.$color-black;
+    overflow: hidden;
+  }
+
+  &__button-text {
+    position: relative;
+    z-index: 1;
+    font-size: vw(14);
+    font-weight: 500;
+    line-height: 1;
+    color: variables.$color-white;
+  }
+
+  // ===== Кадр 2: условия оплаты =====
+
+  &__terms-logo {
+    position: absolute;
+    top: vw(12);
+    left: vw(15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: vw(65);
+    height: vw(65);
+    border: 1px solid variables.$color-black-10;
+    border-radius: vw(8);
+    background: variables.$color-white;
+    box-shadow: 0 vw(4) vw(40) $shadow-soft;
+
+    img {
+      width: vw(47);
+      height: vw(31);
+      object-fit: contain;
+    }
+  }
+
+  &__terms-title {
+    position: absolute;
+    top: vw(36);
+    left: vw(98);
+    font-size: vw(16);
+    font-weight: 500;
+    line-height: 1.28;
+  }
+
+  // ===== Кадр 3: проверка покупателя =====
+
+  // карта — одна svg 336×212 во всю ширину экрана: сама карта внутри неё
+  // уже стоит на своём месте (x 26, y 23, 284×145), остальное — поля под тень
+  &__card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: vw(336);
+    height: vw(212);
+    pointer-events: none;
+  }
+
+  &__limit {
+    box-sizing: border-box;
+    height: vw(40);
+    border: 1px solid $color-option-border;
+    border-radius: vw(6);
+    background: variables.$color-white;
+    font-size: vw(14);
+    line-height: vw(38);
+    text-align: center;
+    color: variables.$color-black-50;
+  }
+
+  &__limit-value {
+    font-weight: 500;
+    color: variables.$color-black;
+  }
+
+  // ===== Кадр 4: заказ оформлен (всё в пределах 383px) =====
+  // логотип 8–29 · карточка 46–120 · чек 130–372 (под подзаголовком и реквизитами)
+
+  &__frame--success {
+    z-index: 0; // свой слой: фон-чек с z-index -1 ложится над белым фоном кадра, но под текстом
+  }
+
+  &__success-logo {
+    position: absolute;
+    top: vw(8);
+    left: 50%;
+    width: vw(149);
+    height: vw(21);
+    object-fit: contain;
+    transform: translateX(-50%);
+  }
+
+  &__success-card {
+    position: absolute;
+    top: vw(46);
+    left: vw(17);
+    box-sizing: border-box;
+    width: vw(303);
+    height: vw(74);
+    padding: vw(20) vw(26) 0;
+    border-radius: vw(16);
+    background: variables.$color-white;
+    box-shadow: 0 vw(8) vw(32) rgba(102, 102, 102, 0.16);
+    text-align: center;
+  }
+
+  &__success-badge {
+    position: absolute;
+    top: vw(-18);
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: vw(36);
+    height: vw(36);
+    border-radius: 50%;
+    background: variables.$color-white;
+    box-shadow: 0 vw(6) vw(16) rgba(122, 122, 122, 0.12);
+    transform: translateX(-50%);
+
+    img {
+      width: vw(18);
+      height: vw(18);
+    }
+  }
+
+  &__success-title {
+    display: block;
+    font-size: vw(14);
+    font-weight: 600;
+    line-height: 1.28;
+  }
+
+  &__success-text {
+    display: block;
+    margin-top: vw(4);
+    font-size: vw(10);
+    line-height: 1.4;
+    color: variables.$color-black-70;
+  }
+
+  &__success-subtitle {
+    position: absolute;
+    top: vw(140);
+    left: vw(31);
+    width: vw(272);
+    font-size: vw(12);
+    font-weight: 600;
+    line-height: 1.28;
+    text-align: center;
+  }
+
+  &__success-note {
+    position: absolute;
+    top: vw(178);
+    left: vw(33);
+    width: vw(270);
+    font-size: vw(10);
+    line-height: 1.4;
+    text-align: center;
+    color: variables.$color-black-70;
+  }
+
+  &__divider {
+    position: absolute;
+    top: vw(216);
+    left: vw(30);
+    width: vw(277);
+    height: 1px;
+    background: variables.$color-black-10;
+  }
+
+  $details-top: 226;
+  $receipt-top: 130;    // верх белого листа чека от верха экрана
+  $receipt-height: 242; // высота листа вместе с зубчиками (в svg — 257)
+  $receipt-scale-y: math.div($receipt-height, 257);
+
+  &__details-box {
+    position: absolute;
+    top: vw($details-top);
+    left: vw(30);
+    width: vw(277);
+  }
+
+  // фон-чек: svg 336×296, сам лист внутри — x 17, y 24, 303×257 вместе с зубчиками.
+  // Лежит в details-box, но позиционируется от кадра: лист начинается над
+  // подзаголовком «Payment details…» и заканчивается под реквизитами.
+  // z-index -1 — уходит под подзаголовок, текст и разделитель.
+  &__details-bg {
+    position: absolute;
+    top: vw($receipt-top - 24 * $receipt-scale-y - $details-top);
+    left: vw(-30);
+    z-index: -1;
+    width: vw(336);
+    // сжимаем только по высоте — в svg нужен preserveAspectRatio="none"
+    height: vw(296 * $receipt-scale-y);
+    max-width: none;
+    pointer-events: none;
+  }
+
+  &__details {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: vw(5);
+    margin: 0;
+  }
+
+  &__detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: vw(18);
+    font-family: 'Poppins', sans-serif;
+    font-size: vw(9);
+  }
+
+  &__detail-label {
+    font-weight: 400;
+    color: $color-detail-label;
+  }
+
+  &__detail-value {
+    margin: 0;
+    font-weight: 500;
+    text-align: right;
+    color: $color-detail-value;
+  }
+
+  // ===== Анимация элементов =====
+
+  // кадр 1
+  &__option--tap-1 {
+    @include option-anim(phone-paylater);
+  }
+
+  &__button--tap-1 {
+    @include button-anim(phone-btn-1);
+  }
+
+  // кадр 2
+  &__option--tap-2 {
+    @include option-anim(phone-term, $ripple-top: vw(22));
+  }
+
+  &__button--tap-2 {
+    @include button-anim(phone-btn-2);
+  }
+
+  // кадр 3 — проверки отмечаются сами, без тапа
+  &__option--check-1 {
+    @include option-anim(phone-check-1, $ripple: false);
+  }
+
+  &__option--check-2 {
+    @include option-anim(phone-check-2, $ripple: false);
+  }
+
+  &__button--tap-3 {
+    @include button-anim(phone-btn-3);
+  }
+}
+
+
+// =====================================================
+// Keyframes
+// =====================================================
+
+// --- Лента экранов ---
+@keyframes phone-slide {
+  0%, #{p($t-slide-1)} {
+    transform: y(0);
+  }
+  #{p($t-slide-1 + $slide-time)}, #{p($t-slide-2)} {
+    transform: y(1);
+  }
+  #{p($t-slide-2 + $slide-time)}, #{p($t-slide-3)} {
+    transform: y(2);
+  }
+  #{p($t-slide-3 + $slide-time)}, #{p($t-slide-4)} {
+    transform: y(3);
+  }
+  #{p($t-slide-4 + $slide-time)}, 100% {
+    transform: y(4);
+  }
+}
+
+// --- Лого в шапке: появляется с экрана с картой (кадры 3–4) ---
+@keyframes phone-header-logo {
+  0%, #{p($t-slide-2)} {
+    opacity: 0;
+  }
+  #{p($t-slide-2 + 0.4)}, #{p($t-slide-4)} {
+    opacity: 1;
+  }
+  #{p($t-slide-4 + 0.4)}, 100% {
+    opacity: 0;
+  }
+}
+
+// --- Заголовок в шапке: старый гаснет, новый проявляется на середине слайда ---
+// 1: Payment Method (кадры 1 и 5) · 2: PayLater (кадр 2) · 3: Buyer Authentication (кадры 3–4)
+$title-fade: 0.3;
+
+@keyframes phone-header-title-1 {
+  0%, #{p($t-slide-1)} {
+    opacity: 1;
+  }
+  #{p($t-slide-1 + $title-fade)}, #{p($t-slide-4 + $title-fade)} {
+    opacity: 0;
+  }
+  #{p($t-slide-4 + $title-fade * 2)}, 100% {
+    opacity: 1;
+  }
+}
+
+@keyframes phone-header-title-2 {
+  0%, #{p($t-slide-1 + $title-fade)} {
+    opacity: 0;
+  }
+  #{p($t-slide-1 + $title-fade * 2)}, #{p($t-slide-2)} {
+    opacity: 1;
+  }
+  #{p($t-slide-2 + $title-fade)}, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes phone-header-title-3 {
+  0%, #{p($t-slide-2 + $title-fade)} {
+    opacity: 0;
+  }
+  #{p($t-slide-2 + $title-fade * 2)}, #{p($t-slide-4)} {
+    opacity: 1;
+  }
+  #{p($t-slide-4 + $title-fade)}, 100% {
+    opacity: 0;
+  }
+}
+
+// --- Пункт выбора: (сжатие) + бордер/фон + радиокнопка, сброс после ухода экрана ---
+@mixin option-keyframes($name, $t, $reset, $press: true, $ripple: true) {
+  @keyframes #{$name} {
+    0%, #{p($t)} {
+      transform: scale(1);
+      border-color: $color-option-border;
+      background-color: $color-option-bg;
+    }
+    @if $press {
+      #{p($t + 0.18)} {
+        transform: scale(0.97);
+      }
+      #{p($t + 0.5)} {
+        transform: scale(1);
+      }
+    }
+    #{p($t + 0.36)}, #{p($reset)} {
+      border-color: $color-option-active-border;
+      background-color: $color-option-active-bg;
+    }
+    #{p($reset + 0.05)}, 100% {
+      transform: scale(1);
+      border-color: $color-option-border;
+      background-color: $color-option-bg;
+    }
+  }
+
+  @keyframes #{$name}-radio {
+    0%, #{p($t + 0.2)} {
+      border-color: $color-radio-idle;
+      background-color: transparent;
+    }
+    #{p($t + 0.36)}, #{p($reset)} {
+      border-color: $color-radio-active;
+      background-color: $color-radio-active;
+    }
+    #{p($reset + 0.05)}, 100% {
+      border-color: $color-radio-idle;
+      background-color: transparent;
+    }
+  }
+
+  @keyframes #{$name}-radio-dot {
+    0%, #{p($t + 0.22)} {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0);
+    }
+    #{p($t + 0.45)}, #{p($reset)} {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    #{p($reset + 0.05)}, 100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0);
+    }
+  }
+
+  @if $ripple {
+    @keyframes #{$name}-ripple {
+      0%, #{p($t + 0.1)} {
+        opacity: 0;
+        transform: scale(0);
+      }
+      #{p($t + 0.12)} {
+        opacity: 1;
+        transform: scale(0.5);
+      }
+      #{p($t + 0.7)}, 100% {
+        opacity: 0;
+        transform: scale(18);
+      }
+    }
+  }
+}
+
+// --- Кнопка: сжатие + градиент + тёмный текст ---
+@mixin button-keyframes($name, $t, $reset) {
+  @keyframes #{$name}-press {
+    0%, #{p($t)} {
+      transform: scale(1);
+    }
+    #{p($t + 0.13)} {
+      transform: scale(0.96);
+    }
+    #{p($t + 0.3)}, 100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes #{$name}-fill {
+    0%, #{p($t + 0.04)} {
+      opacity: 0;
+    }
+    #{p($t + 0.22)}, #{p($reset)} {
+      opacity: 1;
+    }
+    #{p($reset + 0.05)}, 100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes #{$name}-text {
+    0%, #{p($t + 0.04)} {
+      color: variables.$color-white;
+    }
+    #{p($t + 0.22)}, #{p($reset)} {
+      color: variables.$color-black;
+    }
+    #{p($reset + 0.05)}, 100% {
+      color: variables.$color-white;
+    }
+  }
+}
+
+// кадр 1
+@include option-keyframes(phone-paylater, $t-paylater, $reset-1);
+@include button-keyframes(phone-btn-1, $t-confirm, $reset-1);
+
+// кадр 2
+@include option-keyframes(phone-term, $t-term, $reset-2);
+@include button-keyframes(phone-btn-2, $t-continue-1, $reset-2);
+
+// кадр 3
+@include option-keyframes(phone-check-1, $t-check-1, $reset-3, $press: false, $ripple: false);
+@include option-keyframes(phone-check-2, $t-check-2, $reset-3, $press: false, $ripple: false);
+@include button-keyframes(phone-btn-3, $t-continue-2, $reset-3);
+
+// =====================================================
+// Старт по скроллу
+// Пока JS секции работает (.is-anim), ролик стоит на паузе в первом кадре
+// и запускается, когда телефон получает .is-visible (data-reveal="fade").
+// Без JS играет сразу.
+// =====================================================
+.b2b-checkout.is-anim .phone {
+  *,
+  *::before,
+  *::after {
+    animation-play-state: paused;
+  }
+
+  &.is-visible {
+    *,
+    *::before,
+    *::after {
+      animation-play-state: running;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone *,
+  .phone *::before,
+  .phone *::after {
+    animation: none !important;
+  }
+}

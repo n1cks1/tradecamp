@@ -1,0 +1,143 @@
+@use '../variables';
+@use '../mixins';
+
+// Цвета, которых нет в _variables.scss (взяты из макета)
+$cta-bg: #17191C;
+$cta-banner-title: #17191C;
+$cta-text-gradient: linear-gradient(180deg, #F6BEC1 0%, #EFCD73 100%);
+$cta-banner-gradient: linear-gradient(3.36deg, variables.$color-orange 10.86%, #F2C98D 138.98%);
+$cta-divider: rgba(255, 255, 255, 0.12);
+
+.cta {
+  position: relative;
+  z-index: 2;
+  background-color: $cta-bg;
+  // Наезд на предыдущую секцию: в макете тёмный блок перекрывает её на 209px
+  @include mixins.fluid-vw(margin-top, -209);
+  @include mixins.fluid-vw(border-top-left-radius, 48);
+  @include mixins.fluid-vw(border-top-right-radius, 48);
+  @include mixins.fluid-vw(padding-top, 110);
+  @include mixins.fluid-vw(padding-bottom, 100);
+
+  // Разграничитель с футером: тонкая серая линия с затуханием к краям
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    @include mixins.fluid-vw(width, 1340);
+    height: 1px;
+    background: linear-gradient(
+            90deg,
+            transparent 0%,
+            $cta-divider 15%,
+            $cta-divider 85%,
+            transparent 100%
+    );
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__gradient-text {
+    background: $cta-text-gradient;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  &__stats {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    color: variables.$color-white;
+    @include mixins.fluid-vw(font-size, 28);
+    @include mixins.fluid-vw(line-height, 38);
+    @include mixins.fluid-vw(letter-spacing, -0.56);
+  }
+
+  &__banner {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background: $cta-banner-gradient;
+    @include mixins.fluid-vw(width, 1102);
+    @include mixins.fluid-vw(height, 300);
+    @include mixins.fluid-vw(margin-top, 80);
+    @include mixins.fluid-vw(border-radius, 16);
+    @include mixins.fluid-vw(padding-left, 45);
+    @include mixins.fluid-vw(padding-right, 43);
+  }
+
+  &__banner-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &__banner-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+    @include mixins.fluid-vw(gap, 84);
+  }
+
+  &__banner-title {
+    margin: 0;
+    font-family: variables.$font-family-base;
+    font-weight: 600;
+    line-height: normal;
+    color: $cta-banner-title;
+    @include mixins.fluid-vw(font-size, 38);
+    @include mixins.fluid-vw(max-width, 770);
+  }
+
+  &__banner-button {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: variables.$color-white;
+    color: #000;
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    @include mixins.fluid-vw(width, 160);
+    @include mixins.fluid-vw(height, 48);
+    @include mixins.fluid-vw(border-radius, variables.$border-radius);
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 16);
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: variables.$color-orange-lightest-2;
+    }
+  }
+
+  &__slogan {
+    margin: 0;
+    text-align: center;
+    font-family: variables.$font-family-base;
+    font-weight: 700;
+    color: variables.$color-white;
+    @include mixins.fluid-vw(font-size, 42);
+    @include mixins.fluid-vw(line-height, 50);
+    @include mixins.fluid-vw(margin-top, 160);
+  }
+}

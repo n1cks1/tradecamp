@@ -1,0 +1,264 @@
+@use '../variables';
+@use '../mixins';
+
+.ecosystem {
+  @include mixins.fluid-vw(border-top-left-radius, 40);
+  @include mixins.fluid-vw(border-top-right-radius, 40);
+  @include mixins.fluid-vw(border-bottom-left-radius, 40);
+  @include mixins.fluid-vw(border-bottom-right-radius, 40);
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  background-color: #1D222A;
+
+  &__background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    background-image: url('/src/images/ecosystem_lines.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    pointer-events: none;
+  }
+
+  &__body {
+    position: relative; // поверх фона с линиями
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    @include mixins.fluid-vh(gap, 120);
+    @include mixins.fluid-vh(margin-block, 120);
+  }
+
+  // ---------- лид: заголовок + текст с логотипом ----------
+
+  &__lead {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include mixins.fluid-vh(gap, 38);
+    @include mixins.fluid-vw(padding-inline, 10);
+    text-align: center;
+
+    &-title {
+      color: #FCFCFC;
+    }
+
+    &-text {
+      @include mixins.fluid-vw(font-size, 26);
+      @include mixins.fluid-vw(line-height, 44);
+      color: #FCFCFC;
+      margin: 0;
+    }
+  }
+
+  &__logo {
+    display: inline-block;
+    @include mixins.fluid-vw(height, 28);
+    width: auto;
+    vertical-align: -0.2em; // выравниваем по базовой линии текста
+    @include mixins.fluid-vw(margin-right, 6);
+  }
+
+  // ---------- большой текст + фичи ----------
+
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include mixins.fluid-vh(gap, 60);
+    @include mixins.fluid-vh(padding-block, 110);
+  }
+
+  &__title {
+    @include mixins.fluid-vw(max-width, 1100);
+    font-family: "NeueAugenblick", sans-serif;
+    font-weight: 700;
+    @include mixins.fluid-vw(font-size, 48);
+    @include mixins.fluid-vw(line-height, 54);
+    color: #FCFCFC;
+    text-align: center;
+
+    // последнее предложение — градиентом
+    &-accent {
+      background: variables.$orange-gradient-1;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+  }
+
+  &__features {
+    display: flex;
+    justify-content: center;
+    @include mixins.fluid-vw(gap, 51);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__feature {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(gap, 16);
+    @include mixins.fluid-vw(width, 256);
+    @include mixins.fluid-vh(height, 70);
+    @include mixins.fluid-vw(padding-inline, 8);
+    @include mixins.fluid-vh(padding-block, 10);
+    background: #FCFCFC;
+    @include mixins.fluid-vw(border-radius, variables.$border-radius);
+
+    &-icon {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @include mixins.fluid-vh(width, 50);
+      @include mixins.fluid-vh(height, 50);
+      @include mixins.fluid-vw(border-radius, variables.$border-radius);
+
+      img {
+        display: block;
+        @include mixins.fluid-vh(width, 24);
+        @include mixins.fluid-vh(height, 24);
+        object-fit: contain;
+      }
+
+      &--green  { background: variables.$color-green; }
+      &--yellow { background: #F9F586; }
+      &--orange { background: variables.$color-orange; }
+    }
+
+    &-text {
+      @include mixins.fluid-vw(font-size, 16);
+      @include mixins.fluid-vw(line-height, 22);
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  // ---------- интеграции (бегущая лента) ----------
+
+  &__integrations {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    @include mixins.fluid-vh(gap, 54);
+  }
+
+  &__integration {
+    // карточка
+    flex-shrink: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+    @include mixins.fluid-vh(height, 70);
+    @include mixins.fluid-vw(width, 170);
+    @include mixins.fluid-vw(padding-inline, 20);
+    @include mixins.fluid-vh(padding-block, 20);
+    @include mixins.fluid-vw(border-radius, 17);
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    // окно ленты
+    &-list {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    // движущийся трек
+    &-track {
+      display: flex;
+      width: max-content;
+      animation: ecosystem-marquee 40s linear infinite;
+    }
+
+    // группа карточек (их две, одинаковые)
+    &-group {
+      display: flex;
+      flex-shrink: 0;
+      @include mixins.fluid-vw(column-gap, 24);
+      @include mixins.fluid-vw(padding-right, 24); // = column-gap, иначе на стыке групп будет скачок
+    }
+  }
+
+  // ---------- упоминания ----------
+
+  &__mentions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @include mixins.fluid-vh(gap, 75);
+    width: 100%;
+
+    // начальное состояние
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+
+    &--visible {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  &__mention {
+    &-list {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include mixins.fluid-vw(gap, 70);
+      @include mixins.fluid-vh(height, 28);
+      padding: 0;
+    }
+
+    img {
+      display: block;
+      @include mixins.fluid-vh(height, 28);
+      width: auto;
+      flex-shrink: 0;
+    }
+  }
+
+  h5 {
+    font-family: "NeueAugenblick", sans-serif;
+    font-weight: 700;
+    @include mixins.fluid-vw(font-size, 35);
+    color: #F0F0F0;
+    margin: 0;
+  }
+
+  @keyframes ecosystem-marquee {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ecosystem__integration-track {
+      animation: none;
+    }
+
+    .ecosystem__mentions {
+      transition: none;
+    }
+  }
+}

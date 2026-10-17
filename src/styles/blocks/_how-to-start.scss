@@ -1,0 +1,113 @@
+@use 'sass:color';
+@use '../variables';
+@use '../mixins';
+
+.how-to-start {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  background: #181A1E;
+  // скругляем только верх, низ со скруглением рисует секция advantages
+  @include mixins.fluid-vw(border-top-left-radius, 55);
+  @include mixins.fluid-vw(border-top-right-radius, 55);
+
+  // карточка прошлой секции заезжает на 168px
+  @include mixins.fluid-vw(margin-top, -168);
+  @include mixins.fluid-vw(padding-top, 328);
+  // от шагов до верха FX-карточки
+  @include mixins.fluid-vw(padding-bottom, 180);
+
+  &__lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__title {
+    color: variables.$color-white;
+    text-align: center;
+    letter-spacing: -0.01em;
+  }
+
+  &__subtitle {
+    @include mixins.fluid-vw(width, 581);
+    @include mixins.fluid-vw(margin-top, 10);
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: color.change(variables.$color-white, $alpha: 50%);
+
+    span {
+      color: variables.$color-white;
+    }
+  }
+
+  &__steps {
+    display: flex;
+    align-items: flex-start;
+    @include mixins.fluid-vw(margin-top, 112);
+    @include mixins.fluid-vw(padding-left, 161);
+    @include mixins.fluid-vw(gap, 207);
+  }
+
+  &__step {
+    &--date {
+      @include mixins.fluid-vw(width, 227);
+    }
+
+    &--approval {
+      @include mixins.fluid-vw(width, 269);
+      @include mixins.fluid-vw(margin-top, 1);
+    }
+
+    &--funding {
+      flex-shrink: 0;
+
+      .how-to-start__step-text {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include mixins.fluid-vw(width, 45);
+    @include mixins.fluid-vw(height, 45);
+    border-radius: 50%;
+    background: color.change(variables.$color-green, $alpha: 10%);
+
+    img {
+      display: block;
+      @include mixins.fluid-vw(width, 25);
+      @include mixins.fluid-vw(height, 25);
+    }
+  }
+
+  &__step-title {
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    @include mixins.fluid-vw(font-size, 28);
+    @include mixins.fluid-vw(line-height, 38);
+    letter-spacing: -0.02em;
+    color: variables.$color-white;
+    @include mixins.fluid-vw(margin-top, 20);
+  }
+
+  &__step-text {
+    @include mixins.fluid-vw(margin-top, 10);
+    color: color.change(variables.$color-white, $alpha: 70%);
+  }
+}

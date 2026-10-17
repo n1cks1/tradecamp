@@ -1,3 +1,81 @@
-.header__title {
-  color: blue;
-}
+@use 'sass:color';
+@use 'mixins';
+
+$color-black: #212229;
+$color-black-70: color.change($color-black, $alpha: 70%);
+$color-black-50: color.change($color-black, $alpha: 50%);
+$color-black-25: color.change($color-black, $alpha: 25%);
+$color-black-10: color.change($color-black, $alpha: 10%);
+$color-black-5: color.change($color-black, $alpha: 5%);
+
+$color-white: #FFFFFF;
+$color-white-70: color.adjust($color-white, $lightness: -20%);
+$color-white-50: color.adjust($color-white, $lightness: -50%);
+$color-white-25: color.adjust($color-white, $lightness: -75%);
+$color-white-10: color.adjust($color-white, $lightness: -90%);
+$color-white-5:  color.adjust($color-white, $lightness: -95%);
+
+$color-green: #96FBC4;
+$color-green-darker: #96FBC4;
+$color-green-dark: #78C99D;
+$color-green-light: #96FBC4;
+$color-green-50: #5C8E77;
+$color-green-25: #3E5850;
+$color-green-10: #2D3839;
+
+$color-orange: #F4A868;
+$color-orange-darker: #F4A868;
+$color-orange-dark: #C38653;
+$color-orange-light: #F6B986;
+$color-orange-lighter: #F9D3B3;
+$color-orange-lightest-1: #FCE9D9;
+$color-orange-lightest-2: #FEF6F0;
+
+$orange-gradient-1: linear-gradient(
+        90deg,
+        #F6BEC1 0%,
+        #EFCD73 91%
+);
+
+$orange-gradient-short-1: linear-gradient(
+        90deg,
+        #F6BEC1 0%,
+        #F0C6A0 200%
+);
+
+$reverse-orange-gradient-1: linear-gradient(
+        270deg,
+        #F6BEC1 0%,
+        #EFCD73 91%
+);
+
+
+
+$orange-gradient-2: linear-gradient(
+        90deg,
+        #FBBC96 0%,
+        #F9F586 100%
+);
+
+
+$orange-gradient-3: linear-gradient(
+        180deg,
+        #F6BEC1 43%,
+        #EFCD73 100%
+);
+
+$orange-gradient-4: linear-gradient(
+        90deg,
+        #F3C697 0%,
+        #F4C3AA 100%
+);
+
+$green-gradient-1: linear-gradient(
+        90deg,
+        #96FBC4 23%,
+        #F9F586 100%
+);
+
+$font-family-base: 'BR Sonoma', sans-serif;
+
+$border-radius: 8;

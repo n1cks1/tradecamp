@@ -1,0 +1,320 @@
+@use 'sass:list';
+@use '../variables';
+@use '../mixins';
+
+// Цвета, которых нет в _variables.scss — можно перенести туда
+$color-page-bg: #F5F7FA;      // фон под карточками
+$color-title: #152122;        // заголовки карточек
+$color-icon-bg: #F4F4F6;      // кружок под иконкой
+$color-step-blue: #2242DE;
+$color-step-red: #EB5757;
+$color-step-orange: #FF9200;
+
+$card-shadow: 0 mixins.fluid-value-vw(4) mixins.fluid-value-vw(40) rgba(31, 41, 51, 0.12);
+
+// центры колонок с цифрами в первой карточке (px от левого края карточки)
+$stat-cols: 212.5, 530, 817, 1130;
+// вертикальные разделители между цифрами
+$stat-dividers: 391.5, 680, 959;
+
+// фон страницы — он же виден в скруглённых углах тёмного блока
+.page-cashflow {
+  background: $color-page-bg;
+}
+
+$color-dark: #181A1E;  // тот же цвет, что у тёмного блока выше
+$overlap: 113;         // половина карточки с цифрами — на столько она лежит на тёмном фоне
+$gap: 100;             // зазор между полосой таймлайна и карточкой
+
+// Скругление низа тёмного блока переезжает сюда: его рисует сама секция
+// (тёмная полоса высотой в половину карточки), поэтому у .cashflow-top оно убрано.
+.cashflow-top {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.cashflow-hero {
+  @include mixins.fluid-vw(padding-bottom, $gap);
+}
+
+.cashflow-benefits {
+  position: relative;
+  display: flow-root;
+  background: $color-page-bg;
+
+  // тёмный «хвост» предыдущей секции со скруглёнными углами —
+  // карточка с цифрами лежит на нём ровно наполовину
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: $color-dark;
+    @include mixins.fluid-vw(height, $overlap);
+    @include mixins.fluid-vw(border-bottom-left-radius, 55);
+    @include mixins.fluid-vw(border-bottom-right-radius, 55);
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    @include mixins.fluid-vw(gap, 20);
+    @include mixins.fluid-vw(padding-left, 50);
+    @include mixins.fluid-vw(padding-right, 50);
+  }
+
+  &__card {
+    position: relative;
+    z-index: 2;
+    background: variables.$color-white;
+    box-shadow: $card-shadow;
+    @include mixins.fluid-vw(border-radius, 20);
+
+    &--stats {
+      @include mixins.fluid-vw(height, 226);
+    }
+
+    &--access {
+      @include mixins.fluid-vw(height, 520);
+      @include mixins.fluid-vw(padding-top, 55);
+    }
+
+    &--steps {
+      @include mixins.fluid-vw(height, 480);
+      @include mixins.fluid-vw(padding-top, 55);
+      @include mixins.fluid-vw(border-radius, 16);
+    }
+  }
+
+  &__title {
+    color: $color-title;
+    text-align: center;
+  }
+
+  &__subtitle {
+    margin: 0;
+    color: variables.$color-black-70;
+    text-align: center;
+    @include mixins.fluid-vw(margin-top, 10);
+    @include mixins.fluid-vw(font-size, 20);
+    @include mixins.fluid-vw(line-height, 30);
+    @include mixins.fluid-vw(letter-spacing, -0.12);
+  }
+
+  // ---------- Блок 1: цифры ----------
+  &__stats {
+    position: relative;
+    height: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    // вертикальные разделители — тремя фоновыми полосками
+    $line: linear-gradient(variables.$color-black-10, variables.$color-black-10);
+    background-image: $line, $line, $line;
+    background-repeat: no-repeat;
+    background-size: 1px mixins.fluid-value-vw(114.5);
+    background-position:
+            mixins.fluid-value-vw(list.nth($stat-dividers, 1)) mixins.fluid-value-vw(59.5),
+            mixins.fluid-value-vw(list.nth($stat-dividers, 2)) mixins.fluid-value-vw(59.5),
+            mixins.fluid-value-vw(list.nth($stat-dividers, 3)) mixins.fluid-value-vw(59.5);
+  }
+
+  &__stat {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    @include mixins.fluid-vw(top, 64);
+    @include mixins.fluid-vw(gap, 15);
+
+    @for $i from 1 through list.length($stat-cols) {
+      &:nth-child(#{$i}) {
+        @include mixins.fluid-vw(left, list.nth($stat-cols, $i));
+      }
+    }
+
+    &--time {
+      @include mixins.fluid-vw(top, 67);
+    }
+  }
+
+  &__stat-value {
+    display: flex;
+    align-items: flex-end;
+    @include mixins.fluid-vw(gap, 15);
+
+    span {
+      color: variables.$color-black;
+      font-family: 'NeueAugenblick', sans-serif;
+      font-weight: 700;
+      @include mixins.fluid-vw(font-size, 48);
+      @include mixins.fluid-vw(line-height, 46);
+      @include mixins.fluid-vw(letter-spacing, -0.48);
+    }
+
+    img {
+      display: block;
+      flex: none;
+      @include mixins.fluid-vw(width, 30);
+      @include mixins.fluid-vw(height, 30);
+    }
+  }
+
+  &__stat-caption,
+  &__stat-note {
+    margin: 0;
+    color: variables.$color-black-70;
+    text-align: center;
+    @include mixins.fluid-vw(font-size, 18);
+    @include mixins.fluid-vw(line-height, 28);
+  }
+
+  // «From 7-10 days» над «20 Secs»
+  &__stat-note {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    @include mixins.fluid-vw(top, -22);
+    @include mixins.fluid-vw(line-height, 19);
+  }
+
+  // ---------- Блок 2: Fair & instant access ----------
+  &__card--access &__title {
+    margin: 0 auto;
+    @include mixins.fluid-vw(width, 881);
+  }
+
+  // линия под заголовком
+  &__features {
+    position: relative;
+    display: flex;
+    list-style: none;
+    margin: 0;
+    @include mixins.fluid-vw(margin-top, 105);
+    @include mixins.fluid-vw(padding-left, 48);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      height: 1px;
+      transform: translateX(-50%);
+      background: variables.$color-black-10;
+      @include mixins.fluid-vw(top, -58);
+      @include mixins.fluid-vw(width, 1243);
+    }
+  }
+
+  &__feature {
+    &:nth-child(1) { @include mixins.fluid-vw(width, 433); }
+    &:nth-child(2) { @include mixins.fluid-vw(width, 468); }
+  }
+
+  &__feature-head {
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(gap, 20);
+  }
+
+  &__feature-icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: $color-icon-bg;
+    box-shadow: inset 0 0 mixins.fluid-value-vw(16) rgba(241, 241, 241, 0.5);
+    @include mixins.fluid-vw(width, 45);
+    @include mixins.fluid-vw(height, 45);
+
+    img {
+      display: block;
+      @include mixins.fluid-vw(width, 25);
+      @include mixins.fluid-vw(height, 25);
+    }
+  }
+
+  &__feature-name {
+    color: variables.$color-black;
+    font-weight: 500;
+    @include mixins.fluid-vw(font-size, 24);
+    @include mixins.fluid-vw(line-height, 32);
+  }
+
+  &__feature-text {
+    margin: 0;
+    color: variables.$color-black-70;
+    @include mixins.fluid-vw(margin-top, 25);
+    @include mixins.fluid-vw(margin-left, 65);
+    @include mixins.fluid-vw(font-size, 18);
+    @include mixins.fluid-vw(line-height, 28);
+  }
+
+  &__feature:nth-child(1) &__feature-text { @include mixins.fluid-vw(width, 337); }
+  &__feature:nth-child(2) &__feature-text { @include mixins.fluid-vw(width, 307); }
+  &__feature:nth-child(3) &__feature-text { @include mixins.fluid-vw(width, 218); }
+
+  // ---------- Блок 3: Pain free cash ----------
+  &__steps {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    @include mixins.fluid-vw(margin-top, 117);
+    @include mixins.fluid-vw(padding-left, 93);
+  }
+
+  &__step {
+    &:nth-child(1) { @include mixins.fluid-vw(width, 447); }
+    &:nth-child(2) { @include mixins.fluid-vw(width, 390); }
+
+    &--blue   { --step-color: #{$color-step-blue}; }
+    &--red    { --step-color: #{$color-step-red}; }
+    &--orange { --step-color: #{$color-step-orange}; }
+  }
+
+  &__step-name {
+    display: flex;
+    align-items: center;
+    color: variables.$color-black;
+    font-weight: 500;
+    @include mixins.fluid-vw(gap, 15);
+    @include mixins.fluid-vw(font-size, 24);
+    @include mixins.fluid-vw(line-height, 32);
+
+    // ромбик
+    &::before {
+      content: '';
+      flex: none;
+      background: var(--step-color);
+      transform: rotate(45deg);
+      @include mixins.fluid-vw(width, 10);
+      @include mixins.fluid-vw(height, 10);
+      @include mixins.fluid-vw(margin-left, 2);
+      @include mixins.fluid-vw(margin-right, 2);
+    }
+  }
+
+  &__step-text {
+    margin: 0;
+    color: variables.$color-black-70;
+    @include mixins.fluid-vw(margin-top, 18);
+    @include mixins.fluid-vw(margin-left, 29);
+    @include mixins.fluid-vw(font-size, 18);
+    @include mixins.fluid-vw(line-height, 28);
+
+    strong {
+      color: variables.$color-black;
+      font-weight: 600;
+    }
+  }
+
+  &__step:nth-child(1) &__step-text { @include mixins.fluid-vw(width, 310); }
+  &__step:nth-child(2) &__step-text { @include mixins.fluid-vw(width, 251); }
+  &__step:nth-child(3) &__step-text { @include mixins.fluid-vw(width, 310); }
+}

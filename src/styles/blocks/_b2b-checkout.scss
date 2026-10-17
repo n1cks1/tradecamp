@@ -1,0 +1,680 @@
+@use 'sass:color';
+@use 'sass:math';
+@use '../variables';
+@use '../mixins';
+
+// Цвета, которых нет в переменных проекта (при желании вынести в variables)
+$b2b-checkout-bg: #131418;
+$b2b-line-color: #4D4D4D;
+$b2b-runner-color: #F9F586;
+$b2b-runner-width: 1.5;   // толщина бегущего элемента (как у самой линии)
+$b2b-runner-length: 7;    // длина бегущего элемента, % от длины ветки
+
+// скорость появления элементов
+$b2b-reveal-duration: 0.6s;
+$b2b-reveal-move-duration: 0.65s;
+
+$b2b-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+// Общая круглая иконка для всех трёх блоков
+%b2b-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: variables.$color-green-10; // непрозрачный — линия прячется за иконкой
+  @include mixins.fluid-vw(width, 46);
+  @include mixins.fluid-vw(height, 46);
+
+  img {
+    display: block;
+    @include mixins.fluid-vw(width, 22);
+    height: auto;
+  }
+}
+
+
+// =====================================================================
+// Секция
+// =====================================================================
+.b2b-checkout {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: $b2b-checkout-bg;
+  @include mixins.fluid-vw(border-top-left-radius, 60);
+  @include mixins.fluid-vw(border-top-right-radius, 60);
+  @include mixins.fluid-vw(border-bottom-left-radius, 64);
+  @include mixins.fluid-vw(border-bottom-right-radius, 64);
+  // 194 — от кнопки PayLater до белой карточки, 128 — нахлёст следующей секции
+  @include mixins.fluid-vw(padding-bottom, 322);
+
+  // ---------- Фон ----------
+  &__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  &__bg-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left top;
+  }
+
+  // ---------- Контейнер: контент 1120 по центру 1440 ----------
+  &__inner {
+    position: relative;
+    z-index: 1;
+    @include mixins.fluid-vw(padding-top, 112);
+    @include mixins.fluid-vw(padding-left, 160);
+    @include mixins.fluid-vw(padding-right, 160);
+  }
+
+  // ---------- Шапка ----------
+  &__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: variables.$color-black;
+    border-radius: 999px;
+    @include mixins.fluid-vw(gap, 14);
+    @include mixins.fluid-vw(padding-top, 8);
+    @include mixins.fluid-vw(padding-bottom, 8);
+    @include mixins.fluid-vw(padding-left, 20);
+    @include mixins.fluid-vw(padding-right, 20);
+  }
+
+  &__badge-brand,
+  &__badge-text {
+    color: variables.$color-white;
+  }
+
+  &__badge-brand {
+    font-family: 'BR Sonoma', sans-serif;
+    font-weight: 700;
+    @include mixins.fluid-vw(font-size, 20);
+  }
+
+  &__badge-divider {
+    display: block;
+    width: 1px;
+    align-self: stretch;
+    background-color: variables.$color-white;
+    @include mixins.fluid-vw(margin-top, 4);
+    @include mixins.fluid-vw(margin-bottom, 4);
+  }
+
+  &__title {
+    @include mixins.fluid-vw(line-height, 66);
+    @include mixins.fluid-vw(margin-top, 24);
+    background: variables.$green-gradient-1;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  // ---------- Блок 1 ----------
+  &__block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include mixins.fluid-vw(gap, 40);
+    @include mixins.fluid-vw(margin-top, 112);
+  }
+
+  &__content {
+    @include mixins.fluid-vw(max-width, 440);
+  }
+
+  &__icon {
+    @extend %b2b-icon;
+  }
+
+  &__icon-img {
+    @include mixins.fluid-vw(width, 24);
+  }
+
+  &__block-title {
+    color: variables.$color-white;
+    @include mixins.fluid-vw(margin-top, 32);
+  }
+
+  &__block-text {
+    color: color.change(variables.$color-white, $alpha: 60%);
+    @include mixins.fluid-vw(margin-top, 16);
+  }
+
+  &__visual {
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 314);
+  }
+
+  &__visual-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  // ---------- Пунктир с иконкой (блоки 2 и 3) ----------
+  // Без JS иконка стоит внизу линии, JS поднимает её и опускает по скроллу
+  &__track {
+    position: relative;
+    @include mixins.fluid-vw(width, 46);
+    @include mixins.fluid-vw(height, 200);
+  }
+
+  &__track-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    transform: translateX(-50%);
+    // тот же пунктир, что в vertical_line.svg (#4D4D4D, 2/2), но тянется на любую высоту
+    background: repeating-linear-gradient(
+            to bottom,
+            $b2b-line-color 0 2px,
+            transparent 2px 4px
+    );
+    pointer-events: none;
+  }
+
+  &__track-icon {
+    @extend %b2b-icon;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    will-change: transform;
+  }
+}
+
+// Следующая (белая) секция наезжает на закругление
+.b2b-checkout + * {
+  position: relative;
+  z-index: 1;
+  @include mixins.fluid-vw(margin-top, -128);
+}
+
+
+// =====================================================================
+// Блок 2
+// =====================================================================
+.terms-block {
+  @include mixins.fluid-vw(margin-top, 120);
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include mixins.fluid-vw(gap, 40);
+    @include mixins.fluid-vw(margin-top, 32);
+  }
+
+  // ===== Левая колонка =====
+  &__content {
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 400);
+  }
+
+  &__title {
+    color: variables.$color-white;
+  }
+
+  &__text {
+    color: variables.$color-white-70;
+    @include mixins.fluid-vw(margin-top, 16);
+  }
+
+  &__accent {
+    color: variables.$color-white;
+    font-weight: 500;
+  }
+
+  // ===== Правая часть: 271 + 248 + 6 + 165 = 690 =====
+  &__visual {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  // --- Invoice ---
+  &__invoice {
+    flex-shrink: 0;
+    background: variables.$color-white;
+    color: variables.$color-black;
+    @include mixins.fluid-vw(width, 271);
+    @include mixins.fluid-vw(padding-bottom, 12);
+    @include mixins.fluid-vw(border-radius, variables.$border-radius);
+  }
+
+  &__invoice-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid variables.$color-black-10;
+    @include mixins.fluid-vw(padding-top, 18);
+    @include mixins.fluid-vw(padding-bottom, 18);
+    @include mixins.fluid-vw(padding-left, 20);
+    @include mixins.fluid-vw(padding-right, 20);
+  }
+
+  &__invoice-title {
+    font-weight: 600;
+    @include mixins.fluid-vw(font-size, 20);
+    @include mixins.fluid-vw(line-height, 22);
+  }
+
+  &__invoice-number {
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 20);
+  }
+
+  &__invoice-body {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    @include mixins.fluid-vw(column-gap, 16);
+    @include mixins.fluid-vw(row-gap, 30);
+    @include mixins.fluid-vw(padding-top, 26);
+    @include mixins.fluid-vw(padding-bottom, 26);
+    @include mixins.fluid-vw(padding-left, 20);
+    @include mixins.fluid-vw(padding-right, 20);
+  }
+
+  &__invoice-row {
+    display: flex;
+    flex-direction: column;
+    @include mixins.fluid-vw(gap, 6);
+  }
+
+  &__invoice-btn {
+    box-sizing: border-box;
+    display: block;
+    width: calc(100% - #{mixins.fluid-value-vw(24)});
+    @include mixins.fluid-vw(margin-left, 12);
+    @include mixins.fluid-vw(margin-right, 12);
+    border: none;
+    cursor: pointer;
+    background: variables.$color-black;
+    color: variables.$color-white;
+    font-family: inherit;
+    font-weight: 600;
+    @include mixins.fluid-vw(font-size, 14);
+    @include mixins.fluid-vw(line-height, 16);
+    @include mixins.fluid-vw(padding-top, 11);
+    @include mixins.fluid-vw(padding-bottom, 11);
+    @include mixins.fluid-vw(border-radius, 6);
+  }
+
+  &__label {
+    text-transform: uppercase;
+    color: variables.$color-black-70;
+    @include mixins.fluid-vw(font-size, 12);
+    @include mixins.fluid-vw(line-height, 14);
+  }
+
+  &__value {
+    font-weight: 600;
+    @include mixins.fluid-vw(font-size, 14);
+    @include mixins.fluid-vw(line-height, 16);
+  }
+
+  // --- Линии + логотип ---
+  // ствол линии выходит из середины invoice, концы веток — в центры карточек
+  &__connector {
+    position: relative;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 248);
+  }
+
+  &__lines {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  &__lines-base {
+    stroke: $b2b-line-color;
+  }
+
+  // бегущий жёлтый элемент: две ветки идут одной точкой по стволу и расходятся на развилке
+  &__runner {
+    fill: none;
+    stroke: $b2b-runner-color;
+    stroke-width: $b2b-runner-width;
+    stroke-linecap: round;
+    stroke-dasharray: $b2b-runner-length 200; // в единицах pathLength="100"
+    stroke-dashoffset: $b2b-runner-length;
+    opacity: 0;
+    filter: drop-shadow(0 0 2px color.change($b2b-runner-color, $alpha: 60%));
+    animation: b2b-runner 5s linear infinite;
+    animation-play-state: paused;
+  }
+
+  &__connector.is-visible &__runner {
+    animation-play-state: running;
+  }
+
+  // обёртка держит позицию, сам логотип анимируется
+  &__logo-wrap {
+    position: absolute;
+    top: 49.1%; // 79.56 / 162 — уровень ствола
+    left: 44%;
+    transform: translate(-50%, -50%);
+    @include mixins.fluid-vw(width, 80);
+    @include mixins.fluid-vw(height, 80);
+  }
+
+  &__logo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: variables.$green-gradient-1;
+    @include mixins.fluid-vw(border-radius, 14);
+  }
+
+  // --- Карточки справа ---
+  // расстояние между центрами карточек = 82 + 70 = 152 = расстояние между концами веток
+  &__results {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(gap, 70);
+    @include mixins.fluid-vw(margin-left, 6);
+  }
+
+  &__result {
+    position: relative;
+  }
+
+  // подпись не влияет на высоту, чтобы карточки ровно встали на концы линий
+  &__result-caption {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    white-space: nowrap;
+    color: variables.$color-white-70;
+    @include mixins.fluid-vw(margin-bottom, 12);
+  }
+
+  &__result-card {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: variables.$color-white;
+    @include mixins.fluid-vw(width, 165);
+    @include mixins.fluid-vw(height, 82);
+    @include mixins.fluid-vw(gap, 4);
+    @include mixins.fluid-vw(padding-left, 18);
+    @include mixins.fluid-vw(padding-right, 16);
+    @include mixins.fluid-vw(border-radius, 6);
+  }
+
+  &__result-value {
+    font-weight: 600;
+    color: variables.$color-black;
+    @include mixins.fluid-vw(font-size, 26);
+    @include mixins.fluid-vw(line-height, 30);
+  }
+}
+
+@keyframes b2b-runner {
+  0% {
+    stroke-dashoffset: $b2b-runner-length;
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  62% {
+    opacity: 1;
+  }
+  72% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+
+
+// =====================================================================
+// Блок 3
+// =====================================================================
+.flexible-terms {
+  @include mixins.fluid-vw(margin-top, 120);
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include mixins.fluid-vw(gap, 40);
+    @include mixins.fluid-vw(margin-top, 32);
+  }
+
+  &__content {
+    flex: 0 1 auto;
+    @include mixins.fluid-vw(max-width, 560);
+  }
+
+  &__title {
+    color: variables.$color-white;
+  }
+
+  &__text {
+    color: variables.$color-white-70;
+    @include mixins.fluid-vw(margin-top, 20);
+
+    b {
+      color: variables.$color-white;
+      font-weight: 700;
+    }
+  }
+
+  // --- Статистика ---
+  &__stats {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    @include mixins.fluid-vw(margin-top, 40);
+  }
+
+  &__stat {
+    &:nth-child(1) { @include mixins.fluid-vw(width, 214); }
+    &:nth-child(2) { @include mixins.fluid-vw(width, 189); }
+    &:nth-child(3) { flex: 1; }
+  }
+
+  &__stat-value {
+    display: block;
+    font-weight: 500;
+    line-height: 1;
+    color: variables.$color-green;
+    @include mixins.fluid-vw(font-size, 44);
+  }
+
+  &__stat-label {
+    color: variables.$color-white-70;
+    @include mixins.fluid-vw(margin-top, 16);
+    @include mixins.fluid-vw(max-width, 180);
+    @include mixins.fluid-vw(line-height, 22);
+  }
+
+  // --- Правая часть ---
+  &__visual {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    @include mixins.fluid-vw(width, 304);
+    @include mixins.fluid-vw(margin-right, 30);
+  }
+
+  &__pill {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background: variables.$color-white;
+    color: variables.$color-black;
+    @include mixins.fluid-vw(gap, 14);
+    @include mixins.fluid-vw(padding-top, 10);
+    @include mixins.fluid-vw(padding-bottom, 10);
+    @include mixins.fluid-vw(padding-left, 18);
+    @include mixins.fluid-vw(padding-right, 18);
+
+    .p4 {
+      font-weight: 600;
+    }
+
+    & + & {
+      @include mixins.fluid-vw(margin-top, 12);
+    }
+
+    &--active {
+      border-color: variables.$color-green;
+    }
+  }
+
+  &__pill-check {
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 26);
+  }
+
+  // --- Карточка с графиком ---
+  &__chart {
+    position: relative;
+    box-sizing: border-box;
+    background: variables.$color-white;
+    @include mixins.fluid-vw(width, 231);
+    @include mixins.fluid-vw(margin-top, 40);
+    @include mixins.fluid-vw(margin-left, 36);
+    @include mixins.fluid-vw(padding, 4);
+    @include mixins.fluid-vw(border-radius, variables.$border-radius);
+  }
+
+  &__chart-img {
+    display: block;
+    width: 100%;
+  }
+
+  &__timer {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: variables.$color-white;
+    @include mixins.fluid-vw(top, -20);
+    @include mixins.fluid-vw(right, -37);
+    @include mixins.fluid-vw(width, 60);
+    @include mixins.fluid-vw(height, 60);
+    @include mixins.fluid-vw(border-radius, variables.$border-radius);
+
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  // --- Кнопка PayLater ---
+  &__paylater {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border-radius: 999px;
+    background: variables.$green-gradient-1;
+    color: variables.$color-green-25;
+    @include mixins.fluid-vw(gap, 10);
+    @include mixins.fluid-vw(width, 286);
+    @include mixins.fluid-vw(margin-top, 40);
+    @include mixins.fluid-vw(margin-left, 8);
+    @include mixins.fluid-vw(padding-top, 8);
+    @include mixins.fluid-vw(padding-bottom, 8);
+    @include mixins.fluid-vw(padding-left, 16);
+    @include mixins.fluid-vw(padding-right, 8);
+
+    .p4 {
+      font-weight: 600;
+      color: inherit;
+    }
+  }
+
+  &__paylater-logo {
+    display: block;
+    @include mixins.fluid-vw(width, 104);
+  }
+
+  &__paylater-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: auto;
+    border-radius: 50%;
+    background: variables.$color-black;
+    @include mixins.fluid-vw(width, 30);
+    @include mixins.fluid-vw(height, 30);
+
+    img {
+      display: block;
+      @include mixins.fluid-vw(width, 14);
+    }
+  }
+}
+
+
+// =====================================================================
+// Анимации появления
+// Скрываем только когда JS запущен (.is-anim), без JS всё видно сразу
+// =====================================================================
+.b2b-checkout.is-anim {
+  [data-reveal] {
+    opacity: 0;
+    transition: opacity $b2b-reveal-duration ease var(--reveal-delay, 0s);
+  }
+
+  [data-reveal='up'] {
+    transform: translate3d(0, mixins.fluid-value-vw(40), 0);
+    transition:
+            opacity $b2b-reveal-duration ease var(--reveal-delay, 0s),
+            transform $b2b-reveal-move-duration $b2b-ease-out var(--reveal-delay, 0s);
+  }
+
+  [data-reveal].is-visible {
+    opacity: 1;
+  }
+
+  [data-reveal='up'].is-visible {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .b2b-checkout.is-anim [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .terms-block__runner {
+    display: none;
+  }
+}

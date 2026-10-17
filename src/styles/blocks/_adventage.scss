@@ -1,0 +1,302 @@
+@use '../variables';
+@use '../mixins';
+
+$page-bg: #F5F7FA;
+$dark-bg: #181A1E;
+
+$icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 25 25'%3E%3Ccircle cx='12.5' cy='12.5' r='10.5' fill='%23212229'/%3E%3Cpath d='M8.4 12.9l2.8 2.8 5.4-5.6' fill='none' stroke='%23FFFFFF' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+$icon-cross: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 25 25'%3E%3Cpath d='M7 7l11 11M18 7L7 18' fill='none' stroke='%23909095' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E");
+
+.advantages {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: $page-bg;
+  @include mixins.fluid-vw(padding-left, 50);
+  @include mixins.fluid-vw(padding-right, 50);
+  @include mixins.fluid-vw(gap, 20);
+
+  // продолжение тёмного фона How to start под первой карточкой
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    @include mixins.fluid-vw(height, 207);
+    background: $dark-bg;
+    @include mixins.fluid-vw(border-bottom-left-radius, 55);
+    @include mixins.fluid-vw(border-bottom-right-radius, 55);
+    z-index: 0;
+  }
+
+  &__card {
+    position: relative;
+    z-index: 1;
+    background: variables.$color-white;
+    @include mixins.fluid-vw(border-radius, 20);
+    box-shadow: 0 4px 40px 0 rgba(31, 41, 51, 0.12);
+    overflow: hidden;
+
+    &--fx {
+      @include mixins.fluid-vw(padding-top, 50);
+      @include mixins.fluid-vw(padding-bottom, 96);
+    }
+
+    &--compare {
+      @include mixins.fluid-vw(padding-top, 47);
+      @include mixins.fluid-vw(padding-bottom, 67);
+      @include mixins.fluid-vw(padding-left, 94);
+    }
+
+    &--funding {
+      @include mixins.fluid-vw(padding-top, 50);
+      @include mixins.fluid-vw(padding-bottom, 136);
+    }
+  }
+
+  &__title {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+
+    &--fx {
+      @include mixins.fluid-vw(width, 941);
+
+      span {
+        color: variables.$color-black-50;
+      }
+    }
+
+    &--compare {
+      @include mixins.fluid-vw(width, 1139);
+      // компенсируем padding-left карточки, чтобы заголовок был по центру
+      @include mixins.fluid-vw(margin-left, 1);
+      @include mixins.fluid-vw(margin-right, 95);
+    }
+
+    &--funding {
+      @include mixins.fluid-vw(width, 982);
+    }
+  }
+
+  &__divider {
+    @include mixins.fluid-vw(width, 1243);
+    height: 1px;
+    margin-left: auto;
+    margin-right: auto;
+    background: variables.$color-black-25;
+
+    &--fx {
+      @include mixins.fluid-vw(margin-top, 52);
+    }
+
+    &--funding {
+      @include mixins.fluid-vw(margin-top, 50);
+    }
+  }
+
+  // ===== Иконки галочка / крестик =====
+  &__icon {
+    display: block;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 25);
+    @include mixins.fluid-vw(height, 25);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    &--yes {
+      background-image: $icon-check;
+    }
+
+    &--no {
+      background-image: $icon-cross;
+    }
+  }
+
+  // ===== FX card =====
+  &__fx {
+    display: flex;
+    @include mixins.fluid-vw(margin-top, 84);
+    @include mixins.fluid-vw(padding-left, 149);
+  }
+
+  &__fx-item {
+    &--currencies {
+      @include mixins.fluid-vw(width, 566);
+    }
+  }
+
+  &__fx-head {
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(gap, 20);
+  }
+
+  &__fx-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 45);
+    @include mixins.fluid-vw(height, 45);
+    border-radius: 50%;
+    background: #F4F4F6;
+    box-shadow: inset 0 0 16px 0 rgba(241, 241, 241, 0.5);
+
+    img {
+      display: block;
+      @include mixins.fluid-vw(width, 25);
+      @include mixins.fluid-vw(height, 25);
+    }
+  }
+
+  &__fx-title {
+    margin: 0;
+    font-family: 'BR Sonoma', sans-serif;
+    font-weight: 600;
+    @include mixins.fluid-vw(font-size, 24);
+    @include mixins.fluid-vw(line-height, 32);
+    color: variables.$color-black;
+  }
+
+  &__fx-text {
+    @include mixins.fluid-vw(margin-top, 21);
+    @include mixins.fluid-vw(margin-left, 65);
+    color: variables.$color-black-70;
+
+    .advantages__fx-item--currencies & {
+      @include mixins.fluid-vw(width, 404);
+    }
+
+    .advantages__fx-item--fees & {
+      @include mixins.fluid-vw(width, 319);
+      @include mixins.fluid-vw(margin-left, 67);
+    }
+  }
+
+  &__fx-currencies {
+    @include mixins.fluid-vw(margin-top, 5);
+    @include mixins.fluid-vw(margin-left, 65);
+    font-weight: 600;
+    color: variables.$color-black-70;
+  }
+
+  // ===== Compare card =====
+  &__table {
+    @include mixins.fluid-vw(width, 1152);
+    @include mixins.fluid-vw(margin-top, 89);
+  }
+
+  &__table-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    @include mixins.fluid-vw(margin-bottom, 19);
+  }
+
+  &__table-features {
+    @include mixins.fluid-vw(margin-left, 4);
+    letter-spacing: -0.006em;
+    color: variables.$color-black-70;
+  }
+
+  &__table-cols {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    @include mixins.fluid-vw(width, 525);
+  }
+
+  &__table-col {
+    display: flex;
+    justify-content: center;
+    @include mixins.fluid-vw(width, 25);
+    @include mixins.fluid-vw(margin-top, 13);
+
+    span {
+      flex-shrink: 0;
+      white-space: nowrap;
+      font-family: 'BR Sonoma', sans-serif;
+      font-weight: 500;
+      @include mixins.fluid-vw(font-size, 20);
+      @include mixins.fluid-vw(line-height, 30);
+      letter-spacing: -0.01em;
+      color: variables.$color-black;
+    }
+  }
+
+  &__table-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid variables.$color-black-10;
+    @include mixins.fluid-vw(padding-top, 27);
+
+    & + & {
+      @include mixins.fluid-vw(margin-top, 27);
+    }
+  }
+
+  &__table-label {
+    margin: 0;
+    font-family: 'BR Sonoma', sans-serif;
+    font-weight: 500;
+    @include mixins.fluid-vw(font-size, 20);
+    @include mixins.fluid-vw(line-height, 30);
+    letter-spacing: -0.01em;
+    color: variables.$color-black;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    @include mixins.fluid-vw(width, 178);
+    @include mixins.fluid-vw(height, 48);
+    @include mixins.fluid-vw(margin-top, 14);
+    @include mixins.fluid-vw(border-radius, variables.$border-radius);
+    background: variables.$orange-gradient-1;
+    font-family: 'NeueAugenblick', sans-serif;
+    font-weight: 700;
+    @include mixins.fluid-vw(font-size, 16);
+    @include mixins.fluid-vw(line-height, 16);
+    color: variables.$color-black;
+
+    img {
+      display: block;
+      @include mixins.fluid-vw(width, 25);
+      @include mixins.fluid-vw(height, 25);
+    }
+  }
+
+  // ===== Funding card =====
+  &__lists {
+    display: flex;
+    @include mixins.fluid-vw(margin-top, 80);
+    @include mixins.fluid-vw(padding-left, 206);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    @include mixins.fluid-vw(gap, 35);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &--left {
+      @include mixins.fluid-vw(width, 589);
+    }
+  }
+
+  &__list-item {
+    display: flex;
+    align-items: center;
+    @include mixins.fluid-vw(gap, 15);
+    letter-spacing: -0.006em;
+    white-space: nowrap;
+  }
+}

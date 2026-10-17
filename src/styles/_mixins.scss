@@ -1,0 +1,53 @@
+@use 'sass:math';
+
+@mixin fluid-vw($property, $value, $base: 1440) {
+  #{$property}: #{math.div($value, $base) * 100}vw;
+}
+
+@mixin fluid-vh($property, $value, $base: 900) {
+  #{$property}: #{math.div($value, $base) * 100}vh;
+}
+
+@function fluid-value-vw($value, $base: 1440) {
+  @return math.div($value, $base) * 100vw;
+}
+
+@function fluid-value-vh($value, $base: 900) {
+  @return math.div($value, $base) * 100vh;
+}
+
+// «Барабан»: две одинаковые строки текста, при наведении первая уезжает
+// вверх с поворотом по оси X, вторая выкатывается снизу.
+// Разметка: <span class="X"><span>Text</span><span aria-hidden="true">Text</span></span>
+@mixin roll-text($height) {
+  display: block;
+  overflow: hidden;
+  height: fluid-value-vw($height);
+  perspective: fluid-value-vw(240);
+
+  > span {
+    display: block;
+    height: 100%;
+    line-height: fluid-value-vw($height);
+    color: inherit;
+    white-space: nowrap;
+    transform-origin: 50% 50%;
+    backface-visibility: hidden;
+    transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+
+    &:last-child {
+      transform: rotateX(-90deg);
+    }
+  }
+}
+
+// Подключается внутри селектора-триггера (:hover / :focus-visible родителя)
+@mixin roll-text-active {
+  > span {
+    transform: translateY(-100%) rotateX(0deg);
+
+    &:first-child {
+      transform: translateY(-100%) rotateX(90deg);
+    }
+  }
+}
